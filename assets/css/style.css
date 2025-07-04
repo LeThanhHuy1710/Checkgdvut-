@@ -223,3 +223,40 @@ body {
     width: 80%;
   }
 }
+  /* bang xep hang */ 
+.report-list {
+  max-width: 600px;
+  margin: 30px auto;
+  padding: 0 10px;
+}
+.report-item {
+  background: white;
+  padding: 15px;
+  border-left: 4px solid #2196F3;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+  margin-bottom: 15px;
+  border-radius: 6px;
+  transition: transform 0.2s ease;
+}
+.report-item:hover {
+  transform: translateY(-2px);
+}
+.report-title {
+  font-weight: bold;
+  font-size: 16px;
+  margin-bottom: 8px;
+}
+.report-info {
+  font-size: 14px;
+  color: #555;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.report-info .important {
+  color: red;
+  font-weight: bold;
+}
+.report-info .icon {
+  margin-right: 5px;
+}
