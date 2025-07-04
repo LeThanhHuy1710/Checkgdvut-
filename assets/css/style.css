@@ -314,4 +314,24 @@ body {
   .report-row span {
     margin-top: 4px;
   }
+  /* Điều chỉnh cho landscape hoặc màn hình rộng nhỏ */
+@media screen and (max-width: 820px) and (orientation: landscape) {
+  .report-card {
+    margin: 10px auto;
+    max-width: 90%;
+    padding: 12px;
+  }
+
+  .report-title {
+    font-size: 14px;
+  }
+
+  .report-item {
+    font-size: 13px;
+  }
+
+  .report-section h2 {
+    font-size: 18px;
+  }
+}
 }
