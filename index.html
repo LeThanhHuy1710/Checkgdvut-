@@ -1,43 +1,54 @@
-<!DOCTYPE html><html lang="vi">
+<!DOCTYPE html>
+<html lang="vi">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>CheckGDVUT - Kiểm tra scammer</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>CheckGDVUT</title>
   <link rel="stylesheet" href="assets/css/style.css" />
 </head>
 <body>
-  <!-- Popup Thông Báo -->
-  <div id="popup" class="popup-overlay">
-    <div class="popup">
-      <button class="close-btn" onclick="closePopup()">×</button>
+  <!-- Modal Thông Báo -->
+  <div id="thongbao-modal" class="modal">
+    <div class="modal-content">
+      <span id="dongModal" class="close">&times;</span>
       <h2>THÔNG BÁO</h2>
-      <div class="popup-content">
-        <p><strong style="color: red;">CỘNG ĐỒNG CHECKADM</strong></p>
-        <p>Không BH cho các DV <strong>“Vi Phạm Pháp Luật”</strong>.<br />
-          Lưu ý <strong>“Nội Dung Chuyển Khoản”</strong> để tránh bị rửa tiền</p>
-      </div>
-      <div class="popup-actions">
-        <button onclick="hidePopup()" class="btn btn-blue">ẨN</button>
-        <button onclick="closePopup()" class="btn btn-red">ĐÓNG</button>
+      <p><strong class="red">CỘNG ĐỒNG CHECKADM</strong></p>
+      <p>
+        Không BH cho các DV <strong>“Vi Phạm Pháp Luật”</strong>.<br>
+        Lưu ý <strong>“Nội Dung Chuyển Khoản”</strong> để tránh bị rửa tiền.
+      </p>
+      <div class="modal-buttons">
+        <button id="anModal" class="btn blue">ẨN</button>
+        <button id="dongModal2" class="btn red">ĐÓNG</button>
       </div>
     </div>
-  </div>  <!-- Header -->  <header>
-    <div class="container">
-      <img src="assets/img/logo.png" alt="CheckGDVUT Logo" class="logo" />
-      <button class="menu-toggle" onclick="toggleMenu()">☰</button>
-    </div>
-    <nav id="mainMenu" class="nav-links">
+  </div>
+
+  <!-- Header -->
+  <header class="header">
+    <img src="assets/img/logo.png" alt="Logo" class="logo" />
+    <button id="menu-toggle" class="menu-toggle">☰</button>
+    <nav id="menu" class="menu">
       <a href="#">Quỹ Bảo Hiểm</a>
       <a href="#">Gửi tố cáo</a>
       <a href="#">Tham gia bảo hiểm</a>
       <a href="#">Scammer</a>
     </nav>
-  </header>  <!-- Cảnh Báo -->  <div class="alert-banner">
+  </header>
+
+  <!-- Thông báo cảnh báo -->
+  <div class="alert">
     <strong>CẢNH BÁO:</strong> Luôn kiểm tra số điện thoại hoặc STK trước khi giao dịch!
-  </div>  <!-- Main Content -->  <main class="main-content">
+  </div>
+
+  <!-- Nội dung chính -->
+  <main class="main">
     <h1>KIỂM TRA SCAMMER</h1>
     <p>Nhập số điện thoại hoặc STK để kiểm tra trước khi giao dịch.</p>
     <input type="text" placeholder="Nhập SĐT hoặc STK" />
-    <button class="check-button">Tra cứu</button>
-  </main>  <!-- JS -->  <script src="assets/js/script.js"></script></body>
+    <button class="btn blue">Tra cứu</button>
+  </main>
+
+  <script src="assets/js/script.js"></script>
+</body>
 </html>
