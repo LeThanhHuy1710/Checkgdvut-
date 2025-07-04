@@ -1,21 +1,19 @@
 body {
   font-family: Arial, sans-serif;
-  margin: 0;
   padding: 0;
-  text-align: center;
+  margin: 0;
 }
 
 header {
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  background: #f0f0f0;
+  justify-content: space-between;
   padding: 10px 20px;
-  position: relative;
+  background: #f2f2f2;
 }
 
 .logo {
-  height: 40px;
+  height: 50px;
 }
 
 .menu-toggle {
@@ -25,50 +23,37 @@ header {
   display: none;
 }
 
-.nav-links {
+.navbar {
   display: flex;
-  gap: 20px;
+  gap: 15px;
 }
 
-.nav-links a {
+.navbar a {
   text-decoration: none;
-  color: #000;
+  color: #333;
   font-weight: bold;
 }
 
-main {
-  padding: 40px 20px;
-}
-
-input {
+/* Thông báo khi vào */
+.alert-box {
+  background-color: #ffdede;
   padding: 10px;
-  width: 80%;
-  max-width: 400px;
-  margin: 10px 0;
+  text-align: center;
+  display: none;
 }
 
-button {
-  padding: 10px 20px;
-}
-
-/* Responsive */
+/* Responsive mobile */
 @media (max-width: 768px) {
-  .menu-toggle {
-    display: block;
-  }
-
-  .nav-links {
-    flex-direction: column;
+  .navbar {
     display: none;
-    position: absolute;
-    top: 60px;
-    right: 20px;
-    background: #fff;
-    border: 1px solid #ccc;
+    flex-direction: column;
+    background: #f9f9f9;
     padding: 10px;
   }
-
-  .nav-links.show {
+  .navbar.active {
     display: flex;
+  }
+  .menu-toggle {
+    display: block;
   }
 }
