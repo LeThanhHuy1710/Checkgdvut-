@@ -1,59 +1,67 @@
 body {
   font-family: Arial, sans-serif;
-  padding: 0;
   margin: 0;
+  padding: 0;
 }
 
-header {
+.header {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  background-color: #f3f3f3;
   padding: 10px 20px;
-  background: #f2f2f2;
 }
 
-.logo {
-  height: 50px;
+.logo img {
+  height: 40px;
 }
 
 .menu-toggle {
   font-size: 24px;
-  background: none;
-  border: none;
+  cursor: pointer;
   display: none;
 }
 
-.navbar {
+.nav {
   display: flex;
   gap: 15px;
 }
 
-.navbar a {
+.nav a {
   text-decoration: none;
-  color: #333;
+  color: #000;
   font-weight: bold;
 }
 
-/* Thông báo khi vào */
-.alert-box {
-  background-color: #ffdede;
-  padding: 10px;
+.main {
+  padding: 30px;
   text-align: center;
-  display: none;
 }
 
-/* Responsive mobile */
+.main h1 {
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.search-box {
+  margin-top: 20px;
+}
+
+.search-box input {
+  padding: 10px;
+  width: 250px;
+  max-width: 80%;
+  font-size: 16px;
+}
+
+.search-box button {
+  padding: 10px 20px;
+  font-size: 16px;
+}
+
+/* Responsive */
 @media (max-width: 768px) {
-  .navbar {
+  .nav {
     display: none;
     flex-direction: column;
-    background: #f9f9f9;
-    padding: 10px;
-  }
-  .navbar.active {
-    display: flex;
-  }
-  .menu-toggle {
-    display: block;
-  }
-}
+    background-color: #f
