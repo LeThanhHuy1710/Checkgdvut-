@@ -154,4 +154,13 @@ body {
   .main h1 {
     font-size: 1.5em;
   }
-}
+  .section {
+  padding: 60px 20px;
+  background-color: #f9f9f9;
+  margin-top: 40px;
+  border-radius: 12px;
+  max-width: 800px;
+  margin-left: auto;
+  margin-right: auto;
+  }
+
