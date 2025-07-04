@@ -154,13 +154,36 @@ body {
   .main h1 {
     font-size: 1.5em;
   }
-  .section {
-  padding: 60px 20px;
-  background-color: #f9f9f9;
-  margin-top: 40px;
-  border-radius: 12px;
-  max-width: 800px;
-  margin-left: auto;
-  margin-right: auto;
-  }
+  .action-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  margin-top: 16px;
+  flex-wrap: wrap;
+}
+
+.btn {
+  padding: 12px 20px;
+  border-radius: 8px;
+  font-weight: bold;
+  font-size: 16px;
+  text-decoration: none;
+  color: white;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  transition: 0.3s;
+}
+
+.btn-danger {
+  background-color: #d32f2f;
+}
+
+.btn-success {
+  background-color: #2e7d32;
+}
+
+.btn:hover {
+  opacity: 0.9;
+}
 
