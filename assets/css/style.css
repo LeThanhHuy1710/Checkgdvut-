@@ -64,4 +64,20 @@ body {
   .nav {
     display: none;
     flex-direction: column;
-    background-color: #f
+    background-color: #f3f3f3;
+    position: absolute;
+    top: 60px;
+    right: 0;
+    width: 100%;
+    text-align: left;
+    padding: 10px;
+  }
+
+  .menu-toggle {
+    display: block;
+  }
+
+  .nav.active {
+    display: flex;
+  }
+}
