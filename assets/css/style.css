@@ -162,49 +162,57 @@ body {
   flex-wrap: wrap;
 }
 
-/* Reset hiệu ứng click xanh */
-button, a {
-/* Container cho 2 nút */
-.button-group {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 20px;
-  margin-top: 20px;
-}
-
-/* Style chung cho nút */
+/* Nút cơ bản đẹp chuyên nghiệp */
 .btn {
-  display: flex;
-  align-items: center;
   padding: 12px 20px;
-  font-size: 18px;
+  font-size: 16px;
   font-weight: 600;
   border: none;
   border-radius: 8px;
-  text-decoration: none;
   color: #fff;
-  transition: transform 0.2s, box-shadow 0.2s;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  text-decoration: none;
+  display: inline-block;
 }
 
+/* Hiệu ứng hover */
 .btn:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+  opacity: 0.9;
+  transform: translateY(-1px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
 }
 
-/* Nút "Gửi tố cáo" */
-.report-btn {
-  background-color: #e53935;
+/* Active (khi nhấn) */
+.btn:active {
+  transform: translateY(1px);
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
 }
 
-.report-btn .icon {
-  margin-right: 8px;
-  font-size: 20px;
+/* Loại bỏ hiệu ứng xanh viền khi focus */
+.btn:focus {
+  outline: none;
 }
 
-/* Nút "Quỹ bảo hiểm" */
-.insurance-btn {
+/* Màu đỏ - Gửi tố cáo */
+.btn-danger {
+  background-color: #dc3545;
+}
+
+/* Màu xanh lá - Quỹ bảo hiểm */
+.btn-success {
+  background-color: #28a745;
+}
+
+/* Bố cục căn giữa và hàng ngang */
+.action-buttons {
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
   background-color: #2e7d32;
 }
 
