@@ -314,11 +314,56 @@ body {
   .report-row span {
     margin-top: 4px;
   }
-  /* Điều chỉnh cho landscape hoặc màn hình rộng nhỏ */
+/* Toàn bộ thay đổi khi màn hình ở chế độ ngang (landscape) */
 @media screen and (max-width: 820px) and (orientation: landscape) {
+  body {
+    font-size: 15px;
+    padding: 10px;
+  }
+
+  header {
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 10px 16px;
+  }
+
+  header img {
+    height: 40px;
+  }
+
+  nav {
+    display: none; 
+    /* Ẩn menu ngang nếu dùng hamburger menu */
+  }
+
+  /* Nút hành động */
+  .action-buttons {
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 12px;
+    margin-top: 20px;
+  }
+
+  .action-buttons a {
+    font-size: 14px;
+    padding: 10px 14px;
+    min-width: 120px;
+    text-align: center;
+  }
+
+  /* Danh sách tố cáo */
+  .report-section {
+    padding: 20px 10px;
+  }
+
+  .report-section h2 {
+    font-size: 18px;
+  }
+
   .report-card {
-    margin: 10px auto;
     max-width: 90%;
+    margin: 10px auto;
     padding: 12px;
   }
 
@@ -330,8 +375,9 @@ body {
     font-size: 13px;
   }
 
-  .report-section h2 {
-    font-size: 18px;
+  /* Footer hoặc các thành phần khác nếu có */
+  footer {
+    font-size: 13px;
+    text-align: center;
   }
-}
 }
