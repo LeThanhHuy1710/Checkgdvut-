@@ -330,4 +330,35 @@ body {
     min-width: 130px;
     text-align: center;
   }
+  .scammer-info {
+  text-align: center;
+  padding: 15px 10px;
+  background-color: #fff;
+  color: #000;
+  font-size: 16px;
+  line-height: 1.6;
+}
+
+.scammer-info h2 {
+  font-size: 24px;
+  color: #111;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+
+.scammer-info .red {
+  color: #e53935;
+  font-weight: bold;
+}
+
+.scammer-info .bot-link {
+  color: #e53935;
+  font-weight: bold;
+  text-decoration: underline;
+  transition: color 0.3s;
+}
+
+.scammer-info .bot-link:hover {
+  color: #b71c1c;
+}
 }
