@@ -1,23 +1,21 @@
-// Menu toggle
-document.getElementById("menu-toggle").addEventListener("click", function () {
-  document.getElementById("menu").classList.toggle("active");
-});
+<script>
+  const menuToggle = document.getElementById('menu-toggle');
+  const menuClose = document.getElementById('menu-close');
+  const sideMenu = document.getElementById('side-menu');
+  const overlay = document.getElementById('menu-overlay');
 
-// Show modal on page load
-window.addEventListener("DOMContentLoaded", function () {
-  document.getElementById("thongbao-modal").style.display = "flex";
-});
+  menuToggle.addEventListener('click', () => {
+    sideMenu.classList.add('active');
+    overlay.classList.add('active');
+  });
 
-// Đóng modal
-document.getElementById("dongModal").addEventListener("click", function () {
-  document.getElementById("thongbao-modal").style.display = "none";
-});
+  menuClose.addEventListener('click', () => {
+    sideMenu.classList.remove('active');
+    overlay.classList.remove('active');
+  });
 
-document.getElementById("dongModal2").addEventListener("click", function () {
-  document.getElementById("thongbao-modal").style.display = "none";
-});
-
-// Ẩn modal
-document.getElementById("anModal").addEventListener("click", function () {
-  document.getElementById("thongbao-modal").style.display = "none";
-});
+  overlay.addEventListener('click', () => {
+    sideMenu.classList.remove('active');
+    overlay.classList.remove('active');
+  });
+</script>
