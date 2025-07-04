@@ -1,7 +1,6 @@
+const menuToggle = document.querySelector('.menu-toggle');
+const navLinks = document.querySelector('.nav-links');
 
-function closePopup() {
-  document.getElementById('popup').style.display = 'none';
-}
-window.onload = function() {
-  document.getElementById('popup').style.display = 'flex';
-}
+menuToggle.addEventListener('click', () => {
+  navLinks.classList.toggle('show');
+});
