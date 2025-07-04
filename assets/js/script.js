@@ -1,32 +1,21 @@
 document.addEventListener("DOMContentLoaded", function () {
-  const menuToggle = document.querySelector(".menu-toggle");
-  const mobileMenu = document.getElementById("mobileMenu");
-
-  if (menuToggle && mobileMenu) {
-    menuToggle.addEventListener("click", function () {
-      mobileMenu.classList.toggle("show");
-    });
-  }
-
-  // Xử lý nút đóng menu
-  const closeBtn = document.querySelector(".close-btn");
-  if (closeBtn) {
-    closeBtn.addEventListener("click", function () {
-      mobileMenu.classList.remove("show");
-    });
-  }
-
-  // Xử lý modal thông báo
   const modal = document.getElementById("thongbao-modal");
-  const dongModal = document.getElementById("dongModal");
-  const dongModal2 = document.getElementById("dongModal2");
-  const anModal = document.getElementById("anModal");
+  const closeBtn1 = document.getElementById("dongModal");
+  const closeBtn2 = document.getElementById("dongModal2");
+  const hideBtn = document.getElementById("anModal");
 
-  if (modal) {
-    modal.style.display = "block";
+  // Hiện modal khi tải trang
+  modal.style.display = "flex";
 
-    dongModal?.addEventListener("click", () => (modal.style.display = "none"));
-    dongModal2?.addEventListener("click", () => (modal.style.display = "none"));
-    anModal?.addEventListener("click", () => (modal.style.display = "none"));
-  }
+  // Ẩn tạm
+  hideBtn.addEventListener("click", function () {
+    modal.style.display = "none";
+    setTimeout(() => {
+      modal.style.display = "flex";
+    }, 60000); // hiện lại sau 60s
+  });
+
+  // Đóng hoàn toàn
+  closeBtn1.addEventListener("click", () => modal.style.display = "none");
+  closeBtn2.addEventListener("click", () => modal.style.display = "none");
 });
