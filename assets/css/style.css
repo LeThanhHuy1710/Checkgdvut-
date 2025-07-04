@@ -18,6 +18,7 @@ header {
   height: 36px;
   max-height: 36px;
   width: auto;
+  margin-left: 10px;
 }
 
 .menu-btn {
