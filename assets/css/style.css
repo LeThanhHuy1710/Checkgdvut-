@@ -15,7 +15,9 @@ header {
 }
 
 .logo {
-  height: 50px;
+  height: 36px;
+  max-height: 36px;
+  width: auto;
 }
 
 .menu-btn {
