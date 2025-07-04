@@ -162,28 +162,46 @@ body {
   flex-wrap: wrap;
 }
 
+/* Reset hiệu ứng click xanh */
+button, a {
+  -webkit-tap-highlight-color: transparent; /* ✅ Không nháy xanh khi click trên mobile */
+  outline: none;
+}
+
+/* Nút đẹp chuyên nghiệp */
 .btn {
   padding: 12px 20px;
-  border-radius: 8px;
-  font-weight: bold;
   font-size: 16px;
+  font-weight: bold;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
   text-decoration: none;
-  color: white;
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  transition: 0.3s;
+  display: inline-block;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
+/* Nút đỏ */
 .btn-danger {
+  background-color: #e53935;
+  color: white;
+}
+
+.btn-danger:hover {
   background-color: #d32f2f;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 10px rgba(229, 57, 53, 0.4);
 }
 
+/* Nút xanh */
 .btn-success {
-  background-color: #2e7d32;
+  background-color: #43a047;
+  color: white;
 }
 
-.btn:hover {
-  opacity: 0.9;
+.btn-success:hover {
+  background-color: #388e3c;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 10px rgba(67, 160, 71, 0.4);
 }
-
