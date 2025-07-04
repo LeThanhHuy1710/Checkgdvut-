@@ -69,28 +69,57 @@ body {
 .btn.blue {
   background-color: #3498db;
 }
+/* ==== HEADER GIAO DIỆN ==== */
+.site-header {
+  background-color: #fff;
+  border-bottom: 1px solid #eee;
+  padding: 10px 15px;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
 
-/* Header */
-.header {
+.container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.header-left {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  padding: 10px 20px;
-  background-color: #f8f8f8;
+  gap: 12px;
 }
 
 .logo {
-  max-height: 50px;
-  width: auto;
+  height: 40px;
 }
 
 .menu-toggle {
-  background-color: #3498db;
-  color: white;
-  font-size: 24px;
+  background: none;
   border: none;
-  padding: 8px 12px;
-  border-radius: 4px;
+  font-size: 24px;
+  cursor: pointer;
+}
+
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.icon-button {
+  background-color: #f0f0f0;
+  border: none;
+  font-size: 18px;
+  padding: 8px 10px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.icon-button.alert {
+  background-color: #2979ff;
+  color: white;
 }
 
 /* Menu */
