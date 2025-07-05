@@ -1,1 +1,52 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <title>Đăng nhập Admin</title>
+  <style>
+    body { font-family: Arial; background: #f2f2f2; padding: 60px; }
+    form {
+      max-width: 400px;
+      margin: auto;
+      background: white;
+      padding: 30px;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    input, button {
+      width: 100%;
+      padding: 10px;
+      margin-top: 10px;
+    }
+    button {
+      background-color: #2e7d32;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <form id="loginForm">
+    <h2>🔒 Đăng Nhập Admin</h2>
+    <input type="text" id="username" placeholder="Tên đăng nhập" required />
+    <button type="submit">Đăng nhập</button>
+  </form>
+
+  <script>
+    document.querySelector("#loginForm").addEventListener("submit", function(e) {
+      e.preventDefault();
+      const username = document.querySelector("#username").value.trim();
+
+      // Bạn có thể thay điều kiện này bằng kiểm tra tài khoản thật
+      if (username.toLowerCase() === "admin") {
+        sessionStorage.setItem("admin", username);
+        window.location.href = "admin.html";
+      } else {
+        alert("❌ Tên đăng nhập không hợp lệ!");
+      }
+    });
+  </script>
+</body>
+</html>
 
