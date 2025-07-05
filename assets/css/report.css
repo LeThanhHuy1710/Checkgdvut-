@@ -1,74 +1,103 @@
-<!DOCTYPE html><html lang="vi">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Gửi Tố Cáo</title>
-  <link rel="stylesheet" href="../assets/css/report.css" />
-</head>
-<body>
-  <!-- Header (nhúng tự động) -->
-  <div id="header-placeholder"></div>  <main class="report-container">
-    <h2 class="report-title">THÔNG TIN KẺ LỪA ĐẢO</h2>
-    <form>
-      <div class="form-grid">
-        <div class="form-group">
-          <label>Tên chủ tài khoản *</label>
-          <input type="text" placeholder="Chủ tài khoản nhận tiền" required>
-        </div>
-        <div class="form-group">
-          <label>Số tài khoản *</label>
-          <input type="text" placeholder="Số tài khoản nhận tiền" required>
-        </div>
-        <div class="form-group">
-          <label>Ngân hàng *</label>
-          <input type="text" placeholder="Ngân hàng" required>
-        </div>
-        <div class="form-group">
-          <label>Link Facebook (nếu có)</label>
-          <input type="url" placeholder="Link facebook kẻ lừa đảo">
-        </div>
-      </div><div class="form-group">
-    <label>Upload bill chuyển tiền, ảnh chụp đoạn chat, v.v...</label>
-    <input type="file" multiple>
-    <p class="note">📌 Mẹo: Tải lên từng ảnh một sẽ nhanh hơn.</p>
-    <p class="note">⚠️ Chỉ duyệt đơn tố cáo có bằng chứng rõ ràng và liên hệ được Zalo.</p>
-  </div>
+/* Container tổng */
+.report-container {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 20px;
+  background: #f4f8fc;
+  border-radius: 10px;
+  font-family: "Segoe UI", sans-serif;
+}
 
-  <div class="form-group">
-    <label>Nội dung tố cáo *</label>
-    <textarea placeholder="Mô tả chi tiết sự việc bạn bị lừa đảo" required></textarea>
-  </div>
+/* Tiêu đề chính */
+.report-title {
+  text-align: center;
+  font-size: 24px;
+  font-weight: bold;
+  color: #007bff;
+  margin-bottom: 20px;
+  text-transform: uppercase;
+}
 
-  <h2 class="report-title">NGƯỜI XÁC THỰC</h2>
-  <div class="form-grid">
-    <div class="form-group">
-      <label>Họ và tên *</label>
-      <input type="text" placeholder="Nhập họ, tên của bạn" required>
-    </div>
-    <div class="form-group">
-      <label>Zalo liên hệ *</label>
-      <input type="text" placeholder="Zalo liên hệ của bạn" required>
-    </div>
-  </div>
+/* Grid 2 cột */
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 20px;
+  margin-bottom: 20px;
+}
 
-  <div class="form-group">
-    <label><input type="radio" name="agree" required> Phốt này trên group tôi chỉ đăng hộ</label><br>
-    <label><input type="radio" name="agree" required> Tôi chính là nạn nhân và đồng ý chịu trách nhiệm pháp luật về nội dung tố cáo</label>
-  </div>
+/* Nhóm ô input */
+.form-group {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 20px;
+}
 
-  <div class="form-group center">
-    <button type="submit" class="submit-btn">Gửi Duyệt</button>
-  </div>
-</form>
+.form-group label {
+  font-weight: bold;
+  margin-bottom: 6px;
+}
 
-  </main>  <!-- Nhúng header bằng JS -->  <script>
-    fetch("../header.html")
-      .then(res => res.text())
-      .then(data => {
-        document.getElementById("header-placeholder").innerHTML = data;
-        const script = document.createElement("script");
-        script.src = "../assets/js/script.js";
-        document.body.appendChild(script);
-      });
-  </script></body>
-</html>
+.form-group input,
+.form-group textarea {
+  padding: 10px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  font-size: 15px;
+  resize: vertical;
+}
+
+.form-group textarea {
+  min-height: 100px;
+}
+
+/* File upload note */
+.note {
+  font-size: 14px;
+  color: #444;
+  margin-top: 6px;
+}
+
+.note.warning {
+  color: #e74c3c;
+  font-weight: bold;
+}
+
+/* Nút gửi */
+.submit-btn {
+  background-color: #e74c3c;
+  color: white;
+  padding: 12px 24px;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s;
+}
+
+.submit-btn:hover {
+  background-color: #c0392b;
+  transform: translateY(-2px);
+}
+
+.form-group.center {
+  text-align: center;
+}
+
+/* Responsive chỉnh lại spacing nhỏ hơn */
+@media (max-width: 480px) {
+  .report-container {
+    padding: 12px;
+  }
+
+  .form-group input,
+  .form-group textarea {
+    font-size: 14px;
+  }
+
+  .submit-btn {
+    width: 100%;
+    font-size: 15px;
+  }
+}
