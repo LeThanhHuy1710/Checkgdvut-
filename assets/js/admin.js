@@ -27,7 +27,7 @@ const inputTien = document.querySelector("#baohiem");
 const inputNgay = document.querySelector("#ngay");
 const inputNote = document.querySelector("#note");
 
-// Ngăn reload khi submit
+// Thêm GDV
 form.addEventListener("submit", async (e) => {
   e.preventDefault();
 
@@ -45,7 +45,6 @@ form.addEventListener("submit", async (e) => {
     createdAt: firebase.firestore.FieldValue.serverTimestamp()
   };
 
-  // Chỉ thêm nếu có giá trị
   if (inputAvatar.value.trim()) data.avatar = inputAvatar.value.trim();
   if (inputFacebook.value.trim()) data.facebook = inputFacebook.value.trim();
   if (inputFbPhu.value.trim()) data.fb_phu = inputFbPhu.value.trim();
@@ -57,7 +56,6 @@ form.addEventListener("submit", async (e) => {
   if (inputNgay.value) data.ngaybaohiem = inputNgay.value;
   if (inputNote.value.trim()) data.note = inputNote.value.trim();
 
-  // Nếu mạng yếu: thông báo sau 8 giây
   const timeout = setTimeout(() => {
     alert("⏱ Mạng chậm hoặc Firebase bị treo. Vui lòng thử lại.");
     btnAdd.disabled = false;
@@ -68,7 +66,8 @@ form.addEventListener("submit", async (e) => {
     await db.collection("gdv_list").add(data);
     clearTimeout(timeout);
     alert("✅ Thêm GDV thành công!");
-    form.reset(); // reset form sau khi thêm
+    form.reset();
+    loadGDVs(); // Gọi lại danh sách ngay sau khi thêm
   } catch (err) {
     clearTimeout(timeout);
     alert("❌ Lỗi khi thêm GDV: " + err.message);
@@ -77,3 +76,38 @@ form.addEventListener("submit", async (e) => {
     btnAdd.innerHTML = "➕ Thêm GDV";
   }
 });
+
+// ==== HIỂN THỊ DANH SÁCH GDV ====
+
+const gdvListContainer = document.querySelector("#gdvList .list");
+
+function renderGDV(doc) {
+  const data = doc.data();
+  const item = document.createElement("div");
+  item.className = "gdv-item";
+  item.innerHTML = `
+    <strong>${data.name}</strong><br>
+    Facebook: <a href="${data.facebook || '#'}" target="_blank">Link</a><br>
+    Bảo hiểm: ${data.baohiem ? data.baohiem.toLocaleString() + ' VNĐ' : 'Không có'}<br>
+    Ngày: ${data.ngaybaohiem || '---'}
+    <hr>
+  `;
+  gdvListContainer.appendChild(item);
+}
+
+function loadGDVs() {
+  gdvListContainer.innerHTML = ""; // xoá danh sách cũ
+
+  db.collection("gdv_list")
+    .orderBy("createdAt", "desc")
+    .get()
+    .then((snapshot) => {
+      snapshot.forEach((doc) => renderGDV(doc));
+    })
+    .catch((err) => {
+      console.error("Lỗi khi tải danh sách GDV:", err.message);
+    });
+}
+
+// Tải khi trang load
+loadGDVs();
