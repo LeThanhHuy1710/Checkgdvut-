@@ -27,8 +27,10 @@ const inputTien = document.querySelector("#baohiem");
 const inputNgay = document.querySelector("#ngay");
 const inputNote = document.querySelector("#note");
 
-// Thêm GDV
-btnAdd.addEventListener("click", async () => {
+// Ngăn reload khi submit
+form.addEventListener("submit", async (e) => {
+  e.preventDefault(); // ✅ Ngăn reload trang khi bấm submit
+
   const name = inputName.value.trim();
   if (name === "") {
     alert("❌ Vui lòng nhập Tên Giao Dịch Viên!");
@@ -58,7 +60,7 @@ btnAdd.addEventListener("click", async () => {
 
     setTimeout(() => {
       location.reload();
-    }, 1500); // chờ 1.5 giây rồi reload
+    }, 1500); // ⏳ chờ 1.5s rồi reload
   } catch (err) {
     alert("❌ Lỗi khi thêm GDV: " + err.message);
   } finally {
