@@ -16,7 +16,8 @@
   <meta name="twitter:card" content="summary_large_image" />
 </head>
 <body>
-  <!-- ✅ Modal Thông Báo -->
+
+  <!-- Modal Thông Báo -->
   <div id="thongbao-modal" class="modal">
     <div class="modal-content">
       <span id="dongModal" class="close">&times;</span>
@@ -31,15 +32,15 @@
     </div>
   </div>
 
-  <!-- ✅ Nhúng header.html -->
+  <!-- Header -->
   <div id="header-placeholder"></div>
 
-  <!-- ✅ Cảnh báo -->
+  <!-- Cảnh báo -->
   <div class="alert">
     <strong>CẢNH BÁO:</strong> Luôn kiểm tra số điện thoại hoặc STK trước khi giao dịch!
   </div>
 
-  <!-- ✅ Nội dung chính -->
+  <!-- Nội dung chính -->
   <main class="main">
     <section class="scammer-info">
       <h2>KIỂM TRA SCAMMER</h2>
@@ -87,7 +88,7 @@
     </section>
   </main>
 
-  <!-- ✅ Footer -->
+  <!-- Footer -->
   <footer class="footer">
     <div class="footer-container">
       <div class="footer-column">
@@ -102,6 +103,7 @@
           <a href="#"><img src="assets/img/icon-zalo.svg" alt="Zalo"></a>
         </div>
       </div>
+
       <div class="footer-column">
         <h4>Chính sách</h4>
         <ul>
@@ -111,6 +113,7 @@
           <li><a href="#">Bảo mật thông tin</a></li>
         </ul>
       </div>
+
       <div class="footer-column">
         <h4>Thông tin</h4>
         <ul>
@@ -119,6 +122,7 @@
           <li><a href="#">Cảnh báo lừa đảo</a></li>
         </ul>
       </div>
+
       <div class="footer-column">
         <h4>Tiện ích</h4>
         <ul>
@@ -136,21 +140,15 @@
     </div>
   </footer>
 
-  <!-- ✅ Script xử lý header và menu -->
+  <!-- JavaScript -->
+  <script src="assets/js/script.js"></script>
   <script>
     fetch("header.html")
       .then(res => res.text())
       .then(data => {
         document.getElementById("header-placeholder").innerHTML = data;
-
-        // Gắn lại script sau khi header được nhúng
         const script = document.createElement("script");
         script.src = "assets/js/script.js";
-        script.onload = () => {
-          if (typeof initHeaderEvents === "function") {
-            initHeaderEvents();
-          }
-        };
         document.body.appendChild(script);
       });
   </script>
