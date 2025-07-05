@@ -5,8 +5,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Chi Tiết Giao Dịch Viên</title>
   <link rel="stylesheet" href="../assets/css/gdv-detail.css" />
+  <link rel="stylesheet" href="../assets/css/style.css" /> <!-- Dùng chung style -->
 </head>
 <body>
+
+  <!-- ✅ Header nhúng -->
+  <div id="header-placeholder"></div>
+
   <div class="container">
     <div class="avatar-wrap">
       <img id="avatar" src="../assets/img/default-avatar.png" alt="Avatar" />
@@ -46,6 +51,15 @@
       ⚠️ <strong>Lưu ý:</strong> Luôn kiểm tra với BOT trước khi giao dịch!
     </div>
   </div>
+
+  <!-- ✅ Script nhúng header -->
+  <script>
+    fetch("../header.html") // đường dẫn tương đối đến file header.html
+      .then(res => res.text())
+      .then(data => {
+        document.getElementById("header-placeholder").innerHTML = data;
+      });
+  </script>
 
   <!-- Firebase -->
   <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
