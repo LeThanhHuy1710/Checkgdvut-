@@ -1,4 +1,4 @@
-// Khởi tạo Firebase
+// Firebase config
 const firebaseConfig = {
   apiKey: "AIzaSyDR34V4nSclq1kIMgbnSyMgTMeqUlzFOqo",
   authDomain: "checkgdvut-d2bcc.firebaseapp.com",
@@ -54,9 +54,11 @@ btnAdd.addEventListener("click", async () => {
       createdAt: firebase.firestore.FieldValue.serverTimestamp()
     });
 
-    alert("✅ Thêm GDV thành công!");
-    location.reload();
-    form.reset();
+    alert("✅ Thêm GDV thành công! Trang sẽ tự tải lại sau vài giây...");
+
+    setTimeout(() => {
+      location.reload();
+    }, 1500); // chờ 1.5 giây rồi reload
   } catch (err) {
     alert("❌ Lỗi khi thêm GDV: " + err.message);
   } finally {
