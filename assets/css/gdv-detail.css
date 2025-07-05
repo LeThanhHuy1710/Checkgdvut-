@@ -1,221 +1,143 @@
 /* Reset & Font */
 body {
-  margin: 0;
-  padding: 0;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background: #f5f7fa;
-  color: #000;
+margin: 0;
+padding: 0;
+font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+background: #f5f7fa;
+color: #000;
 }
 
-/* Container tổng */
 .container {
-  max-width: 800px;
-  margin: 20px auto;
-  background: #fff;
-  padding: 20px;
-  border-radius: 12px;
-  box-shadow: 0 0 10px rgba(0,0,0,0.05);
+max-width: 800px;
+margin: 20px auto;
+background: #fff;
+padding: 20px;
+border-radius: 12px;
+box-shadow: 0 0 10px rgba(0,0,0,0.05);
 }
 
-/* Avatar & Tên */
+/* Avatar & Name */
 .avatar-wrap {
-  text-align: center;
-  margin-bottom: 20px;
+text-align: center;
+margin-bottom: 20px;
 }
 
 .avatar-wrap img {
-  width: 100px;
-  height: 100px;
-  object-fit: cover;
-  border-radius: 50%;
-  background: #ccc;
+width: 100px;
+height: 100px;
+object-fit: cover;
+border-radius: 50%;
+background: #ccc;
 }
 
 .avatar-wrap h2 {
-  font-size: 24px;
-  font-weight: bold;
-  margin-top: 12px;
+font-size: 24px;
+font-weight: bold;
+margin-top: 12px;
 }
 
-/* Nút hành động */
+/* Action Buttons */
 .actions {
-  display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
-  gap: 10px;
-  margin-bottom: 20px;
+display: flex;
+justify-content: center;
+flex-wrap: wrap;
+gap: 10px;
+margin-bottom: 20px;
 }
 
 .actions a {
-  background-color: #007bff;
-  color: #fff;
-  text-decoration: none;
-  padding: 10px 18px;
-  border-radius: 8px;
-  font-weight: 600;
-  font-size: 15px;
-  transition: 0.2s ease-in-out;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+background-color: #007bff;
+color: #fff;
+text-decoration: none;
+padding: 10px 18px;
+border-radius: 8px;
+font-weight: 600;
+transition: 0.2s;
 }
 
 .actions a:hover {
-  background-color: #0056b3;
+background-color: #0056b3;
 }
 
-/* Box thông tin */
+/* Info Boxes */
 .info-box {
-  background: #f9f9f9;
-  border-left: 4px solid #007bff;
-  padding: 16px 20px;
-  border-radius: 8px;
-  margin-bottom: 20px;
+background: #f9f9f9;
+border-left: 4px solid #007bff;
+padding: 16px 20px;
+border-radius: 8px;
+margin-bottom: 20px;
 }
 
 .info-box h3 {
-  margin-top: 0;
-  font-size: 18px;
-  color: #004085;
+margin-top: 0;
+font-size: 18px;
+color: #004085;
 }
 
-.info-box p, 
+.info-box p,
 .info-box li {
-  margin: 6px 0;
-  font-size: 16px;
-  word-break: break-word;
+margin: 6px 0;
+font-size: 16px;
+word-break: break-word;
 }
 
 .info-box a {
-  color: #007bff;
-  text-decoration: none;
+color: #007bff;
+text-decoration: none;
 }
 
 .info-box a:hover {
-  text-decoration: underline;
+text-decoration: underline;
 }
 
-/* QR code Facebook */
-#qrFb {
-  margin-top: 12px;
-  width: 140px;
-  height: 140px;
+#qr {
+max-width: 140px;
+margin-top: 12px;
 }
 
 /* Bank & Service List */
 ul {
-  margin: 0;
-  padding-left: 20px;
+margin: 0;
+padding-left: 20px;
 }
 
 /* Lưu ý cuối */
 .note-box {
-  font-size: 14px;
-  background: #fff3cd;
-  color: #856404;
-  border-left: 5px solid #ffc107;
-  padding: 12px 15px;
-  border-radius: 8px;
-  margin-top: 20px;
-}
-
-/* Popup hướng dẫn */
-.popup {
-  position: fixed;
-  bottom: 30px;
-  right: 30px;
-  background: #ffffff;
-  border: 2px solid #007bff;
-  border-radius: 10px;
-  padding: 16px 20px;
-  box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-  z-index: 999;
-  max-width: 300px;
-  animation: fadeIn 0.3s ease;
-}
-
-.popup.hidden {
-  display: none;
-}
-
-.popup-content p {
-  margin: 0 0 12px;
-  font-size: 16px;
-  color: #333;
-}
-
-.popup-content button {
-  padding: 8px 14px;
-  background: #007bff;
-  color: white;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
-  font-weight: bold;
-}
-
-.popup-content button:hover {
-  background: #0056b3;
-}
-
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(20px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-#popup button {
-  background: #28a745;
-  color: white;
-  border: none;
-  padding: 6px 12px;
-  border-radius: 5px;
-  cursor: pointer;
-}
-
-#popup-bg {
-  position: fixed;
-  top: 0; left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0,0,0,0.4);
+font-size: 14px;
+background: #fff3cd;
+color: #856404;
+border-left: 5px solid #ffc107;
+padding: 12px 15px;
+border-radius: 8px;
+margin-top: 20px;
 }
 
 /* Responsive */
 @media (max-width: 600px) {
-  .container {
-    margin: 10px;
-    padding: 16px;
-  }
-
-  .avatar-wrap img {
-    width: 80px;
-    height: 80px;
-  }
-
-  .avatar-wrap h2 {
-    font-size: 20px;
-  }
-
-  .actions a {
-    font-size: 14px;
-    padding: 8px 12px;
-  }
-
-  .info-box p, 
-  .info-box li {
-    font-size: 14px;
-  }
-
-  #qrFb {
-    width: 100px;
-    height: 100px;
-  }
-  #qrFb {
-  display: flex;
-  justify-content: center;
-  margin-top: 12px;
+.container {
+margin: 10px;
+padding: 16px;
 }
 
-#qrFb canvas {
-  max-width: 120px;
-  max-height: 120px;
+.avatar-wrap img {
+width: 80px;
+height: 80px;
+}
+
+.avatar-wrap h2 {
+font-size: 20px;
+}
+
+.actions a {
+font-size: 14px;
+padding: 8px 12px;
+}
+
+.info-box p,
+.info-box li {
+font-size: 14px;
 }
 }
+
+Code CSS sữa giúp
+
