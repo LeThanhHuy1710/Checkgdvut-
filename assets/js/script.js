@@ -19,3 +19,14 @@ document.addEventListener("DOMContentLoaded", function () {
   closeBtn1.addEventListener("click", () => modal.style.display = "none");
   closeBtn2.addEventListener("click", () => modal.style.display = "none");
 });
+
+fetch("header.html")
+  .then(res => res.text())
+  .then(data => {
+    document.getElementById("header-placeholder").innerHTML = data;
+
+    // <-- Tải lại script.js để gắn sự kiện menu-toggle
+    const script = document.createElement("script");
+    script.src = "assets/js/script.js";
+    document.body.appendChild(script);
+  });
