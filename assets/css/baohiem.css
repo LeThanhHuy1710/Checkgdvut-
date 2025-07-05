@@ -1,30 +1,28 @@
-/* ==== Giao diện trang bảo hiểm ==== */
-
+/* Container chính */
 .baohiem-container {
-  max-width: 1200px;
+  padding: 24px 16px;
+  max-width: 1000px;
   margin: 0 auto;
-  padding: 1rem;
 }
 
 .baohiem-title {
   text-align: center;
-  font-size: 28px;
-  margin: 20px 0;
-  color: #2b6cb0;
+  font-size: 24px;
+  font-weight: bold;
+  color: #1e3a8a;
+  margin-bottom: 20px;
 }
 
+/* Tìm kiếm + Filter */
 .search-filter {
   display: flex;
-  flex-wrap: wrap;
+  flex-direction: column;
   gap: 10px;
-  margin-bottom: 20px;
-  justify-content: center;
+  margin-bottom: 24px;
 }
 
 #search-input {
-  padding: 10px;
-  width: 300px;
-  max-width: 100%;
+  padding: 10px 14px;
   border: 1px solid #ccc;
   border-radius: 8px;
   font-size: 16px;
@@ -33,75 +31,90 @@
 #filter-tags {
   display: flex;
   flex-wrap: wrap;
-  gap: 8px;
-  justify-content: center;
+  gap: 10px;
 }
 
-.tag {
-  padding: 6px 14px;
+#filter-tags button {
+  padding: 6px 12px;
+  border-radius: 999px;
+  border: none;
   background-color: #eee;
-  border-radius: 20px;
   cursor: pointer;
   font-size: 14px;
-  transition: all 0.2s ease;
-  user-select: none;
 }
 
-.tag:hover {
-  background-color: #d0e6ff;
-}
-
-.tag.active {
-  background-color: #2b6cb0;
+#filter-tags button.active {
+  background-color: #2563eb;
   color: #fff;
-  font-weight: bold;
 }
 
-/* ==== Danh sách GDV ==== */
+/* Khung danh sách GDV */
+.gdv-wrapper {
+  border: 2px solid #facc15; /* vàng nhạt */
+  border-radius: 12px;
+  padding: 16px;
+  background-color: #fffef9;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+  margin-top: 24px;
+}
 
-#gdv-list {
+.gdv-box-title {
+  font-weight: bold;
+  font-size: 16px;
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #333;
+}
+
+.gdv-box-title .icon {
+  width: 20px;
+  height: 20px;
+}
+
+/* Grid danh sách GDV */
+.gdv-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
   gap: 20px;
-  margin-top: 20px;
 }
 
 .gdv-card {
-  background-color: #f8f9fa;
-  border-radius: 12px;
-  padding: 15px;
   text-align: center;
   cursor: pointer;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+  transition: transform 0.2s;
 }
 
 .gdv-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 4px 10px rgba(0,0,0,0.12);
+  transform: scale(1.03);
 }
+
 .gdv-avatar {
   width: 80px;
   height: 80px;
+  margin: 0 auto;
   border-radius: 50%;
   overflow: hidden;
-  margin: auto;
+  border: 2px solid #ddd;
+  background: #fff;
 }
 
 .gdv-avatar img {
   object-fit: cover;
   width: 100%;
   height: 100%;
-  font-size: 0; /* Ẩn chữ alt nếu ảnh lỗi */
-}
-.gdv-info .gdv-stt {
-  font-size: 14px;
-  color: #888;
-  margin-bottom: 4px;
+  font-size: 0;
 }
 
-.gdv-info .gdv-name {
-  font-size: 16px;
-  font-weight: bold;
-  color: #333;
+.gdv-name {
+  font-size: 14px;
+  font-weight: 500;
+  margin-top: 6px;
+  color: #111;
+}
+
+.gdv-stt {
+  font-size: 13px;
+  color: #888;
 }
