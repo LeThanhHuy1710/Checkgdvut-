@@ -1,3 +1,23 @@
+// Import Firebase SDK dạng module
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-app.js";
+import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js";
+
+// Cấu hình Firebase
+const firebaseConfig = {
+  apiKey: "AIzaSyDR34V4nSclq1kIMgbnSyMgTMeqUlzFOqo",
+  authDomain: "checkgdvut-d2bcc.firebaseapp.com",
+  projectId: "checkgdvut-d2bcc",
+  storageBucket: "checkgdvut-d2bcc.appspot.com",
+  messagingSenderId: "242735289196",
+  appId: "1:242735289196:web:cf729b41af26987cb05949",
+  measurementId: "G-WLS5PJ4X2G"
+};
+
+// Khởi tạo Firebase
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
+// Lấy phần tử giao diện
 const gdvContainer = document.getElementById("gdv-list");
 const searchInput = document.getElementById("search-input");
 const filterTags = document.getElementById("filter-tags");
@@ -6,27 +26,26 @@ let allGDV = [];
 let selectedService = "";
 let allServices = new Set();
 
-// Tải danh sách GDV từ Firebase
-function fetchGDVs() {
-  db.collection("gdv_list").get().then(snapshot => {
-    allGDV = snapshot.docs.map(doc => ({
-      id: doc.id,
-      ...doc.data()
-    }));
+// Tải danh sách GDV từ Firestore
+async function fetchGDVs() {
+  const snapshot = await getDocs(collection(db, "gdv_list"));
+  allGDV = snapshot.docs.map(doc => ({
+    id: doc.id,
+    ...doc.data()
+  }));
 
-    // Thu thập tất cả dịch vụ để tạo bộ lọc
-    allGDV.forEach(item => {
-      if (Array.isArray(item.dichvu)) {
-        item.dichvu.forEach(dv => allServices.add(dv));
-      }
-    });
-
-    renderServiceTags();
-    renderGDVList(allGDV);
+  // Lấy danh sách dịch vụ duy nhất
+  allGDV.forEach(item => {
+    if (Array.isArray(item.dichvu)) {
+      item.dichvu.forEach(dv => allServices.add(dv));
+    }
   });
+
+  renderServiceTags();
+  renderGDVList(allGDV);
 }
 
-// Hiển thị các thẻ lọc dịch vụ
+// Hiển thị các tag lọc dịch vụ
 function renderServiceTags() {
   filterTags.innerHTML = "";
 
@@ -88,7 +107,7 @@ function renderGDVList(data) {
   });
 }
 
-// Bắt sự kiện tìm kiếm
+// Tìm kiếm tên admin
 searchInput.addEventListener("input", () => {
   renderGDVList(allGDV);
 });
