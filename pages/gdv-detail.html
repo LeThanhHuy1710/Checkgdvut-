@@ -2,7 +2,7 @@
 <html lang="vi">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Chi Tiết Giao Dịch Viên</title>
   <link rel="stylesheet" href="../assets/css/gdv-detail.css" />
 </head>
@@ -14,16 +14,16 @@
     </div>
 
     <div class="actions">
-      <a id="messenger" href="#" target="_blank">Check Messenger</a>
-      <a id="botcheck" href="#" target="_blank">Bot Check GDV</a>
+      <a id="messenger" href="#" target="_blank" rel="noopener noreferrer">Check Messenger</a>
+      <a id="botcheck" href="#" target="_blank" rel="noopener noreferrer">Bot Check GDV</a>
     </div>
 
     <div class="info-box">
       <h3>Thông Tin Liên Hệ:</h3>
-      <p><strong>Fb (chính):</strong> <a id="facebook" href="#" target="_blank">---</a></p>
-      <p><strong>Fb (phụ):</strong> <a id="fb_phu" href="#" target="_blank">---</a></p>
-      <p><strong>Zalo:</strong> <a id="zalo" href="#">---</a></p>
-      <p><strong>Web:</strong> <a id="web" href="#">---</a></p>
+      <p><strong>Fb (chính):</strong> <a id="facebook" href="#" target="_blank" rel="noopener noreferrer">---</a></p>
+      <p><strong>Fb (phụ):</strong> <a id="fb_phu" href="#" target="_blank" rel="noopener noreferrer">---</a></p>
+      <p><strong>Zalo:</strong> <a id="zalo" href="#" target="_blank" rel="noopener noreferrer">---</a></p>
+      <p><strong>Web:</strong> <a id="web" href="#" target="_blank" rel="noopener noreferrer">---</a></p>
       <img id="qr" src="" alt="QR Zalo" />
     </div>
 
@@ -47,8 +47,11 @@
     </div>
   </div>
 
+  <!-- Firebase Scripts -->
   <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore-compat.js"></script>
+  
+  <!-- File xử lý chính -->
   <script src="../assets/js/gdv-detail.js"></script>
 </body>
 </html>
