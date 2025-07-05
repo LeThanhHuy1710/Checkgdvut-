@@ -1,34 +1,100 @@
-// Firebase config const firebaseConfig = { apiKey: "AIzaSyDR34V4nSclq1kIMgbnSyMgTMeqUlzFOqo", authDomain: "checkgdvut-d2bcc.firebaseapp.com", projectId: "checkgdvut-d2bcc", storageBucket: "checkgdvut-d2bcc.appspot.com", messagingSenderId: "242735289196", appId: "1:242735289196:web:cf729b41af26987cb05949", measurementId: "G-WLS5PJ4X2G" };
+// Khởi tạo Firebase
+const firebaseConfig = {
+  apiKey: "AIzaSyDR34V4nSclq1kIMgbnSyMgTMeqUlzFOqo",
+  authDomain: "checkgdvut-d2bcc.firebaseapp.com",
+  projectId: "checkgdvut-d2bcc",
+  storageBucket: "checkgdvut-d2bcc.appspot.com",
+  messagingSenderId: "242735289196",
+  appId: "1:242735289196:web:cf729b41af26987cb05949",
+  measurementId: "G-WLS5PJ4X2G"
+};
 
-firebase.initializeApp(firebaseConfig); const db = firebase.firestore();
+firebase.initializeApp(firebaseConfig);
+const db = firebase.firestore();
 
-// DOM const form = document.querySelector("#formAdd"); const btnAdd = document.querySelector("#btnAdd"); const inputName = document.querySelector("#name"); const inputAvatar = document.querySelector("#avatar"); const inputFacebook = document.querySelector("#facebook"); const inputFbPhu = document.querySelector("#fb_phu"); const inputZalo = document.querySelector("#zalo"); const inputWebsite = document.querySelector("#website"); const inputBank = document.querySelector("#bank"); const inputDichVu = document.querySelector("#dichvu"); const inputTien = document.querySelector("#baohiem"); const inputNgay = document.querySelector("#ngay"); const inputNote = document.querySelector("#note");
+// DOM
+const form = document.querySelector("#formAdd");
+const btnAdd = document.querySelector("#btnAdd");
 
-// Thêm GDV form.addEventListener("submit", async (e) => { e.preventDefault();
+const inputName = document.querySelector("#name");
+const inputAvatar = document.querySelector("#avatar");
+const inputFacebook = document.querySelector("#facebook");
+const inputFbPhu = document.querySelector("#fb_phu");
+const inputZalo = document.querySelector("#zalo");
+const inputWebsite = document.querySelector("#website");
+const inputBank = document.querySelector("#bank");
+const inputDichVu = document.querySelector("#dichvu");
+const inputTien = document.querySelector("#baohiem");
+const inputNgay = document.querySelector("#ngay");
+const inputNote = document.querySelector("#note");
 
-const name = inputName.value.trim(); if (name === "") { alert("❌ Vui lòng nhập Tên Giao Dịch Viên!"); return; }
+// Submit form
+form.addEventListener("submit", async (e) => {
+  e.preventDefault(); // Chặn reload!
 
-btnAdd.disabled = true; btnAdd.innerHTML = "⏳ Đang xử lý...";
+  const name = inputName.value.trim();
+  if (name === "") {
+    alert("❌ Vui lòng nhập Tên Giao Dịch Viên!");
+    return;
+  }
 
-const data = { name, createdAt: firebase.firestore.FieldValue.serverTimestamp() };
+  btnAdd.disabled = true;
+  btnAdd.textContent = "⏳ Đang xử lý...";
 
-if (inputAvatar.value.trim()) data.avatar = inputAvatar.value.trim(); if (inputFacebook.value.trim()) data.facebook = inputFacebook.value.trim(); if (inputFbPhu.value.trim()) data.fb_phu = inputFbPhu.value.trim(); if (inputZalo.value.trim()) data.zalo = inputZalo.value.trim(); if (inputWebsite.value.trim()) data.web = inputWebsite.value.trim(); if (inputBank.value.trim()) data.bank = inputBank.value.trim().split("\n"); if (inputDichVu.value.trim()) data.dichvu = inputDichVu.value.trim().split(","); if (inputTien.value.trim()) data.baohiem = parseInt(inputTien.value.trim()) || 0; if (inputNgay.value) data.ngaybaohiem = inputNgay.value; if (inputNote.value.trim()) data.note = inputNote.value.trim();
+  const data = {
+    name,
+    avatar: inputAvatar.value.trim(),
+    facebook: inputFacebook.value.trim(),
+    fb_phu: inputFbPhu.value.trim(),
+    zalo: inputZalo.value.trim(),
+    web: inputWebsite.value.trim(),
+    bank: inputBank.value.trim().split("\n"),
+    dichvu: inputDichVu.value.trim().split(","),
+    baohiem: parseInt(inputTien.value.trim()) || 0,
+    ngaybaohiem: inputNgay.value,
+    note: inputNote.value.trim(),
+    createdAt: firebase.firestore.FieldValue.serverTimestamp()
+  };
 
-const timeout = setTimeout(() => { alert("⏱ Mạng chậm hoặc Firebase bị treo. Vui lòng thử lại."); btnAdd.disabled = false; btnAdd.innerHTML = "➕ Thêm GDV"; }, 8000);
+  try {
+    await db.collection("gdv_list").add(data);
+    alert("✅ Thêm GDV thành công!");
+    form.reset();
+    loadGDVs();
+  } catch (err) {
+    alert("❌ Lỗi khi thêm: " + err.message);
+  } finally {
+    btnAdd.disabled = false;
+    btnAdd.textContent = "➕ Thêm GDV";
+  }
+});
 
-try { await db.collection("gdv_list").add(data); clearTimeout(timeout); alert("✅ Thêm GDV thành công!"); form.reset(); loadGDVs(); } catch (err) { clearTimeout(timeout); alert("❌ Lỗi khi thêm GDV: " + err.message); } finally { btnAdd.disabled = false; btnAdd.innerHTML = "➕ Thêm GDV"; } });
+// Danh sách GDV
+const list = document.querySelector("#gdvList .list");
 
-const gdvListContainer = document.querySelector("#gdvList .list");
+function renderGDV(doc) {
+  const d = doc.data();
+  const div = document.createElement("div");
+  div.className = "gdv-item";
+  div.innerHTML = `
+    <strong>${d.name}</strong><br>
+    Facebook: <a href="${d.facebook}" target="_blank">Link</a><br>
+    Bảo hiểm: ${d.baohiem?.toLocaleString()} VNĐ<br>
+    Ngày: ${d.ngaybaohiem || "---"}
+    <hr>
+  `;
+  list.appendChild(div);
+}
 
-function renderGDV(doc) { const data = doc.data(); const item = document.createElement("div"); item.className = "gdv-item";
+function loadGDVs() {
+  list.innerHTML = "";
+  db.collection("gdv_list")
+    .orderBy("createdAt", "desc")
+    .get()
+    .then((snap) => {
+      snap.forEach((doc) => renderGDV(doc));
+    });
+}
 
-item.innerHTML = <div class="gdv-card"> <div class="gdv-left"> <img src="${data.avatar || 'https://i.imgur.com/UG3V6L.png'}" alt="Avatar"> </div> <div class="gdv-right"> <h3>${data.name}</h3> <p><strong>Facebook:</strong> <a href="${data.facebook || '#'}" target="_blank">Link</a></p> ${data.zalo ?<p><strong>Zalo:</strong> ${data.zalo}</p>: ""} <p><strong>Bảo hiểm:</strong> ${data.baohiem?.toLocaleString() || '0'} VNĐ</p> <p><strong>Ngày:</strong> ${data.ngaybaohiem || '---'}</p> <div class="actions"> <button class="btn-delete" data-id="${doc.id}">🗑 Xoá</button> <button class="btn-edit" data-id="${doc.id}">✏️ Sửa</button> </div> </div> </div>;
-
-gdvListContainer.appendChild(item); }
-
-function loadGDVs() { gdvListContainer.innerHTML = "";
-
-db.collection("gdv_list") .orderBy("createdAt", "desc") .get() .then((snapshot) => { snapshot.forEach((doc) => renderGDV(doc)); }) .catch((err) => { console.error("Lỗi khi tải danh sách GDV:", err.message); }); }
-
+// Load ban đầu
 loadGDVs();
-
