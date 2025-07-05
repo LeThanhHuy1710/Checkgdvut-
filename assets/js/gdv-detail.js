@@ -1,112 +1,48 @@
-const firebaseConfig = {
-apiKey: "AIzaSyDR34V4nSclq1kIMgbnSyMgTMeqUlzFOqo",
-authDomain: "checkgdvut-d2bcc.firebaseapp.com",
-projectId: "checkgdvut-d2bcc"
-};
-firebase.initializeApp(firebaseConfig);
-const db = firebase.firestore();
+<!DOCTYPE html>  <html lang="vi">  
+<head>  
+  <meta charset="UTF-8" />  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />  
+  <title>Chi Tiết Giao Dịch Viên</title>  
+  <link rel="stylesheet" href="../assets/css/gdv-detail.css" />  
+</head>  
+<body>  
+  <div class="container">  
+    <div class="avatar-wrap">  
+      <img id="avatar" src="../assets/img/default-avatar.png" alt="Avatar" />  
+      <h2 id="name">Chưa rõ</h2>  
+    </div>  <div class="actions">  
+  <a id="messenger" href="#" target="_blank" rel="noopener noreferrer">Check Messenger</a>  
+  <a id="botcheck" href="#" target="_blank" rel="noopener noreferrer">Bot Check GDV</a>  
+</div>  
 
-function getQueryParam(param) {
-const urlParams = new URLSearchParams(window.location.search);
-return urlParams.get(param);
-}
+<div class="info-box">  
+  <h3>Thông Tin Liên Hệ:</h3>  
+  <p><strong>Fb (chính):</strong> <a id="facebook" href="#" target="_blank" rel="noopener noreferrer">---</a></p>  
+  <p><strong>Fb (phụ):</strong> <a id="fb_phu" href="#" target="_blank" rel="noopener noreferrer">---</a></p>  
+  <p><strong>Zalo:</strong> <a id="zalo" href="#" target="_blank" rel="noopener noreferrer">---</a></p>  
+  <p><strong>Web:</strong> <a id="web" href="#" target="_blank" rel="noopener noreferrer">---</a></p>  
+  <img id="qr" src="" alt="QR Zalo" />  
+</div>  
 
-const id = getQueryParam("id");
+<div class="info-box">  
+  <h3>Quỹ Bảo Hiểm:</h3>  
+  <p id="baohiemText">---.</p>  
+</div>  
 
-if (!id) {
-alert("Không tìm thấy ID!");
-} else {
-db.collection("gdv_list").doc(id).get().then(doc => {
-if (!doc.exists) {
-alert("Không tìm thấy GDV.");
-return;
-}
+<div class="info-box">  
+  <h3>Dịch Vụ Cung Cấp:</h3>  
+  <ul id="dichvu"></ul>  
+</div>  
 
-const d = doc.data();  
+<div class="info-box">  
+  <h3>Tài Khoản Ngân Hàng:</h3>  
+  <ul id="bank"></ul>  
+</div>  
 
-// Avatar và Tên  
-document.getElementById("avatar").src = d.avatar || "../assets/img/default-avatar.png";  
-document.getElementById("name").textContent = d.name || "Chưa rõ";  
+<div class="note-box">  
+  ⚠️ <strong>Lưu ý:</strong> Luôn kiểm tra với BOT trước khi giao dịch!  
+</div>
 
-// Facebook chính  
-const facebook = d.facebook || "";  
-const facebookLink = document.getElementById("facebook");  
-const fbUrl = facebook.startsWith("http") ? facebook : `https://facebook.com/${facebook}`;  
-facebookLink.href = facebook ? fbUrl : "#";  
-facebookLink.textContent = facebook || "---";  
-
-// Facebook phụ  
-const fb_phu = d.fb_phu || "";  
-const fbPhuLink = document.getElementById("fb_phu");  
-const fbPhuUrl = fb_phu.startsWith("http") ? fb_phu : `https://facebook.com/${fb_phu}`;  
-fbPhuLink.href = fb_phu ? fbPhuUrl : "#";  
-fbPhuLink.textContent = fb_phu || "---";  
-
-// Zalo  
-const zalo = d.zalo || "";  
-const zaloLink = document.getElementById("zalo");  
-zaloLink.textContent = zalo || "---";  
-zaloLink.href = zalo ? `https://zalo.me/${zalo}` : "#";  
-
-// Website  
-const web = d.web || "";  
-const webLink = document.getElementById("web");  
-webLink.href = web ? web : "#";  
-webLink.textContent = web || "---";  
-
-
-// Messenger Chat  
-const messengerBtn = document.getElementById("messenger");  
-messengerBtn.href = facebook ? `https://m.me/${facebook.replace("https://facebook.com/", "")}` : "#";  
-
-// Discord Bot Check  
-document.getElementById("botcheck").href = "https://discord.gg/Tq3qaKdU";  
-
-// Bảo hiểm  
-const name = d.name || "---";  
-const money = (d.baohiem || 0).toLocaleString("vi-VN");  
-const date = d.ngaybaohiem || "---";  
-document.getElementById("baohiemText").innerHTML =  
-  `Từ ngày <strong>${date}</strong> hệ thống sẽ bảo đảm an toàn cho bạn với số tiền là <span style="color:red"> ${money} VND </span> của <strong>${name}</strong>.`;  
-
-// Dịch vụ  
-const dichvuList = d.dichvu || [];  
-const ulDichVu = document.getElementById("dichvu");  
-ulDichVu.innerHTML = "";  
-dichvuList.forEach(item => {  
-  const li = document.createElement("li");  
-  li.textContent = item;  
-  ulDichVu.appendChild(li);  
-});  
-
-// Ngân hàng  
-const bankList = d.bank || [];  
-const ulBank = document.getElementById("bank");  
-ulBank.innerHTML = "";  
-bankList.forEach(item => {  
-  const li = document.createElement("li");  
-  li.textContent = item;  
-  ulBank.appendChild(li);  
-});  
-
-// QR Facebook (nếu có)  
-if (facebook) {  
-  if (document.getElementById("qrFb")) {  
-    new QRCode(document.getElementById("qrFb"), {  
-      text: fbUrl,  
-      width: 128,  
-      height: 128,  
-      colorDark: "#000000",  
-      colorLight: "#ffffff",  
-      correctLevel: QRCode.CorrectLevel.H  
-    });  
-  }  
-}
-
-}).catch(err => {
-alert("Lỗi tải dữ liệu!");
-console.error(err);
-});
-}
-Code JS
+  </div>    <!-- Firebase Scripts -->    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore-compat.js"></script>    <!-- File xử lý chính -->    <script src="../assets/js/gdv-detail.js"></script>  </body>  
+</html>  Mã html đây sữa giúp
 
