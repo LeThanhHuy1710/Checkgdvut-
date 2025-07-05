@@ -1,18 +1,19 @@
-<!-- header.html -->
-<header class="main-header">
-  <div class="header-container">
-    <a href="/index.html" class="logo">
-      <img src="/assets/img/logo.png" alt="CheckGDVUT Logo" />
-    </a>
-    <button class="menu-toggle" id="menu-toggle">☰</button>
-  </div>
-  <nav class="mobile-menu" id="mobileMenu">
-    <ul>
-      <li><a href="/pages/baohiem.html">Quỹ Bảo Hiểm</a></li>
-      <li><a href="#">Trung Gian</a></li>
-      <li><a href="#">Tham gia bảo hiểm</a></li>
-      <li><a href="#">Scammer</a></li>
-    </ul>
-    <span class="close-btn" id="menu-close">×</span>
-  </nav>
-</header>
+<!-- Nhúng header.html + gắn script -->
+<div id="header-placeholder"></div>
+
+<script>
+  fetch(window.location.pathname.includes("/pages/") ? "../header.html" : "header.html")
+    .then(res => res.text())
+    .then(data => {
+      document.getElementById("header-placeholder").innerHTML = data;
+
+      const script = document.createElement("script");
+      script.src = window.location.pathname.includes("/pages/") ? "../assets/js/script.js" : "assets/js/script.js";
+      script.onload = () => {
+        if (typeof initHeaderEvents === "function") {
+          initHeaderEvents();
+        }
+      };
+      document.body.appendChild(script);
+    });
+</script>
