@@ -5,17 +5,15 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Chi Tiết Giao Dịch Viên</title>
 
-  <!-- CSS -->
+  <!-- CSS chung -->
+  <link rel="stylesheet" href="../assets/css/style.css" />
   <link rel="stylesheet" href="../assets/css/gdv-detail.css" />
-  <link rel="stylesheet" href="../assets/css/header.css" /> <!-- Gọi header nếu có -->
-  <link rel="stylesheet" href="../assets/css/footer.css" /> <!-- Nếu có CSS cho footer -->
 </head>
 <body>
 
-  <!-- ✅ Header -->
+  <!-- Header -->
   <div id="header-placeholder"></div>
 
-  <!-- ✅ Nội dung chính -->
   <div class="container">
     <div class="avatar-wrap">
       <img id="avatar" src="../assets/img/default-avatar.png" alt="Avatar" />
@@ -56,31 +54,22 @@
     </div>
   </div>
 
-  <!-- ✅ Footer -->
-  <div id="footer-placeholder"></div>
-
   <!-- Firebase -->
   <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore-compat.js"></script>
 
-  <!-- QR Code library -->
+  <!-- QR Code -->
   <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
 
-  <!-- JS xử lý nội dung -->
+  <!-- Script xử lý GDV -->
   <script src="../assets/js/gdv-detail.js"></script>
 
-  <!-- ✅ JS chèn header + footer -->
+  <!-- Tải header -->
   <script>
-    fetch("/includes/header.html")
+    fetch('../includes/header.html')
       .then(res => res.text())
       .then(data => {
         document.getElementById("header-placeholder").innerHTML = data;
-      });
-
-    fetch("/includes/footer.html")
-      .then(res => res.text())
-      .then(data => {
-        document.getElementById("footer-placeholder").innerHTML = data;
       });
   </script>
 </body>
