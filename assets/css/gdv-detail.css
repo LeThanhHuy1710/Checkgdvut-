@@ -118,20 +118,47 @@ ul {
 }
 
 /* Popup hướng dẫn */
-#popup, #popup-bg {
-  z-index: 9999;
+.popup {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  background: #ffffff;
+  border: 2px solid #007bff;
+  border-radius: 10px;
+  padding: 16px 20px;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+  z-index: 999;
+  max-width: 300px;
+  animation: fadeIn 0.3s ease;
 }
 
-#popup {
-  max-width: 90%;
-  background: white;
-  padding: 15px;
-  border-radius: 8px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+.popup.hidden {
+  display: none;
+}
+
+.popup-content p {
+  margin: 0 0 12px;
+  font-size: 16px;
+  color: #333;
+}
+
+.popup-content button {
+  padding: 8px 14px;
+  background: #007bff;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.popup-content button:hover {
+  background: #0056b3;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
 #popup button {
