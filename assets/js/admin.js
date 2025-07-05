@@ -55,6 +55,7 @@ btnAdd.addEventListener("click", async () => {
     });
 
     alert("✅ Thêm GDV thành công!");
+    location.reload();
     form.reset();
   } catch (err) {
     alert("❌ Lỗi khi thêm GDV: " + err.message);
