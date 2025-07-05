@@ -1,4 +1,4 @@
-// Import Firebase SDK dạng module
+// Firebase SDK dạng module
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-app.js";
 import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js";
 
@@ -17,7 +17,7 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
-// Lấy phần tử giao diện
+// DOM Elements
 const gdvContainer = document.getElementById("gdv-list");
 const searchInput = document.getElementById("search-input");
 const filterTags = document.getElementById("filter-tags");
@@ -26,7 +26,7 @@ let allGDV = [];
 let selectedService = "";
 let allServices = new Set();
 
-// Tải danh sách GDV từ Firestore
+// Lấy dữ liệu từ Firestore
 async function fetchGDVs() {
   const snapshot = await getDocs(collection(db, "gdv_list"));
   allGDV = snapshot.docs.map(doc => ({
@@ -34,7 +34,7 @@ async function fetchGDVs() {
     ...doc.data()
   }));
 
-  // Lấy danh sách dịch vụ duy nhất
+  // Thu thập các dịch vụ duy nhất
   allGDV.forEach(item => {
     if (Array.isArray(item.dichvu)) {
       item.dichvu.forEach(dv => allServices.add(dv));
@@ -45,7 +45,7 @@ async function fetchGDVs() {
   renderGDVList(allGDV);
 }
 
-// Hiển thị các tag lọc dịch vụ
+// Render các tag dịch vụ
 function renderServiceTags() {
   filterTags.innerHTML = "";
 
@@ -72,45 +72,48 @@ function renderServiceTags() {
   });
 }
 
-// Hiển thị danh sách GDV
+// Render danh sách GDV
 function renderGDVList(data) {
   const keyword = searchInput.value.toLowerCase();
   const filtered = data.filter(item => {
-    const matchName = item.ten?.toLowerCase().includes(keyword);
+    const name = (item.ten || item.name || "").toLowerCase();
+    const matchName = name.includes(keyword);
     const matchService = selectedService === "" || (item.dichvu || []).includes(selectedService);
     return matchName && matchService;
   });
 
   gdvContainer.innerHTML = "";
+
   if (filtered.length === 0) {
     gdvContainer.innerHTML = "<p>Không tìm thấy GDV nào phù hợp.</p>";
     return;
   }
 
   filtered.forEach((item, index) => {
-    const card = document.createElement("div");
-    card.className = "gdv-card";
-    card.onclick = () => {
+    const avatar = item.avatar || "../assets/img/default-avatar.png";
+    const name = item.ten || item.name || "Không tên";
+
+    const row = document.createElement("div");
+    row.className = "gdv-row";
+    row.onclick = () => {
       window.location.href = `gdv-detail.html?id=${item.id}`;
     };
 
-    card.innerHTML = `
-      <div class="gdv-avatar">
-        <img src="${item.avatar || '../assets/img/default-avatar.png'}" alt="${item.ten}" />
-      </div>
-      <div class="gdv-info">
-        <p class="gdv-stt">#${index + 1}</p>
-        <p class="gdv-name">${item.ten}</p>
-      </div>
+    row.innerHTML = `
+      <span>#${index + 1}</span>
+      <span class="avatar-cell">
+        <img src="${avatar}" alt="${name}" onerror="this.src='../assets/img/default-avatar.png'" />
+      </span>
+      <span>${name}</span>
     `;
-    gdvContainer.appendChild(card);
+    gdvContainer.appendChild(row);
   });
 }
 
-// Tìm kiếm tên admin
+// Sự kiện tìm kiếm
 searchInput.addEventListener("input", () => {
   renderGDVList(allGDV);
 });
 
-// Gọi hàm khởi động
+// Khởi chạy
 fetchGDVs();
