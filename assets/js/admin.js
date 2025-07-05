@@ -11,11 +11,15 @@ const firebaseConfig = {
 
 firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
+const auth = firebase.auth();
 
 // DOM
 const form = document.querySelector("#formAdd");
 const btnAdd = document.querySelector("#btnAdd");
 const list = document.querySelector("#gdvList .list");
+const loginForm = document.querySelector("#loginForm");
+const loginSection = document.querySelector("#loginSection");
+const adminContent = document.querySelector("#adminContent");
 
 // Input
 const inputName = document.querySelector("#name");
@@ -32,10 +36,40 @@ const inputNote = document.querySelector("#note");
 
 let editId = null; // Theo dõi ID khi đang sửa
 
+// Đăng nhập admin bằng username
+loginForm.addEventListener("submit", async (e) => {
+  e.preventDefault();
+  const username = document.getElementById("loginUsername").value.trim();
+  const password = document.getElementById("loginPassword").value.trim();
+
+  try {
+    const q = db.collection("admin_users").where("username", "==", username);
+    const snap = await q.get();
+    if (snap.empty) return alert("❌ Tên đăng nhập không tồn tại!");
+
+    const userData = snap.docs[0].data();
+    await auth.signInWithEmailAndPassword(userData.email, password);
+    alert("✅ Đăng nhập thành công!");
+  } catch (err) {
+    alert("❌ Sai thông tin đăng nhập!");
+  }
+});
+
+// Theo dõi trạng thái đăng nhập
+auth.onAuthStateChanged((user) => {
+  if (user) {
+    loginSection.style.display = "none";
+    adminContent.style.display = "block";
+    loadGDVs();
+  } else {
+    loginSection.style.display = "block";
+    adminContent.style.display = "none";
+  }
+});
+
 // Thêm hoặc cập nhật GDV
 form.addEventListener("submit", async (e) => {
   e.preventDefault();
-
   const name = inputName.value.trim();
   if (name === "") return alert("❌ Vui lòng nhập tên!");
 
@@ -136,6 +170,3 @@ list.addEventListener("click", async (e) => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   }
 });
-
-// Load ban đầu
-loadGDVs();
