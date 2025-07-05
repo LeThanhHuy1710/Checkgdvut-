@@ -5,43 +5,30 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Quỹ Bảo Hiểm</title>
   <link rel="icon" type="image/png" href="../assets/img/favicon.png" />
-
-  <!-- CSS chung và riêng -->
   <link rel="stylesheet" href="../assets/css/style.css" />
   <link rel="stylesheet" href="../assets/css/baohiem.css" />
 </head>
 <body>
-
-  <!-- Header nhúng tự động -->
+  <!-- Header -->
   <div id="header-placeholder"></div>
 
-  <!-- Nội dung chính -->
+  <!-- Nội dung -->
   <main class="baohiem-container">
     <h2 class="baohiem-title">DANH SÁCH TRUNG GIAN BẢO HIỂM</h2>
 
-    <!-- Tìm kiếm & Bộ lọc -->
+    <!-- Tìm kiếm & Lọc -->
     <div class="search-filter">
-      <input type="text" id="search-input" placeholder="🔍 Tìm theo tên admin...">
+      <input type="text" id="search-input" placeholder="🔍 Tìm theo tên giao dịch viên...">
       <div id="filter-tags"></div>
     </div>
 
-    <!-- Khung danh sách GDV kiểu thẻ -->
-    <section class="gdv-wrapper">
-      <div class="gdv-box-title">
-        <img src="../assets/img/admin-icon.svg" alt="icon" class="icon" />
-        <span>Tìm Admin theo số thứ tự:</span>
-      </div>
-
-      <div id="gdv-list" class="gdv-grid">
-        <!-- Danh sách GDV sẽ được render từ JS -->
-      </div>
-    </section>
+    <!-- Danh sách GDV -->
+    <div id="gdv-list" class="gdv-list"></div>
   </main>
 
   <!-- JS -->
   <script src="../assets/js/baohiem.js" type="module"></script>
   <script>
-    // Nhúng header.html
     fetch("../header.html")
       .then(res => res.text())
       .then(data => {
