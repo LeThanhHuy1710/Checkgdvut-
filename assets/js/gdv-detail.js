@@ -99,19 +99,20 @@ if (facebook) {
       colorDark: "#000000",  
       colorLight: "#ffffff",  
       correctLevel: QRCode.CorrectLevel.H  
-
-      /* Logo dạng dấu mộc */
-.stamp-seal {
-  position: absolute;
-  bottom: 20px;
-  right: 20px;
-  width: 120px;
-  opacity: 0.15;
-  z-index: 0;
-  pointer-events: none;
-  transform: rotate(-10deg);
     });  
   }  
+  document.getElementById("baohiemText").innerHTML = `
+  <div style="margin-bottom: 8px;">
+    Từ ngày <strong>${date}</strong>, khách hàng sẽ được
+  </div>
+  <div style="font-weight: bold; font-size: 17px; color: #d9534f;">
+    CHECKGDVUT bảo hiểm an toàn giao dịch
+  </div>
+  <div>
+    với số tiền <strong style="color: red">${money} VND</strong> của <strong>${name}</strong>.
+  </div>
+  <img src="../assets/img/stamp-checkgdvut.png" style="width: 150px; opacity: 0.15; margin-top: 10px;" />
+`;
 }
 
 }).catch(err => {
