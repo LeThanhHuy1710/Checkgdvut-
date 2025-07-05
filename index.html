@@ -33,16 +33,23 @@
     </div>
   </div>
 
-  <!-- Header -->
-<link rel="stylesheet" href="assets/css/style.css" />
-  <div id="header-placeholder">
-  <script>
+
+  <!-- Vùng hiển thị header -->
+<div id="header-placeholder"></div>
+
+<!-- Script tải header.html vào vùng trên -->
+<script>
   fetch("header.html")
     .then(res => res.text())
     .then(data => {
       document.getElementById("header-placeholder").innerHTML = data;
-      </div>
 
+      // Nạp lại file JS điều khiển menu sau khi header được chèn vào
+      const script = document.createElement("script");
+      script.src = "assets/js/script.js";
+      document.body.appendChild(script);
+    });
+</script>
       // Nạp lại script điều khiển menu
       const script = document.createElement("script");
       script.src = "assets/js/script.js";
