@@ -7,6 +7,7 @@ body {
   color: #000;
 }
 
+/* Container tổng */
 .container {
   max-width: 800px;
   margin: 20px auto;
@@ -16,7 +17,7 @@ body {
   box-shadow: 0 0 10px rgba(0,0,0,0.05);
 }
 
-/* Avatar & Name */
+/* Avatar & Tên */
 .avatar-wrap {
   text-align: center;
   margin-bottom: 20px;
@@ -36,7 +37,7 @@ body {
   margin-top: 12px;
 }
 
-/* Action Buttons */
+/* Nút hành động */
 .actions {
   display: flex;
   justify-content: center;
@@ -52,14 +53,16 @@ body {
   padding: 10px 18px;
   border-radius: 8px;
   font-weight: 600;
-  transition: 0.2s;
+  font-size: 15px;
+  transition: 0.2s ease-in-out;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
 }
 
 .actions a:hover {
   background-color: #0056b3;
 }
 
-/* Info Boxes */
+/* Box thông tin */
 .info-box {
   background: #f9f9f9;
   border-left: 4px solid #007bff;
@@ -90,9 +93,11 @@ body {
   text-decoration: underline;
 }
 
-#qr {
-  max-width: 140px;
+/* QR code Facebook */
+#qrFb {
   margin-top: 12px;
+  width: 140px;
+  height: 140px;
 }
 
 /* Bank & Service List */
@@ -110,6 +115,40 @@ ul {
   padding: 12px 15px;
   border-radius: 8px;
   margin-top: 20px;
+}
+
+/* Popup hướng dẫn */
+#popup, #popup-bg {
+  z-index: 9999;
+}
+
+#popup {
+  max-width: 90%;
+  background: white;
+  padding: 15px;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+#popup button {
+  background: #28a745;
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+#popup-bg {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.4);
 }
 
 /* Responsive */
@@ -136,5 +175,10 @@ ul {
   .info-box p, 
   .info-box li {
     font-size: 14px;
+  }
+
+  #qrFb {
+    width: 100px;
+    height: 100px;
   }
 }
