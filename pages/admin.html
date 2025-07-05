@@ -17,3 +17,14 @@
   firebase.initializeApp(firebaseConfig);
   const db = firebase.firestore();
 </script>
+
+<script>
+  db.collection("gdv_list").get()
+    .then((snapshot) => {
+      console.log("✅ Kết nối Firebase Firestore thành công!");
+      console.log("📦 Tổng số GDV:", snapshot.size);
+    })
+    .catch((error) => {
+      console.error("❌ Kết nối Firebase thất bại:", error);
+    });
+</script>
