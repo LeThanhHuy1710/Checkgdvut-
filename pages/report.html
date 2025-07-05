@@ -70,12 +70,12 @@
     </form>
   </main>
 
-  <!-- Nhúng header và JS -->
   <script>
     fetch("../header.html")
       .then(res => res.text())
       .then(data => {
         document.getElementById("header-placeholder").innerHTML = data;
+
         const script = document.createElement("script");
         script.src = "../assets/js/script.js";
         document.body.appendChild(script);
