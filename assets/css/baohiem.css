@@ -1,38 +1,164 @@
-/* Container tổng */ .baohiem-container { padding: 24px; max-width: 1200px; margin: auto; }
+/* Container tổng */
+.baohiem-container {
+  padding: 24px;
+  max-width: 1200px;
+  margin: auto;
+}
 
-/* Tiêu đề */ .baohiem-title { text-align: center; margin-bottom: 24px; font-size: 26px; color: #1d4ed8; font-weight: bold; }
+/* Tiêu đề */
+.baohiem-title {
+  text-align: center;
+  margin-bottom: 24px;
+  font-size: 26px;
+  color: #1d4ed8;
+  font-weight: bold;
+}
 
-/* Tìm kiếm + Lọc */ .search-filter { display: flex; flex-direction: column; align-items: center; gap: 10px; margin-bottom: 24px; }
+/* Tìm kiếm + Lọc */
+.search-filter {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 24px;
+}
 
-#search-input { padding: 10px 15px; width: 100%; max-width: 400px; font-size: 16px; border: 2px solid #cbd5e1; border-radius: 10px; outline: none; transition: 0.3s; }
+#search-input {
+  padding: 10px 15px;
+  width: 100%;
+  max-width: 400px;
+  font-size: 16px;
+  border: 2px solid #cbd5e1;
+  border-radius: 10px;
+  outline: none;
+  transition: 0.3s;
+}
 
-#search-input:focus { border-color: #60a5fa; box-shadow: 0 0 0 3px #bfdbfe; }
+#search-input:focus {
+  border-color: #60a5fa;
+  box-shadow: 0 0 0 3px #bfdbfe;
+}
 
-/* Thẻ lọc */ #filter-tags { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin-top: 10px; }
+/* Thẻ lọc */
+#filter-tags {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 10px;
+}
 
-.tag { background: #fff; border: 2px solid #ccc; padding: 6px 14px; border-radius: 20px; font-size: 14px; cursor: pointer; transition: 0.2s; box-shadow: 2px 2px 6px rgba(0,0,0,0.05); }
+.tag {
+  background: #fff;
+  border: 2px solid #ccc;
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: 0.2s;
+  box-shadow: 2px 2px 6px rgba(0,0,0,0.05);
+}
 
-.tag:hover { background: #f3f3f3; border-color: #888; }
+.tag:hover {
+  background: #f3f3f3;
+  border-color: #888;
+}
 
-.tag.active { background: linear-gradient(135deg, #fcd535, #ffeb3b); border-color: #fcd535; font-weight: bold; color: #000; }
+.tag.active {
+  background: linear-gradient(135deg, #fcd535, #ffeb3b);
+  border-color: #fcd535;
+  font-weight: bold;
+  color: #000;
+}
 
-/* Danh sách GDV */ .gdv-list { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 20px; }
+/* Khung chứa toàn bộ GDV */
+.gdv-wrapper {
+  background: #ffffff;
+  border-radius: 20px;
+  padding: 24px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.05);
+}
 
-/* Card GDV */ .gdv-card { background: #f9f9ff; border-radius: 20px; padding: 16px; text-align: center; border: 2px solid #e0e7ff; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05); transition: all 0.3s ease; position: relative; animation: fadeIn 0.4s ease; cursor: pointer; }
+/* Danh sách GDV trong khung */
+.gdv-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 20px;
+}
 
-.gdv-card:hover { transform: translateY(-5px); box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1); border-color: #3b82f6; background: #f0f8ff; }
+/* Card GDV */
+.gdv-card {
+  background: #f9f9ff;
+  border-radius: 20px;
+  padding: 16px;
+  text-align: center;
+  border: 2px solid #e0e7ff;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  transition: all 0.3s ease;
+  position: relative;
+  animation: fadeIn 0.4s ease;
+  cursor: pointer;
+}
 
-/* Huy hiệu */ .gdv-badge { position: absolute; top: 8px; right: 8px; background: linear-gradient(45deg, #facc15, #fcd34d); color: #000; padding: 4px 10px; border-radius: 12px; font-size: 12px; font-weight: bold; box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1); }
+.gdv-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+  border-color: #3b82f6;
+  background: #f0f8ff;
+}
 
-/* Avatar */ .gdv-avatar { width: 90px; height: 90px; margin: 0 auto 10px; border-radius: 50%; overflow: hidden; border: 3px solid #60a5fa; box-shadow: 0 0 0 4px #e0f2fe; background: white; }
+/* Huy hiệu (nếu muốn dùng) */
+.gdv-badge {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  background: linear-gradient(45deg, #facc15, #fcd34d);
+  color: #000;
+  padding: 4px 10px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: bold;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
 
-.gdv-avatar img { width: 100%; height: 100%; object-fit: cover; }
+/* Avatar */
+.gdv-avatar {
+  width: 90px;
+  height: 90px;
+  margin: 0 auto 10px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 3px solid #60a5fa;
+  box-shadow: 0 0 0 4px #e0f2fe;
+  background: white;
+}
 
-/* Avatar mặc định khi rỗng */ .gdv-avatar img[src=""], .gdv-avatar img:not([src]) { content: url('../assets/img/default-avatar.png'); }
+.gdv-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
 
-/* Tên và STT */ .gdv-name { font-size: 18px; font-weight: 700; color: #1d4ed8; margin-bottom: 4px; }
+/* Avatar mặc định khi rỗng */
+.gdv-avatar img[src=""], 
+.gdv-avatar img:not([src]) {
+  content: url('../assets/img/default-avatar.png');
+}
 
-.gdv-stt { font-size: 13px; color: #6b7280; }
+/* Tên và STT */
+.gdv-name {
+  font-size: 18px;
+  font-weight: 700;
+  color: #1d4ed8;
+  margin-bottom: 4px;
+}
 
-@keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+.gdv-stt {
+  font-size: 13px;
+  color: #6b7280;
+}
 
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
