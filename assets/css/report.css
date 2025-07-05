@@ -65,7 +65,7 @@
 
 /* Nút gửi */
 .submit-btn {
-  background-color: #e74c3c;
+  background-color: #007bff; /* xanh dương logo */
   color: white;
   padding: 12px 24px;
   border: none;
@@ -74,6 +74,11 @@
   font-weight: bold;
   cursor: pointer;
   transition: background-color 0.3s ease, transform 0.2s;
+}
+
+.submit-btn:hover {
+  background-color: #0056b3;
+  transform: translateY(-2px);
 }
 
 .submit-btn:hover {
