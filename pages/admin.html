@@ -2,61 +2,43 @@
 <html lang="vi">
 <head>
   <meta charset="UTF-8">
-  <title>Trang Quản Trị Giao Dịch Viên</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Trang Quản Trị GDV</title>
   <link rel="stylesheet" href="../assets/css/admin.css">
-  
   <!-- Firebase SDK -->
   <script src="https://www.gstatic.com/firebasejs/11.10.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/11.10.0/firebase-firestore-compat.js"></script>
 </head>
 <body>
-  <h2>🛠 Quản trị Giao Dịch Viên</h2>
+  <header>
+    <h1>Trang Admin - Quản lý Giao Dịch Viên</h1>
+  </header>
 
-  <form id="gdv-form">
-    <input type="hidden" id="edit-id">
+  <main>
+    <section class="form-section">
+      <h2>➕ Thêm Giao Dịch Viên</h2>
+      <form id="formAdd">
+        <input type="text" id="name" placeholder="Tên GDV" required>
+        <input type="text" id="avatar" placeholder="Link ảnh đại diện">
+        <input type="text" id="facebook" placeholder="Link Facebook chính">
+        <input type="text" id="fb_phu" placeholder="Link Facebook phụ">
+        <input type="text" id="zalo" placeholder="Số/Zalo">
+        <input type="text" id="website" placeholder="Trang web (nếu có)">
+        <textarea id="bank" placeholder="Tài khoản ngân hàng (mỗi dòng 1 cái)"></textarea>
+        <input type="text" id="dichvu" placeholder="Các dịch vụ hỗ trợ, cách nhau bằng dấu phẩy">
+        <input type="number" id="baohiem" placeholder="Số tiền bảo hiểm (VNĐ)">
+        <input type="date" id="ngay" placeholder="Ngày tham gia">
+        <textarea id="note" placeholder="Ghi chú thêm"></textarea>
+        <button id="btnAdd" type="submit">➕ Thêm GDV</button>
+      </form>
+    </section>
 
-    <label>Tên GDV</label>
-    <input id="name" type="text" required>
+    <section id="gdvList">
+      <h2>📋 Danh sách Giao Dịch Viên</h2>
+      <!-- Danh sách GDV sẽ được render tại đây (tùy bạn làm thêm) -->
+    </section>
+  </main>
 
-    <label>Link ảnh đại diện</label>
-    <input id="avatar" type="url">
-
-    <label>Facebook chính</label>
-    <input id="fb_main" type="text">
-
-    <label>Facebook phụ</label>
-    <input id="fb_sub" type="text">
-
-    <label>Zalo</label>
-    <input id="zalo" type="text">
-
-    <label>Website</label>
-    <input id="website" type="url">
-
-    <label>Ngân hàng (mỗi dòng 1 mục, ví dụ: VCB: 123xxx)</label>
-    <textarea id="bank_accounts" rows="3"></textarea>
-
-    <label>Dịch vụ (ngăn cách bằng dấu phẩy)</label>
-    <input id="services" type="text">
-
-    <label>Số tiền bảo hiểm (VNĐ)</label>
-    <input id="insurance_amount" type="number">
-
-    <label>Ngày bắt đầu bảo hiểm</label>
-    <input id="insurance_date" type="date">
-
-    <label>Ghi chú thêm</label>
-    <textarea id="note" rows="3"></textarea>
-
-    <button type="submit" id="submit-btn">➕ Thêm GDV</button>
-    <button type="button" onclick="resetForm()">🔁 Reset</button>
-  </form>
-
-  <hr style="margin: 30px 0;">
-  <h2>📋 Danh sách GDV</h2>
-  <div id="gdv-list">Đang tải...</div>
-
-  <!-- Gọi file JS xử lý -->
-  <script src="../assets/js/admin.js"></script>
+  <script src="../assets/js/admin.js" type="module"></script>
 </body>
 </html>
