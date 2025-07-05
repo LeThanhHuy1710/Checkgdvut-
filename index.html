@@ -1,172 +1,74 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-  <link rel="stylesheet" href="../assets/css/admin.css">
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>CheckGDVUT</title>
-  <link rel="stylesheet" href="assets/css/style.css" />
-  <link rel="icon" type="image/png" href="assets/img/favicon.png" />
-
-  <!-- ✅ META chia sẻ -->
-  <meta property="og:title" content="CheckGDVUT - Hệ thống kiểm tra uy tín giao dịch" />
-  <meta property="og:description" content="Tra cứu số điện thoại, STK, Facebook để tránh bị lừa đảo khi giao dịch online." />
-  <meta property="og:image" content="https://checkgdvut.netlify.app/assets/img/logo-share.png" />
-  <meta property="og:url" content="https://checkgdvut.netlify.app/" />
-  <meta property="og:type" content="website" />
-  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Chi Tiết Giao Dịch Viên</title>
+  <link rel="stylesheet" href="../assets/css/gdv-detail.css" />
 </head>
 <body>
 
-  <!-- Modal Thông Báo -->
-  <div id="thongbao-modal" class="modal">
-    <div class="modal-content">
-      <span id="dongModal" class="close">&times;</span>
-      <h2>THÔNG BÁO</h2>
-      <p><strong class="red">CỘNG ĐỒNG CHECKGDVUT</strong></p>
-      <p>Không BH cho các DV <strong>“Vi Phạm Pháp Luật”</strong>.<br>
-         Lưu ý <strong>“Nội Dung Chuyển Khoản”</strong> để tránh bị rửa tiền.</p>
-      <div class="modal-buttons">
-        <button id="anModal" class="btn blue">ẨN</button>
-        <button id="dongModal2" class="btn red">ĐÓNG</button>
-      </div>
+  <!-- ✅ CHÈN HEADER TỰ ĐỘNG -->
+  <div id="header-placeholder"></div>
+
+  <div class="container">
+    <div class="avatar-wrap">
+      <img id="avatar" src="../assets/img/default-avatar.png" alt="Avatar" />
+      <h2 id="name">Chưa rõ</h2>
+    </div>
+
+    <div class="actions">
+      <a id="messenger" href="#" target="_blank" rel="noopener noreferrer">Check Messenger</a>
+      <a id="botcheck" href="#" target="_blank" rel="noopener noreferrer">Bot Check GDV</a>
+    </div>
+
+    <div class="info-box">
+      <h3>Thông Tin Liên Hệ:</h3>
+      <p><strong>Fb (chính):</strong> <a id="facebook" href="#" target="_blank" rel="noopener noreferrer">---</a></p>
+      <p><strong>Fb (phụ):</strong> <a id="fb_phu" href="#" target="_blank" rel="noopener noreferrer">---</a></p>
+      <p><strong>Zalo:</strong> <a id="zalo" href="#" target="_blank" rel="noopener noreferrer">---</a></p>
+      <p><strong>Web:</strong> <a id="web" href="#" target="_blank" rel="noopener noreferrer">---</a></p>
+      <div id="qrFb" style="margin-top: 10px;"></div>
+    </div>
+
+    <div class="info-box">
+      <h3>Quỹ Bảo Hiểm Checkgdvut:</h3>
+      <p id="baohiemText">---.</p>
+    </div>
+
+    <div class="info-box">
+      <h3>Dịch Vụ Cung Cấp:</h3>
+      <ul id="dichvu"></ul>
+    </div>
+
+    <div class="info-box">
+      <h3>Tài Khoản Ngân Hàng:</h3>
+      <ul id="bank"></ul>
+    </div>
+
+    <div class="note-box">
+      ⚠️ <strong>Lưu ý:</strong> Luôn kiểm tra với BOT trước khi giao dịch!
     </div>
   </div>
 
+  <!-- Firebase -->
+  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore-compat.js"></script>
 
-  <!-- Vùng hiển thị header -->
-<div id="header-placeholder"></div>
+  <!-- QR Code library -->
+  <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
 
-<!-- Script tải header.html vào vùng trên -->
-<script>
-  fetch("header.html")
-    .then(res => res.text())
-    .then(data => {
-      document.getElementById("header-placeholder").innerHTML = data;
+  <!-- JS xử lý -->
+  <script src="../assets/js/gdv-detail.js"></script>
 
-      // Nạp lại file JS điều khiển menu sau khi header được chèn vào
-      const script = document.createElement("script");
-      script.src = "assets/js/script.js";
-      document.body.appendChild(script);
-    });
-</script>
-    
-  <!-- Cảnh báo -->
-  <div class="alert">
-    <strong>CẢNH BÁO:</strong> Luôn kiểm tra số điện thoại hoặc STK trước khi giao dịch!
-  </div>
-
-  <!-- Nội dung chính -->
-  <main class="main">
-    <section class="scammer-info">
-      <h2>KIỂM TRA SCAMMER</h2>
-      <p>Hiện có <span class="red">36.675</span> stk, sđt & 
-         <span class="red">12.587</span> fb lừa đảo, 
-         <span class="red">6.864</span> bình luận, 
-         <span class="red">60</span> cảnh báo đang chờ duyệt</p>
-      <p>Sẽ giúp bạn mua bán an toàn hơn khi online !!!</p>
-      <p>[ <a href="https://discord.gg/Tq3qaKdU" target="_blank" class="bot-link">BOT CHECKSCAM</a> ]</p>
-    </section>
-
-    <p>Nhập số điện thoại hoặc STK để kiểm tra trước khi giao dịch.</p>
-    <input type="text" placeholder="Nhập SĐT hoặc STK" />
-    <button class="btn blue">Tra cứu</button>
-
-    <!-- Nút điều hướng -->
-    <div class="button-group">
-      <a href="pages/report.html" class="btn-report">⚠️ Gửi tố cáo</a>
-      <a href="pages/baohiem.html" class="btn-insurance">✅ Quỹ bảo hiểm</a>
-    </div>
-
-    <!-- Danh sách tố cáo -->
-    <section id="report-list" class="report-section">
-      <h2>Danh sách tố cáo</h2>
-      <div class="report-box">
-        <div class="report-item">
-          <p><strong>📅 NGUYEN THANH MAI</strong></p>
-          <p><span class="red">2.000.000 VND</span> ☎ 0334267890</p>
-          <p>Ngân hàng: VCB</p>
-          <p>👁️ 7 lượt xem | Ngày: 23-02-2024</p>
-        </div>
-        <div class="report-item">
-          <p><strong>📅 THANH DO</strong></p>
-          <p><span class="red">800.000 VND</span> ☎ 0963114710</p>
-          <p>Ngân hàng: TCB</p>
-          <p>👁️ 55 lượt xem | Ngày: 06-02-2024</p>
-        </div>
-        <div class="report-item">
-          <p><strong>📅 MAI VAN NGHIA</strong></p>
-          <p><span class="red">1.000.000 VND</span> ☎ 0282829292</p>
-          <p>Ngân hàng: VCB</p>
-          <p>👁️ 65 lượt xem | Ngày: 31-01-2024</p>
-        </div>
-      </div>
-    </section>
-  </main>
-
-  <!-- Footer -->
-  <footer class="footer">
-    <div class="footer-container">
-      <div class="footer-column">
-        <h4>CÔNG TY TNHH<br>AN NINH MẠNG ADMIN VIET NAM</h4>
-        <p>📍 Thegiare.vn vận hành</p>
-        <p>📞 0964087280</p>
-        <p>📱 0964087280</p>
-        <div class="social-icons">
-          <a href="#"><img src="assets/img/icon-fb.svg" alt="Facebook"></a>
-          <a href="#"><img src="assets/img/icon-tele.svg" alt="Telegram"></a>
-          <a href="#"><img src="assets/img/icon-gg.svg" alt="Google"></a>
-          <a href="#"><img src="assets/img/icon-zalo.svg" alt="Zalo"></a>
-        </div>
-      </div>
-
-      <div class="footer-column">
-        <h4>Chính sách</h4>
-        <ul>
-          <li><a href="#">Tham gia bảo hiểm</a></li>
-          <li><a href="#">Xử lý tranh chấp</a></li>
-          <li><a href="#">Báo cáo vi phạm</a></li>
-          <li><a href="#">Bảo mật thông tin</a></li>
-        </ul>
-      </div>
-
-      <div class="footer-column">
-        <h4>Thông tin</h4>
-        <ul>
-          <li><a href="#">Giới thiệu</a></li>
-          <li><a href="#">Thông báo</a></li>
-          <li><a href="#">Cảnh báo lừa đảo</a></li>
-        </ul>
-      </div>
-
-      <div class="footer-column">
-        <h4>Tiện ích</h4>
-        <ul>
-          <li><a href="#">Giao dịch</a></li>
-          <li><a href="#">Gói bảo hiểm</a></li>
-          <li><a href="#">Kiểm tra Scam</a></li>
-        </ul>
-      </div>
-    </div>
-
-    <div class="footer-bottom">
-      <img src="assets/img/logo-footer.png" alt="Logo Footer" class="footer-logo" />
-      <p>©2024-2025 Software by Thegiare.vn. All Rights Reserved</p>
-      <img src="assets/img/dmca.png" alt="DMCA" class="dmca" />
-    </div>
-  </footer>
-
-  <!-- JavaScript -->
-  <script src="assets/js/script.js"></script>
+  <!-- ✅ TẢI HEADER TỪ header.html -->
   <script>
-    fetch("header.html")
+    fetch("/header.html")
       .then(res => res.text())
       .then(data => {
         document.getElementById("header-placeholder").innerHTML = data;
-        const script = document.createElement("script");
-        script.src = "assets/js/script.js";
-        document.body.appendChild(script);
       });
   </script>
+
 </body>
 </html>
