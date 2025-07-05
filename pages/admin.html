@@ -52,6 +52,53 @@
   <textarea id="note" rows="3"></textarea>
 
   <button onclick="addGDV()">Thêm GDV</button>
+  <!-- Thêm đoạn này sau phần form thêm GDV -->
+<hr style="margin: 30px 0;">
+<h2>🗂 Danh sách GDV hiện tại</h2>
+<div id="gdv-list"></div>
+
+<script>
+  function loadGDVs() {
+    const container = document.getElementById("gdv-list");
+    container.innerHTML = "⏳ Đang tải...";
+    db.collection("gdv_list").get().then(snapshot => {
+      container.innerHTML = "";
+      if (snapshot.empty) {
+        container.innerHTML = "<p>Chưa có GDV nào.</p>";
+        return;
+      }
+
+      snapshot.forEach(doc => {
+        const data = doc.data();
+        const div = document.createElement("div");
+        div.style = "border: 1px solid #ccc; padding: 10px; margin: 10px 0; border-radius: 6px; background: #fff";
+        div.innerHTML = `
+          <strong>${data.name}</strong><br>
+          Ngân hàng: ${Object.entries(data.bank_accounts || {}).map(([k,v]) => `${k}: ${v}`).join(', ')}<br>
+          Dịch vụ: ${(data.services || []).join(', ')}<br>
+          <button onclick="deleteGDV('${doc.id}')">❌ Xoá</button>
+        `;
+        container.appendChild(div);
+      });
+    });
+  }
+
+  function deleteGDV(id) {
+    if (confirm("Bạn chắc chắn muốn xoá GDV này?")) {
+      db.collection("gdv_list").doc(id).delete()
+        .then(() => {
+          alert("✅ Đã xoá GDV.");
+          loadGDVs();
+        })
+        .catch(err => {
+          alert("❌ Lỗi khi xoá: " + err.message);
+        });
+    }
+  }
+
+  // Tự động tải danh sách khi vào
+  loadGDVs();
+              </script>
 
   <script>
     const firebaseConfig = {
