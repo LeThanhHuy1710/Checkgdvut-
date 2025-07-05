@@ -2,145 +2,61 @@
 <html lang="vi">
 <head>
   <meta charset="UTF-8">
-  <title>Thêm Giao Dịch Viên</title>
-  <link rel="stylesheet" href="../assets/css/style.css">
+  <title>Trang Quản Trị Giao Dịch Viên</title>
+  <link rel="stylesheet" href="../assets/css/admin.css">
+  
+  <!-- Firebase SDK -->
   <script src="https://www.gstatic.com/firebasejs/11.10.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/11.10.0/firebase-firestore-compat.js"></script>
-  <style>
-    body { font-family: Arial; padding: 20px; }
-    input, textarea, select { display: block; width: 100%; margin-bottom: 10px; padding: 6px; }
-    label { font-weight: bold; margin-top: 10px; display: block; }
-    .multi-tag { display: flex; flex-wrap: wrap; gap: 5px; }
-    .multi-tag label { font-weight: normal; }
-    button { padding: 8px 16px; }
-  </style>
 </head>
 <body>
-  <h2>➕ Thêm Giao Dịch Viên</h2>
+  <h2>🛠 Quản trị Giao Dịch Viên</h2>
 
-  <label>Tên GDV</label>
-  <input id="name" type="text" placeholder="Nguyễn Văn A">
+  <form id="gdv-form">
+    <input type="hidden" id="edit-id">
 
-  <label>Link Ảnh Đại Diện</label>
-  <input id="avatar" type="url" placeholder="https://example.com/avatar.jpg">
+    <label>Tên GDV</label>
+    <input id="name" type="text" required>
 
-  <label>Facebook chính</label>
-  <input id="fb_main" type="text" placeholder="ID hoặc link">
+    <label>Link ảnh đại diện</label>
+    <input id="avatar" type="url">
 
-  <label>Facebook phụ</label>
-  <input id="fb_sub" type="text" placeholder="ID hoặc link (nếu có)">
+    <label>Facebook chính</label>
+    <input id="fb_main" type="text">
 
-  <label>Số Zalo</label>
-  <input id="zalo" type="text" placeholder="vd: 0901234567">
+    <label>Facebook phụ</label>
+    <input id="fb_sub" type="text">
 
-  <label>Website</label>
-  <input id="website" type="url" placeholder="https://... (nếu có)">
+    <label>Zalo</label>
+    <input id="zalo" type="text">
 
-  <label>Ngân hàng (viết số, không cách)</label>
-  <textarea id="bank_accounts" placeholder="Vcb: 1031000000\nAcb: 16219888\nMomo: 0934567643"></textarea>
+    <label>Website</label>
+    <input id="website" type="url">
 
-  <label>Dịch vụ cung cấp</label>
-  <input id="services" type="text" placeholder="Cách nhau bằng dấu phẩy, ví dụ: Trung gian, Youtube, MMO">
+    <label>Ngân hàng (mỗi dòng 1 mục, ví dụ: VCB: 123xxx)</label>
+    <textarea id="bank_accounts" rows="3"></textarea>
 
-  <label>Số tiền bảo hiểm (vnđ)</label>
-  <input id="insurance_amount" type="number" placeholder="10000000">
+    <label>Dịch vụ (ngăn cách bằng dấu phẩy)</label>
+    <input id="services" type="text">
 
-  <label>Ngày bắt đầu bảo hiểm</label>
-  <input id="insurance_date" type="date">
+    <label>Số tiền bảo hiểm (VNĐ)</label>
+    <input id="insurance_amount" type="number">
 
-  <label>Ghi chú thêm (nếu có)</label>
-  <textarea id="note" rows="3"></textarea>
+    <label>Ngày bắt đầu bảo hiểm</label>
+    <input id="insurance_date" type="date">
 
-  <button onclick="addGDV()">Thêm GDV</button>
-  <!-- Thêm đoạn này sau phần form thêm GDV -->
-<hr style="margin: 30px 0;">
-<h2>🗂 Danh sách GDV hiện tại</h2>
-<div id="gdv-list"></div>
+    <label>Ghi chú thêm</label>
+    <textarea id="note" rows="3"></textarea>
 
-<script>
-  function loadGDVs() {
-    const container = document.getElementById("gdv-list");
-    container.innerHTML = "⏳ Đang tải...";
-    db.collection("gdv_list").get().then(snapshot => {
-      container.innerHTML = "";
-      if (snapshot.empty) {
-        container.innerHTML = "<p>Chưa có GDV nào.</p>";
-        return;
-      }
+    <button type="submit" id="submit-btn">➕ Thêm GDV</button>
+    <button type="button" onclick="resetForm()">🔁 Reset</button>
+  </form>
 
-      snapshot.forEach(doc => {
-        const data = doc.data();
-        const div = document.createElement("div");
-        div.style = "border: 1px solid #ccc; padding: 10px; margin: 10px 0; border-radius: 6px; background: #fff";
-        div.innerHTML = `
-          <strong>${data.name}</strong><br>
-          Ngân hàng: ${Object.entries(data.bank_accounts || {}).map(([k,v]) => `${k}: ${v}`).join(', ')}<br>
-          Dịch vụ: ${(data.services || []).join(', ')}<br>
-          <button onclick="deleteGDV('${doc.id}')">❌ Xoá</button>
-        `;
-        container.appendChild(div);
-      });
-    });
-  }
+  <hr style="margin: 30px 0;">
+  <h2>📋 Danh sách GDV</h2>
+  <div id="gdv-list">Đang tải...</div>
 
-  function deleteGDV(id) {
-    if (confirm("Bạn chắc chắn muốn xoá GDV này?")) {
-      db.collection("gdv_list").doc(id).delete()
-        .then(() => {
-          alert("✅ Đã xoá GDV.");
-          loadGDVs();
-        })
-        .catch(err => {
-          alert("❌ Lỗi khi xoá: " + err.message);
-        });
-    }
-  }
-
-  // Tự động tải danh sách khi vào
-  loadGDVs();
-              </script>
-
-  <script>
-    const firebaseConfig = {
-      apiKey: "AIzaSyDR34V4nSclq1kIMgbnSyMgTMeqUlzFOqo",
-      authDomain: "checkgdvut-d2bcc.firebaseapp.com",
-      projectId: "checkgdvut-d2bcc",
-      storageBucket: "checkgdvut-d2bcc.firebasestorage.app",
-      messagingSenderId: "242735289196",
-      appId: "1:242735289196:web:cf729b41af26987cb05949",
-      measurementId: "G-WLS5PJ4X2G"
-    };
-    firebase.initializeApp(firebaseConfig);
-    const db = firebase.firestore();
-
-    function addGDV() {
-      const data = {
-        name: document.getElementById('name').value,
-        avatar: document.getElementById('avatar').value,
-        fb_main: document.getElementById('fb_main').value,
-        fb_sub: document.getElementById('fb_sub').value,
-        zalo: document.getElementById('zalo').value,
-        website: document.getElementById('website').value,
-        services: document.getElementById('services').value.split(',').map(s => s.trim()),
-        insurance_amount: Number(document.getElementById('insurance_amount').value),
-        insurance_date: document.getElementById('insurance_date').value,
-        note: document.getElementById('note').value,
-        bank_accounts: {}
-      };
-
-      const rawBanks = document.getElementById('bank_accounts').value.trim().split('\n');
-      rawBanks.forEach(line => {
-        const [bank, acc] = line.split(':').map(x => x.trim());
-        if (bank && acc) data.bank_accounts[bank.toLowerCase()] = acc;
-      });
-
-      db.collection("gdv_list").add(data)
-        .then(() => {
-          alert("✅ Thêm GDV thành công!");
-          document.querySelectorAll("input, textarea").forEach(el => el.value = "");
-        })
-        .catch(err => alert("❌ Lỗi: " + err.message));
-    }
-  </script>
+  <!-- Gọi file JS xử lý -->
+  <script src="../assets/js/admin.js"></script>
 </body>
 </html>
