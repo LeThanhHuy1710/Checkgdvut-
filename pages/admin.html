@@ -1,17 +1,23 @@
-<!DOCTYPE html><html lang="vi">
+<!DOCTYPE html>
+<html lang="vi">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Trang Quản Trị GDV</title>
-  <link rel="stylesheet" href="../assets/css/admin.css">
+  <link rel="stylesheet" href="../assets/css/admin.css" />
+
   <!-- Firebase SDK -->
   <script src="https://www.gstatic.com/firebasejs/11.10.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/11.10.0/firebase-firestore-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/11.10.0/firebase-auth-compat.js"></script>
 </head>
 <body>
   <header>
     <h1>Trang Admin - Quản lý Giao Dịch Viên</h1>
-  </header>  <main>
+    <button onclick="logout()" style="float: right; padding: 6px 10px; background: #d9534f; color: white; border: none; border-radius: 4px;">Đăng xuất</button>
+  </header>
+
+  <main>
     <section class="form-section">
       <h2>➕ Thêm Giao Dịch Viên</h2>
       <form id="formAdd">
@@ -28,10 +34,157 @@
         <textarea id="note" placeholder="Ghi chú thêm"></textarea>
         <button id="btnAdd" type="submit">➕ Thêm GDV</button>
       </form>
-    </section><section id="gdvList">
-  <h2>📋 Danh sách Giao Dịch Viên</h2>
-  <div class="list"></div>
-</section>
+    </section>
 
-  </main>  <!-- Gắn file JS đúng kiểu module -->  <script src="../assets/js/admin.js" type="module"></script></body>
+    <section id="gdvList">
+      <h2>📋 Danh sách Giao Dịch Viên</h2>
+      <div class="list"></div>
+    </section>
+  </main>
+
+  <script>
+    // Kiểm tra đăng nhập
+    if (!sessionStorage.getItem("admin")) {
+      window.location.href = "login.html";
+    }
+
+    // Firebase init
+    const firebaseConfig = {
+      apiKey: "AIzaSyDR34V4nSclq1kIMgbnSyMgTMeqUlzFOqo",
+      authDomain: "checkgdvut-d2bcc.firebaseapp.com",
+      projectId: "checkgdvut-d2bcc",
+    };
+
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.firestore();
+
+    // DOM
+    const form = document.querySelector("#formAdd");
+    const btnAdd = document.querySelector("#btnAdd");
+    const list = document.querySelector("#gdvList .list");
+
+    const inputName = document.querySelector("#name");
+    const inputAvatar = document.querySelector("#avatar");
+    const inputFacebook = document.querySelector("#facebook");
+    const inputFbPhu = document.querySelector("#fb_phu");
+    const inputZalo = document.querySelector("#zalo");
+    const inputWebsite = document.querySelector("#website");
+    const inputBank = document.querySelector("#bank");
+    const inputDichVu = document.querySelector("#dichvu");
+    const inputTien = document.querySelector("#baohiem");
+    const inputNgay = document.querySelector("#ngay");
+    const inputNote = document.querySelector("#note");
+
+    let editId = null;
+
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+
+      const name = inputName.value.trim();
+      if (!name) return alert("❌ Vui lòng nhập tên!");
+
+      const data = {
+        name,
+        avatar: inputAvatar.value.trim(),
+        facebook: inputFacebook.value.trim().replace("https://facebook.com/", ""),
+        fb_phu: inputFbPhu.value.trim().replace("https://facebook.com/", ""),
+        zalo: inputZalo.value.trim(),
+        web: inputWebsite.value.trim(),
+        bank: inputBank.value.trim().split("\n"),
+        dichvu: inputDichVu.value.trim().split(","),
+        baohiem: parseInt(inputTien.value.trim()) || 0,
+        ngaybaohiem: inputNgay.value,
+        note: inputNote.value.trim(),
+        updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+      };
+
+      if (!editId) {
+        data.createdAt = firebase.firestore.FieldValue.serverTimestamp();
+      }
+
+      btnAdd.disabled = true;
+      btnAdd.textContent = "⏳ Đang xử lý...";
+
+      try {
+        if (editId) {
+          await db.collection("gdv_list").doc(editId).update(data);
+          alert("✅ Cập nhật thành công!");
+          editId = null;
+        } else {
+          await db.collection("gdv_list").add(data);
+          alert("✅ Thêm mới thành công!");
+        }
+
+        form.reset();
+        loadGDVs();
+      } catch (err) {
+        alert("❌ Lỗi: " + err.message);
+      } finally {
+        btnAdd.disabled = false;
+        btnAdd.textContent = "➕ Thêm GDV";
+      }
+    });
+
+    function loadGDVs() {
+      list.innerHTML = "";
+      db.collection("gdv_list").orderBy("createdAt", "desc").get().then((snap) => {
+        snap.forEach((doc) => renderGDV(doc.id, doc.data()));
+      });
+    }
+
+    function renderGDV(id, d) {
+      const div = document.createElement("div");
+      div.className = "gdv-item";
+      div.innerHTML = `
+        <strong>${d.name}</strong><br>
+        <small>Ngày: ${d.ngaybaohiem || "---"}</small><br>
+        Bảo hiểm: ${d.baohiem?.toLocaleString()} VNĐ<br>
+        Facebook: <a href="https://facebook.com/${d.facebook}" target="_blank">Link</a>
+        <div class="buttons">
+          <button class="edit" data-id="${id}">✏️ Sửa</button>
+          <button class="delete" data-id="${id}">🗑️ Xoá</button>
+        </div>
+      `;
+      list.appendChild(div);
+    }
+
+    list.addEventListener("click", async (e) => {
+      const id = e.target.dataset.id;
+      if (e.target.classList.contains("delete")) {
+        if (confirm("❗Bạn có chắc muốn xoá GDV này?")) {
+          await db.collection("gdv_list").doc(id).delete();
+          alert("🗑️ Đã xoá!");
+          loadGDVs();
+        }
+      }
+
+      if (e.target.classList.contains("edit")) {
+        const doc = await db.collection("gdv_list").doc(id).get();
+        const d = doc.data();
+        inputName.value = d.name || "";
+        inputAvatar.value = d.avatar || "";
+        inputFacebook.value = "https://facebook.com/" + (d.facebook || "");
+        inputFbPhu.value = "https://facebook.com/" + (d.fb_phu || "");
+        inputZalo.value = d.zalo || "";
+        inputWebsite.value = d.web || "";
+        inputBank.value = (d.bank || []).join("\n");
+        inputDichVu.value = (d.dichvu || []).join(",");
+        inputTien.value = d.baohiem || "";
+        inputNgay.value = d.ngaybaohiem || "";
+        inputNote.value = d.note || "";
+        editId = id;
+        btnAdd.textContent = "💾 Lưu thay đổi";
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      }
+    });
+
+    function logout() {
+      sessionStorage.removeItem("admin");
+      window.location.href = "login.html";
+    }
+
+    // Tải danh sách
+    loadGDVs();
+  </script>
+</body>
 </html>
