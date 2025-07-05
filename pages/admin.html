@@ -1,47 +1,58 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-  <meta charset="UTF-8" />
-  <title>Trang Admin</title>
-  <link rel="stylesheet" href="../assets/css/style.css" />
-
-  <!-- Firebase -->
+  <meta charset="UTF-8">
+  <title>Thêm Giao Dịch Viên</title>
+  <link rel="stylesheet" href="../assets/css/style.css">
   <script src="https://www.gstatic.com/firebasejs/11.10.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/11.10.0/firebase-firestore-compat.js"></script>
-
-  <script>
-    // Bảo vệ bằng mật khẩu đơn giản (chỉ bạn biết)
-    const correctPassword = "LeThanhHuy2009"; // Đổi mật khẩu tại đây
-    const input = prompt("Nhập mật khẩu admin:");
-    if (input !== correctPassword) {
-      alert("Sai mật khẩu!");
-      window.location.href = "/";
-    }
-  </script>
+  <style>
+    body { font-family: Arial; padding: 20px; }
+    input, textarea, select { display: block; width: 100%; margin-bottom: 10px; padding: 6px; }
+    label { font-weight: bold; margin-top: 10px; display: block; }
+    .multi-tag { display: flex; flex-wrap: wrap; gap: 5px; }
+    .multi-tag label { font-weight: normal; }
+    button { padding: 8px 16px; }
+  </style>
 </head>
 <body>
-  <div id="header-container"></div>
-  <script>
-    fetch("/header.html")
-      .then(res => res.text())
-      .then(data => {
-        document.getElementById("header-container").innerHTML = data;
-      });
-  </script>
+  <h2>➕ Thêm Giao Dịch Viên</h2>
 
-  <main style="max-width: 500px; margin: auto; padding: 20px;">
-    <h2>Thêm Giao Dịch Viên</h2>
-    <form id="add-gdv-form">
-      <input type="text" id="name" placeholder="Tên GDV" required /><br />
-      <input type="text" id="bank" placeholder="Tài khoản ngân hàng" required /><br />
-      <input type="text" id="facebook" placeholder="Facebook (link)" /><br />
-      <input type="text" id="zalo" placeholder="Số Zalo" /><br />
-      <button type="submit">Thêm GDV</button>
-    </form>
-    <p id="result-msg" style="color: green; margin-top: 10px;"></p>
-  </main>
+  <label>Tên GDV</label>
+  <input id="name" type="text" placeholder="Nguyễn Văn A">
 
-  <!-- Firebase Config -->
+  <label>Link Ảnh Đại Diện</label>
+  <input id="avatar" type="url" placeholder="https://example.com/avatar.jpg">
+
+  <label>Facebook chính</label>
+  <input id="fb_main" type="text" placeholder="ID hoặc link">
+
+  <label>Facebook phụ</label>
+  <input id="fb_sub" type="text" placeholder="ID hoặc link (nếu có)">
+
+  <label>Số Zalo</label>
+  <input id="zalo" type="text" placeholder="vd: 0901234567">
+
+  <label>Website</label>
+  <input id="website" type="url" placeholder="https://... (nếu có)">
+
+  <label>Ngân hàng (viết số, không cách)</label>
+  <textarea id="bank_accounts" placeholder="Vcb: 1031000000\nAcb: 16219888\nMomo: 0934567643"></textarea>
+
+  <label>Dịch vụ cung cấp</label>
+  <input id="services" type="text" placeholder="Cách nhau bằng dấu phẩy, ví dụ: Trung gian, Youtube, MMO">
+
+  <label>Số tiền bảo hiểm (vnđ)</label>
+  <input id="insurance_amount" type="number" placeholder="10000000">
+
+  <label>Ngày bắt đầu bảo hiểm</label>
+  <input id="insurance_date" type="date">
+
+  <label>Ghi chú thêm (nếu có)</label>
+  <textarea id="note" rows="3"></textarea>
+
+  <button onclick="addGDV()">Thêm GDV</button>
+
   <script>
     const firebaseConfig = {
       apiKey: "AIzaSyDR34V4nSclq1kIMgbnSyMgTMeqUlzFOqo",
@@ -54,9 +65,35 @@
     };
     firebase.initializeApp(firebaseConfig);
     const db = firebase.firestore();
-  </script>
 
-  <!-- Script xử lý thêm GDV -->
-  <script src="/assets/js/admin.js"></script>
+    function addGDV() {
+      const data = {
+        name: document.getElementById('name').value,
+        avatar: document.getElementById('avatar').value,
+        fb_main: document.getElementById('fb_main').value,
+        fb_sub: document.getElementById('fb_sub').value,
+        zalo: document.getElementById('zalo').value,
+        website: document.getElementById('website').value,
+        services: document.getElementById('services').value.split(',').map(s => s.trim()),
+        insurance_amount: Number(document.getElementById('insurance_amount').value),
+        insurance_date: document.getElementById('insurance_date').value,
+        note: document.getElementById('note').value,
+        bank_accounts: {}
+      };
+
+      const rawBanks = document.getElementById('bank_accounts').value.trim().split('\n');
+      rawBanks.forEach(line => {
+        const [bank, acc] = line.split(':').map(x => x.trim());
+        if (bank && acc) data.bank_accounts[bank.toLowerCase()] = acc;
+      });
+
+      db.collection("gdv_list").add(data)
+        .then(() => {
+          alert("✅ Thêm GDV thành công!");
+          document.querySelectorAll("input, textarea").forEach(el => el.value = "");
+        })
+        .catch(err => alert("❌ Lỗi: " + err.message));
+    }
+  </script>
 </body>
 </html>
