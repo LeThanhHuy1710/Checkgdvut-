@@ -24,29 +24,46 @@ if (!id) {
 
     const d = doc.data();
 
-    // Avatar và tên
+    // Avatar và Tên
     document.getElementById("avatar").src = d.avatar || "../assets/img/default-avatar.png";
     document.getElementById("name").textContent = d.name || "Chưa rõ";
 
-    // Facebook, phụ, zalo, web
-    document.getElementById("facebook").href = d.facebook || "#";
-    document.getElementById("fb_phu").href = d.fb_phu || "#";
-    document.getElementById("zalo").textContent = d.zalo || "---";
-    document.getElementById("zalo").href = d.zalo ? `https://zalo.me/${d.zalo}` : "#";
-    document.getElementById("web").href = d.web || "#";
+    // Fb chính
+    const facebook = d.facebook || "";
+    const facebookLink = document.getElementById("facebook");
+    facebookLink.href = facebook ? `https://facebook.com/${facebook}` : "#";
+    facebookLink.textContent = facebook || "---";
+
+    // Fb phụ
+    const fb_phu = d.fb_phu || "";
+    const fbPhuLink = document.getElementById("fb_phu");
+    fbPhuLink.href = fb_phu ? `https://facebook.com/${fb_phu}` : "#";
+    fbPhuLink.textContent = fb_phu || "---";
+
+    // Zalo
+    const zalo = d.zalo || "";
+    const zaloLink = document.getElementById("zalo");
+    zaloLink.textContent = zalo || "---";
+    zaloLink.href = zalo ? `https://zalo.me/${zalo}` : "#";
+
+    // Web
+    const web = d.web || "";
+    const webLink = document.getElementById("web");
+    webLink.href = web ? web : "#";
+    webLink.textContent = web || "---";
 
     // QR Zalo
-    document.getElementById("qr").src = d.zalo
-      ? `https://img.vietqr.io/image/zalopay-${d.zalo}-compact.png`
+    document.getElementById("qr").src = zalo
+      ? `https://img.vietqr.io/image/zalopay-${zalo}-compact.png`
       : "../assets/img/default-qr.png";
 
-    // Nút Messenger → chuyển người dùng tới Facebook để chat
-    document.getElementById("messenger").href = d.facebook || "#";
+    // Messenger → tới Facebook chat
+    document.getElementById("messenger").href = facebook ? `https://m.me/${facebook}` : "#";
 
-    // Nút Bot Check → mời vào Discord group của bạn
+    // Bot check → dẫn vào Discord group
     document.getElementById("botcheck").href = "https://discord.gg/Tq3qaKdU";
 
-    // Thông tin bảo hiểm
+    // Bảo hiểm
     const name = d.name || "---";
     const money = (d.baohiem || 0).toLocaleString("vi-VN");
     const date = d.ngaybaohiem || "---";
@@ -63,7 +80,7 @@ if (!id) {
       ulDichVu.appendChild(li);
     });
 
-    // Tài khoản ngân hàng
+    // Ngân hàng
     const bankList = d.bank || [];
     const ulBank = document.getElementById("bank");
     ulBank.innerHTML = "";
