@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-  <link rel="stylesheet" href="../assets/css/admin.css">
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>CheckGDVUT</title>
+
+  <!-- CSS -->
   <link rel="stylesheet" href="assets/css/style.css" />
+  <link rel="stylesheet" href="assets/css/admin.css" />
   <link rel="icon" type="image/png" href="assets/img/favicon.png" />
 
   <!-- ✅ META chia sẻ -->
@@ -33,24 +35,9 @@
     </div>
   </div>
 
+  <!-- Header -->
+  <div id="header-placeholder"></div>
 
-  <!-- Vùng hiển thị header -->
-<div id="header-placeholder"></div>
-
-<!-- Script tải header.html vào vùng trên -->
-<script>
-  fetch("header.html")
-    .then(res => res.text())
-    .then(data => {
-      document.getElementById("header-placeholder").innerHTML = data;
-
-      // Nạp lại file JS điều khiển menu sau khi header được chèn vào
-      const script = document.createElement("script");
-      script.src = "assets/js/script.js";
-      document.body.appendChild(script);
-    });
-</script>
-    
   <!-- Cảnh báo -->
   <div class="alert">
     <strong>CẢNH BÁO:</strong> Luôn kiểm tra số điện thoại hoặc STK trước khi giao dịch!
@@ -156,13 +143,14 @@
     </div>
   </footer>
 
-  <!-- JavaScript -->
-  <script src="assets/js/script.js"></script>
+  <!-- Nạp header và script -->
   <script>
     fetch("header.html")
       .then(res => res.text())
       .then(data => {
         document.getElementById("header-placeholder").innerHTML = data;
+
+        // Gắn lại file script
         const script = document.createElement("script");
         script.src = "assets/js/script.js";
         document.body.appendChild(script);
