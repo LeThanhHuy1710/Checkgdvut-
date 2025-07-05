@@ -1,1 +1,52 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Chi Tiết Giao Dịch Viên</title>
+  <link rel="stylesheet" href="../assets/css/gdv-detail.css" />
+  <script type="module" src="../assets/js/gdv-detail.js" defer></script>
+</head>
+<body>
+  <div class="gdv-container">
+    <div class="gdv-profile">
+      <img id="gdv-avatar" class="gdv-avatar" src="" alt="Avatar">
+      <h2 id="gdv-name">Tên GDV</h2>
+      <div class="gdv-buttons">
+        <a id="messenger-link" target="_blank" class="btn btn-messenger">Check Messenger</a>
+        <a id="botcheck-link" target="_blank" class="btn btn-botcheck">Bot Check GDV</a>
+      </div>
+    </div>
 
+    <div class="gdv-section">
+      <h3>Thông Tin Liên Hệ:</h3>
+      <ul class="contact-info">
+        <li>Fb (chính): <a id="fb-main" target="_blank"></a></li>
+        <li>Fb (phụ): <a id="fb-sub" target="_blank"></a></li>
+        <li>Zalo: <a id="zalo-link" target="_blank"></a></li>
+        <li>Web: <span id="web-info"></span></li>
+        <li><img id="qr-img" class="qr-img" src="" alt="QR Zalo"></li>
+      </ul>
+    </div>
+
+    <div class="gdv-section">
+      <h3>Quỹ Bảo Hiểm:</h3>
+      <p id="baohiem-info"></p>
+    </div>
+
+    <div class="gdv-section">
+      <h3>Dịch Vụ Cung Cấp:</h3>
+      <ul id="dichvu-list"></ul>
+    </div>
+
+    <div class="gdv-section">
+      <h3>Tài Khoản Ngân Hàng:</h3>
+      <ul id="bank-list"></ul>
+    </div>
+
+    <div class="gdv-note">
+      ⚠️ <b>Lưu ý:</b> Luôn tuân thủ <b>Nội Quy Giao Dịch</b> và sử dụng <b>BOT Check Real - Fake</b> trước khi giao dịch!
+    </div>
+  </div>
+</body>
+</html>
