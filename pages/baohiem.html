@@ -22,15 +22,20 @@
     <!-- Tìm kiếm & Bộ lọc -->
     <div class="search-filter">
       <input type="text" id="search-input" placeholder="🔍 Tìm theo tên admin...">
-      <div id="filter-tags">
-        <!-- Thẻ dịch vụ sẽ được JS render -->
-      </div>
+      <div id="filter-tags"></div>
     </div>
 
-    <!-- Danh sách GDV -->
-    <div id="gdv-list">
-      <!-- Các admin trung gian sẽ được JS đổ vào -->
-    </div>
+    <!-- Khung danh sách GDV kiểu thẻ -->
+    <section class="gdv-wrapper">
+      <div class="gdv-box-title">
+        <img src="../assets/img/admin-icon.svg" alt="icon" class="icon" />
+        <span>Tìm Admin theo số thứ tự:</span>
+      </div>
+
+      <div id="gdv-list" class="gdv-grid">
+        <!-- Danh sách GDV sẽ được render từ JS -->
+      </div>
+    </section>
   </main>
 
   <!-- JS -->
@@ -41,8 +46,6 @@
       .then(res => res.text())
       .then(data => {
         document.getElementById("header-placeholder").innerHTML = data;
-
-        // Nạp lại script menu
         const script = document.createElement("script");
         script.src = "../assets/js/script.js";
         document.body.appendChild(script);
