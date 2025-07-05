@@ -28,16 +28,18 @@ if (!id) {
     document.getElementById("avatar").src = d.avatar || "../assets/img/default-avatar.png";
     document.getElementById("name").textContent = d.name || "Chưa rõ";
 
-    // Fb chính
+    // Facebook chính
     const facebook = d.facebook || "";
     const facebookLink = document.getElementById("facebook");
-    facebookLink.href = facebook ? `https://facebook.com/${facebook}` : "#";
+    const fbUrl = facebook.startsWith("http") ? facebook : `https://facebook.com/${facebook}`;
+    facebookLink.href = facebook ? fbUrl : "#";
     facebookLink.textContent = facebook || "---";
 
-    // Fb phụ
+    // Facebook phụ
     const fb_phu = d.fb_phu || "";
     const fbPhuLink = document.getElementById("fb_phu");
-    fbPhuLink.href = fb_phu ? `https://facebook.com/${fb_phu}` : "#";
+    const fbPhuUrl = fb_phu.startsWith("http") ? fb_phu : `https://facebook.com/${fb_phu}`;
+    fbPhuLink.href = fb_phu ? fbPhuUrl : "#";
     fbPhuLink.textContent = fb_phu || "---";
 
     // Zalo
@@ -46,7 +48,7 @@ if (!id) {
     zaloLink.textContent = zalo || "---";
     zaloLink.href = zalo ? `https://zalo.me/${zalo}` : "#";
 
-    // Web
+    // Website
     const web = d.web || "";
     const webLink = document.getElementById("web");
     webLink.href = web ? web : "#";
@@ -57,10 +59,11 @@ if (!id) {
       ? `https://img.vietqr.io/image/zalopay-${zalo}-compact.png`
       : "../assets/img/default-qr.png";
 
-    // Messenger → tới Facebook chat
-    document.getElementById("messenger").href = facebook ? `https://m.me/${facebook}` : "#";
+    // Messenger Chat
+    const messengerBtn = document.getElementById("messenger");
+    messengerBtn.href = facebook ? `https://m.me/${facebook.replace("https://facebook.com/", "")}` : "#";
 
-    // Bot check → dẫn vào Discord group
+    // Discord Bot Check
     document.getElementById("botcheck").href = "https://discord.gg/Tq3qaKdU";
 
     // Bảo hiểm
@@ -89,6 +92,20 @@ if (!id) {
       li.textContent = item;
       ulBank.appendChild(li);
     });
+
+    // QR Facebook (nếu có)
+    if (facebook) {
+      if (document.getElementById("qrFb")) {
+        new QRCode(document.getElementById("qrFb"), {
+          text: fbUrl,
+          width: 128,
+          height: 128,
+          colorDark: "#000000",
+          colorLight: "#ffffff",
+          correctLevel: QRCode.CorrectLevel.H
+        });
+      }
+    }
 
   }).catch(err => {
     alert("Lỗi tải dữ liệu!");
