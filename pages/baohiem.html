@@ -5,8 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Quỹ Bảo Hiểm</title>
   <link rel="icon" type="image/png" href="../assets/img/favicon.png" />
-
-  <!-- CSS -->
   <link rel="stylesheet" href="../assets/css/style.css" />
   <link rel="stylesheet" href="../assets/css/baohiem.css" />
 </head>
@@ -14,6 +12,7 @@
   <!-- Header -->
   <div id="header-placeholder"></div>
 
+  <!-- Nội dung -->
   <main class="baohiem-container">
     <h2 class="baohiem-title">DANH SÁCH TRUNG GIAN BẢO HIỂM</h2>
 
@@ -23,26 +22,19 @@
       <div id="filter-tags"></div>
     </div>
 
-    <!-- Khung chứa danh sách GDV dạng bảng -->
+    <!-- Khung chứa danh sách GDV -->
     <div class="gdv-wrapper">
-      <div class="gdv-row-header">
-        <span>#</span>
-        <span>Avatar</span>
-        <span>Tên</span>
-      </div>
-      <div id="gdv-list" class="gdv-table"></div>
+      <div id="gdv-list" class="gdv-list"></div>
     </div>
   </main>
 
-  <!-- Script -->
+  <!-- JS -->
   <script src="../assets/js/baohiem.js" type="module"></script>
   <script>
-    // Nhúng header.html
     fetch("../header.html")
       .then(res => res.text())
       .then(data => {
         document.getElementById("header-placeholder").innerHTML = data;
-
         const script = document.createElement("script");
         script.src = "../assets/js/script.js";
         document.body.appendChild(script);
