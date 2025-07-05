@@ -16,7 +16,10 @@ const submitBtn = document.getElementById("submit-btn");
 
 form.addEventListener("submit", function (e) {
   e.preventDefault();
-
+  
+submitBtn.innerText = "⏳ Đang xử lý...";
+submitBtn.disabled = true;
+  
   const data = {
     name: getVal("name"),
     avatar: getVal("avatar"),
