@@ -99,6 +99,17 @@ if (facebook) {
       colorDark: "#000000",  
       colorLight: "#ffffff",  
       correctLevel: QRCode.CorrectLevel.H  
+
+      /* Logo dạng dấu mộc */
+.stamp-seal {
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  width: 120px;
+  opacity: 0.15;
+  z-index: 0;
+  pointer-events: none;
+  transform: rotate(-10deg);
     });  
   }  
 }
