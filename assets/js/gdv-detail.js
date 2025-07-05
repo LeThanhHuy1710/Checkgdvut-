@@ -92,7 +92,16 @@ if (!id) {
     // QR Facebook (nếu có)
     if (facebook) {
       if (document.getElementById("qrFb")) {
-        new QRCode(document.getElementById("qrFb"), {
+        const qrFbContainer = document.getElementById("qrFb");
+qrFbContainer.innerHTML = ""; // 🧹 Xóa QR cũ (nếu có)
+new QRCode(qrFbContainer, {
+  text: fbUrl,
+  width: 128,
+  height: 128,
+  colorDark: "#000000",
+  colorLight: "#ffffff",
+  correctLevel: QRCode.CorrectLevel.H
+});
           text: fbUrl,
           width: 128,
           height: 128,
