@@ -54,10 +54,6 @@ if (!id) {
     webLink.href = web ? web : "#";
     webLink.textContent = web || "---";
 
-    // QR Zalo
-    document.getElementById("qr").src = zalo
-      ? `https://img.vietqr.io/image/zalopay-${zalo}-compact.png`
-      : "../assets/img/default-qr.png";
 
     // Messenger Chat
     const messengerBtn = document.getElementById("messenger");
