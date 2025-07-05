@@ -1,4 +1,6 @@
-<!-- Firebase SDK từ CDN -->
+<div id="status" style="margin: 20px; color: green; font-weight: bold;"></div>
+
+<!-- Firebase SDK -->
 <script src="https://www.gstatic.com/firebasejs/11.10.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/11.10.0/firebase-firestore-compat.js"></script>
 
@@ -13,16 +15,16 @@
     measurementId: "G-WLS5PJ4X2G"
   };
 
-  // Khởi tạo Firebase
   firebase.initializeApp(firebaseConfig);
   const db = firebase.firestore();
-</script>
-<script>
+
   db.collection("gdv_list").get()
     .then((snapshot) => {
-      alert("✅ Firebase kết nối thành công!\nCó " + snapshot.size + " GDV trong database.");
+      document.getElementById("status").innerText =
+        "✅ Firebase kết nối thành công – có " + snapshot.size + " GDV.";
     })
     .catch((error) => {
-      alert("❌ Kết nối Firebase thất bại: " + error.message);
+      document.getElementById("status").innerText =
+        "❌ Firebase lỗi: " + error.message;
     });
 </script>
