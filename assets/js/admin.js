@@ -29,7 +29,7 @@ const inputNote = document.querySelector("#note");
 
 // Ngăn reload khi submit
 form.addEventListener("submit", async (e) => {
-  e.preventDefault(); // ✅ Ngăn reload trang khi bấm submit
+  e.preventDefault(); // ✅ Ngăn reload
 
   const name = inputName.value.trim();
   if (name === "") {
@@ -56,11 +56,8 @@ form.addEventListener("submit", async (e) => {
       createdAt: firebase.firestore.FieldValue.serverTimestamp()
     });
 
-    alert("✅ Thêm GDV thành công! Trang sẽ tự tải lại sau vài giây...");
-
-    setTimeout(() => {
-      location.reload();
-    }, 1500); // ⏳ chờ 1.5s rồi reload
+    alert("✅ Thêm GDV thành công!");
+    form.reset(); // ✅ Reset lại form nhập
   } catch (err) {
     alert("❌ Lỗi khi thêm GDV: " + err.message);
   } finally {
