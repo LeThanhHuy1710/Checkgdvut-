@@ -24,7 +24,12 @@
       <p><strong>Fb (phụ):</strong> <a id="fb_phu" href="#" target="_blank" rel="noopener noreferrer">---</a></p>
       <p><strong>Zalo:</strong> <a id="zalo" href="#" target="_blank" rel="noopener noreferrer">---</a></p>
       <p><strong>Web:</strong> <a id="web" href="#" target="_blank" rel="noopener noreferrer">---</a></p>
-      <img id="qr" src="" alt="QR Zalo" />
+      
+      <!-- QR Zalo -->
+      <img id="qr" src="" alt="QR Zalo" style="max-width: 120px; margin-top: 10px;" />
+
+      <!-- QR Facebook (mới thêm) -->
+      <div id="qrFb" style="margin-top: 10px;"></div>
     </div>
 
     <div class="info-box">
@@ -47,11 +52,14 @@
     </div>
   </div>
 
-  <!-- Firebase Scripts -->
+  <!-- Firebase -->
   <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore-compat.js"></script>
-  
-  <!-- File xử lý chính -->
+
+  <!-- QR Code library -->
+  <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
+
+  <!-- JS xử lý -->
   <script src="../assets/js/gdv-detail.js"></script>
 </body>
 </html>
