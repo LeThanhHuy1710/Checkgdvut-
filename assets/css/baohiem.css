@@ -59,16 +59,16 @@
 }
 
 .tag.active {
-  background: #fcd535;
-  border-color: #fcd535;
-  color: #000;
+  background: #1d4ed8;
+  border-color: #1d4ed8;
+  color: #fff;
   font-weight: bold;
 }
 
 /* ===== KHUNG CHỨA DANH SÁCH ===== */
 .gdv-wrapper {
-  background: #fff;
-  border: 2px solid #fcd535;
+  background: #f1f5ff;
+  border: 2px solid #1d4ed8;
   border-radius: 16px;
   padding: 24px;
   box-shadow: 0 4px 12px rgba(0,0,0,0.04);
@@ -77,8 +77,8 @@
 /* ===== DANH SÁCH GRID ===== */
 .gdv-list {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-  gap: 24px;
+  grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
+  gap: 20px;
   justify-items: center;
 }
 
@@ -88,7 +88,6 @@
   cursor: pointer;
   background: none;
   border: none;
-  box-shadow: none;
   padding: 0;
   transition: 0.2s;
 }
@@ -99,12 +98,12 @@
 
 /* Avatar */
 .gdv-avatar {
-  width: 70px;
-  height: 70px;
+  width: 60px;
+  height: 60px;
   border-radius: 50%;
   overflow: hidden;
-  border: 3px solid #facc15;
-  margin: 0 auto 6px;
+  border: 2.5px solid #1d4ed8;
+  margin: 0 auto 4px;
   background: #fff;
 }
 
@@ -122,14 +121,14 @@
 
 /* Tên và STT */
 .gdv-stt {
-  font-size: 13px;
+  font-size: 12px;
   color: #555;
   margin: 2px 0;
 }
 
 .gdv-name {
-  font-size: 14px;
-  font-weight: 500;
-  color: #111827;
+  font-size: 13px;
+  font-weight: 600;
+  color: #1e293b;
   line-height: 1.3;
 }
