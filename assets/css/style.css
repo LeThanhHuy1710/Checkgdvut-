@@ -26,8 +26,19 @@ img { max-width: 100%; height: auto; }
 
 .logo img { max-height: 48px; }
 
-.menu-toggle { font-size: 24px; background: none; border: none; cursor: pointer; color: #007bff; }
-
+.menu-toggle {
+  font-size: 24px;              /* 👈 Kích thước hợp lý */
+  background: none;
+  border: none;
+  padding: 4px 10px;
+  margin-left: auto;            /* 👈 Đẩy nút sang phải */
+  color: #007bff;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+}
 .mobile-menu { display: none; position: fixed; top: 0; left: 0; width: 75%; height: 100vh; background-color: #fff; box-shadow: 2px 0 8px rgba(0, 0, 0, 0.1); padding: 60px 20px 20px; z-index: 1000; }
 
 .mobile-menu ul { list-style: none; padding: 0; margin: 0; }
