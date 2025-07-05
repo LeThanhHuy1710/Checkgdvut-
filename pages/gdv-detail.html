@@ -1,52 +1,46 @@
-<!DOCTYPE html>
-<html lang="vi">
+<!-- File: pages/gdv-detail.html --><!DOCTYPE html><html lang="vi">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Chi Tiết Giao Dịch Viên</title>
-  <link rel="stylesheet" href="../assets/css/gdv-detail.css" />
-  <script type="module" src="../assets/js/gdv-detail.js" defer></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chi tiết Giao Dịch Viên</title>
+  <link rel="stylesheet" href="../assets/css/gdv-detail.css">
 </head>
 <body>
-  <div class="gdv-container">
-    <div class="gdv-profile">
-      <img id="gdv-avatar" class="gdv-avatar" src="" alt="Avatar">
-      <h2 id="gdv-name">Tên GDV</h2>
-      <div class="gdv-buttons">
-        <a id="messenger-link" target="_blank" class="btn btn-messenger">Check Messenger</a>
-        <a id="botcheck-link" target="_blank" class="btn btn-botcheck">Bot Check GDV</a>
+  <div class="container">
+    <div class="profile">
+      <img id="avatar" src="../assets/img/avatar-default.png" alt="Avatar">
+      <h2 id="name">Chưa rõ</h2>
+      <div class="buttons">
+        <a id="messenger" class="btn blue" target="_blank">Check Messenger</a>
+        <a id="botcheck" class="btn blue" target="_blank">Bot Check GDV</a>
       </div>
-    </div>
+    </div><div class="card">
+  <h3>Thông Tin Liên Hệ:</h3>
+  <p>Fb (chính): <a id="fb" target="_blank"></a></p>
+  <p>Fb (phụ): <a id="fb_phu" target="_blank"></a></p>
+  <p>Zalo: <a id="zalo" target="_blank"></a></p>
+  <p>Web: <span id="web"></span></p>
+  <p><img id="qr" alt="QR Zalo" height="100"></p>
+</div>
 
-    <div class="gdv-section">
-      <h3>Thông Tin Liên Hệ:</h3>
-      <ul class="contact-info">
-        <li>Fb (chính): <a id="fb-main" target="_blank"></a></li>
-        <li>Fb (phụ): <a id="fb-sub" target="_blank"></a></li>
-        <li>Zalo: <a id="zalo-link" target="_blank"></a></li>
-        <li>Web: <span id="web-info"></span></li>
-        <li><img id="qr-img" class="qr-img" src="" alt="QR Zalo"></li>
-      </ul>
-    </div>
+<div class="card">
+  <h3>Quỹ Bảo Hiểm:</h3>
+  <p>Từ ngày <strong id="ngay">---</strong> hệ thống sẽ bảo đảm an toàn cho bạn với số tiền là <span style="color:red"><strong id="baohiem">0</strong> vnđ</span> của <strong id="baohiem_name">---</strong>.</p>
+</div>
 
-    <div class="gdv-section">
-      <h3>Quỹ Bảo Hiểm:</h3>
-      <p id="baohiem-info"></p>
-    </div>
+<div class="card">
+  <h3>Dịch Vụ Cung Cấp:</h3>
+  <div id="dichvu"></div>
+</div>
 
-    <div class="gdv-section">
-      <h3>Dịch Vụ Cung Cấp:</h3>
-      <ul id="dichvu-list"></ul>
-    </div>
+<div class="card">
+  <h3>Tài Khoản Ngân Hàng:</h3>
+  <div id="bank"></div>
+</div>
 
-    <div class="gdv-section">
-      <h3>Tài Khoản Ngân Hàng:</h3>
-      <ul id="bank-list"></ul>
-    </div>
+<div class="alert">
+  ⚠️ <strong>Lưu ý:</strong> Luôn tuân thủ <strong>Nội Quy Giao Dịch</strong> và sử dụng <strong>BOT Check Real - Fake</strong> trước khi giao dịch!
+</div>
 
-    <div class="gdv-note">
-      ⚠️ <b>Lưu ý:</b> Luôn tuân thủ <b>Nội Quy Giao Dịch</b> và sử dụng <b>BOT Check Real - Fake</b> trước khi giao dịch!
-    </div>
-  </div>
-</body>
+  </div>  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js"></script>  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js"></script>  <script src="../assets/js/gdv-detail.js"></script></body>
 </html>
