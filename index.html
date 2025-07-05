@@ -35,7 +35,20 @@
 
   <!-- Header -->
 <link rel="stylesheet" href="assets/css/style.css" />
-  <div id="header-placeholder"></div>
+  <div id="header-placeholder">
+  <script>
+  fetch("header.html")
+    .then(res => res.text())
+    .then(data => {
+      document.getElementById("header-placeholder").innerHTML = data;
+      </div>
+
+      // Nạp lại script điều khiển menu
+      const script = document.createElement("script");
+      script.src = "assets/js/script.js";
+      document.body.appendChild(script);
+    });
+  </script>
   <!-- Cảnh báo -->
   <div class="alert">
     <strong>CẢNH BÁO:</strong> Luôn kiểm tra số điện thoại hoặc STK trước khi giao dịch!
