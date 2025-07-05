@@ -1,7 +1,4 @@
-import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js";
-import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
-
-// Firebase config
+// Firebase init
 const firebaseConfig = {
   apiKey: "AIzaSyDR34V4nSclq1kIMgbnSyMgTMeqUlzFOqo",
   authDomain: "checkgdvut-d2bcc.firebaseapp.com",
@@ -12,64 +9,68 @@ const firebaseConfig = {
   measurementId: "G-WLS5PJ4X2G"
 };
 
-// Init Firebase
-const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
+firebase.initializeApp(firebaseConfig);
+const db = firebase.firestore();
 
-// Get ID từ URL
-const params = new URLSearchParams(window.location.search);
-const id = params.get("id");
+// Lấy ID từ URL
+const urlParams = new URLSearchParams(window.location.search);
+const id = urlParams.get("id");
 
-// Lấy dữ liệu GDV
-async function loadGDV() {
-  if (!id) return;
+if (!id) {
+  alert("Không tìm thấy GDV!");
+} else {
+  db.collection("gdv_list").doc(id).get().then(doc => {
+    if (!doc.exists) {
+      alert("Không tìm thấy GDV!");
+      return;
+    }
 
-  const docRef = doc(db, "gdv_list", id);
-  const docSnap = await getDoc(docRef);
+    const d = doc.data();
 
-  if (!docSnap.exists()) return alert("Không tìm thấy thông tin GDV!");
+    // DOM
+    document.querySelector("#avatar").src = d.avatar || "https://cdn-icons-png.flaticon.com/512/149/149071.png";
+    document.querySelector("#name").textContent = d.name || "Không rõ";
 
-  const data = docSnap.data();
+    // Nút
+    document.querySelector("#linkMessenger").href = d.facebook || "#";
+    document.querySelector("#linkBotCheck").href = `https://m.me/checkgdvbot?ref=${id}`;
 
-  // Avatar & Tên
-  document.getElementById("gdv-avatar").src = data.avatar || "../assets/img/default-avatar.png";
-  document.getElementById("gdv-name").textContent = data.name || "Chưa rõ";
+    // Thông tin liên hệ
+    document.querySelector("#fb_chinh").textContent = d.facebook || "";
+    document.querySelector("#fb_chinh").href = d.facebook || "#";
 
-  // Liên kết
-  document.getElementById("messenger-link").href = data.fb_link || "#";
-  document.getElementById("botcheck-link").href = data.bot_link || "#";
+    document.querySelector("#fb_phu").textContent = d.fb_phu || "";
+    document.querySelector("#fb_phu").href = d.fb_phu || "#";
 
-  // Liên hệ
-  document.getElementById("fb-main").textContent = data.fb_uid || "";
-  document.getElementById("fb-main").href = `https://facebook.com/${data.fb_uid}`;
-  document.getElementById("fb-sub").textContent = data.fb_phu || "";
-  document.getElementById("fb-sub").href = `https://facebook.com/${data.fb_phu}`;
-  document.getElementById("zalo-link").textContent = data.zalo || "";
-  document.getElementById("zalo-link").href = `https://zalo.me/${data.zalo}`;
-  document.getElementById("web-info").textContent = data.web || "";
-  document.getElementById("qr-img").src = data.qr || "../assets/img/qr-default.png";
+    document.querySelector("#zalo").textContent = d.zalo || "";
+    document.querySelector("#zalo").href = `https://zalo.me/${d.zalo || ""}`;
 
-  // Quỹ Bảo Hiểm
-  document.getElementById("baohiem-info").innerHTML = `
-    Từ ngày <b>${data.ngaybaohiem}</b> hệ thống sẽ bảo đảm an toàn cho bạn với số tiền là 
-    <b style="color:red;">${data.quybaohiem || "0 vnđ"}</b> của <b>${data.name}</b>.
-  `;
+    document.querySelector("#web").textContent = d.web || "";
+    document.querySelector("#web").href = d.web || "#";
 
-  // Dịch vụ
-  const dichvuList = document.getElementById("dichvu-list");
-  (data.dichvu || []).forEach(service => {
-    const li = document.createElement("li");
-    li.textContent = "• " + service;
-    dichvuList.appendChild(li);
-  });
+    const qrZalo = document.querySelector("#qr_zalo");
+    if (d.zalo) {
+      qrZalo.src = `https://chart.googleapis.com/chart?cht=qr&chs=200x200&chl=https://zalo.me/${d.zalo}`;
+    } else {
+      qrZalo.style.display = "none";
+    }
 
-  // Tài khoản ngân hàng
-  const bankList = document.getElementById("bank-list");
-  (data.taikhoan || []).forEach(acc => {
-    const li = document.createElement("li");
-    li.textContent = `• ${acc.bank}: ${acc.stk}`;
-    bankList.appendChild(li);
+    // Quỹ bảo hiểm
+    const bh = d.baohiem || 0;
+    const date = d.ngaybaohiem || "---";
+    document.querySelector("#baohiem").innerHTML = `
+      Từ ngày <b>${date}</b> hệ thống sẽ bảo đảm an toàn cho bạn với số tiền là
+      <span style="color:red">${bh.toLocaleString()} vnđ</span> của <b>${d.name || "?"}</b>.
+    `;
+
+    // Dịch vụ
+    const dichvu = d.dichvu || [];
+    const dvHTML = dichvu.map(item => `<li>${item}</li>`).join("");
+    document.querySelector("#dichvu").innerHTML = dvHTML || "<li>Không rõ</li>";
+
+    // Tài khoản ngân hàng
+    const bank = d.bank || [];
+    const bankHTML = bank.map(item => `<li>${item}</li>`).join("");
+    document.querySelector("#bank").innerHTML = bankHTML || "<li>Không rõ</li>";
   });
 }
-
-loadGDV();
