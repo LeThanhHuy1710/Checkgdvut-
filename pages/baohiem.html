@@ -1,1 +1,68 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quỹ Bảo Hiểm - CheckGDVUT</title>
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <link rel="stylesheet" href="../assets/css/baohiem.css">
+  <link rel="icon" type="image/png" href="../assets/img/favicon.png" />
+</head>
+<body>
 
+  <!-- Nhúng Header -->
+  <div id="header-placeholder"></div>
+  <script>
+    fetch("../header.html")
+      .then(res => res.text())
+      .then(data => {
+        document.getElementById("header-placeholder").innerHTML = data;
+        const script = document.createElement("script");
+        script.src = "../assets/js/script.js";
+        document.body.appendChild(script);
+      });
+  </script>
+
+  <!-- Thanh tìm kiếm -->
+  <div class="baohiem-search">
+    <input type="text" placeholder="Tìm admin theo tên..." id="searchInput">
+    <button><img src="../assets/img/icon-search.svg" alt="Search"></button>
+  </div>
+
+  <!-- Bộ lọc dịch vụ -->
+  <div class="service-filters">
+    <button class="filter active">Tất cả</button>
+    <button class="filter">GDTG MMO</button>
+    <button class="filter">TG Youtube</button>
+    <button class="filter">Dv.Wechat</button>
+    <button class="filter">Dv.Google</button>
+    <button class="filter">Dv.Facebook</button>
+    <button class="filter">Dv.Game Free Fire</button>
+    <button class="filter">Dv.Game Liên Quân</button>
+    <!-- ... Thêm các tag khác tùy ý -->
+  </div>
+
+  <!-- Danh sách admin -->
+  <section class="admin-list">
+    <h2>🧑‍💼 Tìm Admin theo số thứ tự:</h2>
+    <div class="admin-grid" id="adminList">
+      <!-- Các admin sẽ được render từ JS hoặc bạn có thể hardcode -->
+      <div class="admin-item">
+        <img src="../assets/img/admins/admin1.jpg" alt="Admin 1">
+        <p><strong>1. Nguyễn Hoàng Dương</strong></p>
+      </div>
+      <div class="admin-item">
+        <img src="../assets/img/admins/admin2.jpg" alt="Admin 2">
+        <p><strong>2. Tổng Hoàng Phương Dương<br>(10tr Follow)</strong></p>
+      </div>
+      <!-- ... -->
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <p style="text-align: center; padding: 20px;">©2024-2025 Thegiare.vn</p>
+  </footer>
+
+</body>
+</html>
