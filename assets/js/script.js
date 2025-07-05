@@ -1,27 +1,23 @@
 document.addEventListener("DOMContentLoaded", function () {
-  // Modal cảnh báo (nếu có)
   const modal = document.getElementById("thongbao-modal");
-  if (modal) {
-    modal.style.display = "flex";
+  const closeBtn1 = document.getElementById("dongModal");
+  const closeBtn2 = document.getElementById("dongModal2");
+  const hideBtn = document.getElementById("anModal");
 
-    const closeBtn1 = document.getElementById("dongModal");
-    const closeBtn2 = document.getElementById("dongModal2");
-    const hideBtn = document.getElementById("anModal");
+  if (modal) modal.style.display = "flex";
 
-    if (hideBtn) {
-      hideBtn.addEventListener("click", function () {
-        modal.style.display = "none";
-        setTimeout(() => {
-          modal.style.display = "flex";
-        }, 60000);
-      });
-    }
-
-    if (closeBtn1) closeBtn1.addEventListener("click", () => modal.style.display = "none");
-    if (closeBtn2) closeBtn2.addEventListener("click", () => modal.style.display = "none");
+  if (hideBtn) {
+    hideBtn.addEventListener("click", function () {
+      modal.style.display = "none";
+      setTimeout(() => {
+        modal.style.display = "flex";
+      }, 60000);
+    });
   }
 
-  // ✅ Đường dẫn header.html (tự động nhận đúng path)
+  if (closeBtn1) closeBtn1.addEventListener("click", () => modal.style.display = "none");
+  if (closeBtn2) closeBtn2.addEventListener("click", () => modal.style.display = "none");
+
   const headerPath = location.pathname.includes("/pages/") ? "../header.html" : "header.html";
 
   fetch(headerPath)
@@ -29,7 +25,7 @@ document.addEventListener("DOMContentLoaded", function () {
     .then(data => {
       document.getElementById("header-placeholder").innerHTML = data;
 
-      // ✅ Gắn sự kiện sau khi header đã render
+      // ✅ Đợi DOM header render xong rồi mới gắn sự kiện
       setTimeout(() => {
         const menuToggle = document.getElementById("menu-toggle");
         const mobileMenu = document.getElementById("mobileMenu");
