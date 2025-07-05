@@ -115,6 +115,4 @@ renderGDVList(allGDV);
 
 // Gọi hàm khởi động
 fetchGDVs();
-Code JS cập nhật giúp
-Cho phù hợp với ten và name
 
