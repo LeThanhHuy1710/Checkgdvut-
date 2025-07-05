@@ -3,59 +3,50 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Quỹ Bảo Hiểm - CheckGDVUT</title>
+  <title>Quỹ Bảo Hiểm</title>
+  <link rel="icon" type="image/png" href="../assets/img/favicon.png" />
+
+  <!-- CSS chung và riêng -->
   <link rel="stylesheet" href="../assets/css/style.css" />
   <link rel="stylesheet" href="../assets/css/baohiem.css" />
 </head>
 <body>
 
-  <!-- Header -->
+  <!-- Header nhúng tự động -->
   <div id="header-placeholder"></div>
 
-  <!-- Phần lọc và tìm kiếm -->
-  <div class="baohiem-search-filter">
-    <input type="text" id="search-input" placeholder="🔍 Tìm theo tên..." />
-    <div id="filter-tags" class="filter-tags">
-      <!-- Thẻ dịch vụ sẽ tự thêm bằng JS -->
+  <!-- Nội dung chính -->
+  <main class="baohiem-container">
+    <h2 class="baohiem-title">DANH SÁCH TRUNG GIAN BẢO HIỂM</h2>
+
+    <!-- Tìm kiếm & Bộ lọc -->
+    <div class="search-filter">
+      <input type="text" id="search-input" placeholder="🔍 Tìm theo tên admin...">
+      <div id="filter-tags">
+        <!-- Thẻ dịch vụ sẽ được JS render -->
+      </div>
     </div>
-  </div>
 
-  <!-- Danh sách GDV -->
-  <div id="gdv-list" class="gdv-list-container">
-    <!-- Các GDV sẽ được render bằng JS -->
-  </div>
+    <!-- Danh sách GDV -->
+    <div id="gdv-list">
+      <!-- Các admin trung gian sẽ được JS đổ vào -->
+    </div>
+  </main>
 
-  <!-- Script header -->
+  <!-- JS -->
+  <script src="../assets/js/baohiem.js" type="module"></script>
   <script>
+    // Nhúng header.html
     fetch("../header.html")
       .then(res => res.text())
       .then(data => {
         document.getElementById("header-placeholder").innerHTML = data;
+
+        // Nạp lại script menu
         const script = document.createElement("script");
         script.src = "../assets/js/script.js";
         document.body.appendChild(script);
       });
   </script>
-
-  <!-- Firebase SDK -->
-  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore-compat.js"></script>
-  <script>
-    const firebaseConfig = {
-      apiKey: "AIzaSyDR34V4nSclq1kIMgbnSyMgTMeqUlzFOqo",
-      authDomain: "checkgdvut-d2bcc.firebaseapp.com",
-      projectId: "checkgdvut-d2bcc",
-      storageBucket: "checkgdvut-d2bcc.appspot.com",
-      messagingSenderId: "242735289196",
-      appId: "1:242735289196:web:cf729b41af26987cb05949",
-      measurementId: "G-WLS5PJ4X2G"
-    };
-    firebase.initializeApp(firebaseConfig);
-    const db = firebase.firestore();
-  </script>
-
-  <!-- JS xử lý danh sách GDV -->
-  <script src="../assets/js/baohiem.js"></script>
-
 </body>
 </html>
