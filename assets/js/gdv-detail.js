@@ -61,38 +61,34 @@ if (!id) {
     // Discord Bot Check
     document.getElementById("botcheck").href = "https://discord.gg/Tq3qaKdU";
 
+    // QR Facebook
+    if (facebook && document.getElementById("qrFb")) {
+      new QRCode(document.getElementById("qrFb"), {
+        text: fbUrl,
+        width: 128,
+        height: 128,
+        colorDark: "#000000",
+        colorLight: "#ffffff",
+        correctLevel: QRCode.CorrectLevel.H
+      });
+    }
+
     // Bảo hiểm
     const name = d.name || "---";
     const money = (d.baohiem || 0).toLocaleString("vi-VN");
     const date = d.ngaybaohiem || "---";
-
-    // QR Facebook (nếu có)
-    if (facebook) {
-      if (document.getElementById("qrFb")) {
-        new QRCode(document.getElementById("qrFb"), {
-          text: fbUrl,
-          width: 128,
-          height: 128,
-          colorDark: "#000000",
-          colorLight: "#ffffff",
-          correctLevel: QRCode.CorrectLevel.H
-        });
-      }
-
-      // Nội dung bảo hiểm kèm logo 1 lần duy nhất
-      document.getElementById("baohiemText").innerHTML = `
-        <div style="margin-bottom: 8px;">
-          Từ ngày <strong>${date}</strong>, khách hàng sẽ được
-        </div>
-        <div style="font-weight: bold; font-size: 17px; color: #d9534f;">
-          CHECKGDVUT bảo hiểm an toàn giao dịch
-        </div>
-        <div>
-          với số tiền <strong style="color: red">${money} VND</strong> của <strong>${name}</strong>.
-        </div>
-        <img src="../assets/img/stamp-checkgdvut.png" style="width: 150px; opacity: 0.15; margin-top: 10px;" />
-      `;
-    }
+    document.getElementById("baohiemText").innerHTML = `
+      <div style="margin-bottom: 8px;">
+        Từ ngày <strong>${date}</strong>, khách hàng sẽ được
+      </div>
+      <div style="font-weight: bold; font-size: 17px; color: #d9534f;">
+        CHECKGDVUT bảo hiểm an toàn giao dịch
+      </div>
+      <div>
+        với số tiền <strong style="color: red">${money} VND</strong> của <strong>${name}</strong>.
+      </div>
+      <img src="../assets/img/stamp-checkgdvut.png" style="width: 150px; opacity: 0.15; margin-top: 10px;" />
+    `;
 
     // Dịch vụ
     const dichvuList = d.dichvu || [];
