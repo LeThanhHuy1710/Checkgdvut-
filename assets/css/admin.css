@@ -1,7 +1,9 @@
 body {
-  font-family: "Segoe UI", sans-serif;
-  background: #f6f8fa;
+  font-family: Arial, sans-serif;
+  background: #f8f9fa;
   padding: 20px;
+  max-width: 700px;
+  margin: auto;
   color: #333;
 }
 
@@ -13,51 +15,54 @@ h2 {
 form {
   background: #fff;
   padding: 20px;
-  border-radius: 12px;
-  box-shadow: 0 0 10px rgba(0,0,0,0.06);
-  max-width: 600px;
-  margin: 0 auto;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.05);
+  margin-bottom: 40px;
 }
 
 label {
   display: block;
   font-weight: bold;
-  margin-top: 12px;
+  margin-top: 10px;
 }
 
-input, textarea, select {
+input,
+textarea {
   width: 100%;
-  padding: 10px;
-  margin-top: 6px;
+  padding: 8px;
+  margin-top: 4px;
+  margin-bottom: 10px;
   border: 1px solid #ccc;
   border-radius: 6px;
   font-size: 14px;
   box-sizing: border-box;
-  background: #fff;
-}
-
-textarea {
-  resize: vertical;
 }
 
 button {
-  margin-top: 20px;
+  padding: 10px 16px;
   background: #007bff;
   color: white;
   border: none;
-  padding: 12px 20px;
-  font-size: 16px;
   border-radius: 6px;
   cursor: pointer;
-  transition: background 0.2s ease;
+  margin-right: 10px;
+  font-size: 14px;
 }
 
 button:hover {
   background: #0056b3;
 }
 
-@media (max-width: 600px) {
-  form {
-    padding: 15px;
-  }
+#gdv-list button {
+  margin-top: 6px;
+  margin-right: 6px;
+  font-size: 14px;
+}
+
+#gdv-list > div {
+  background: #fff;
+  border: 1px solid #ddd;
+  padding: 12px;
+  margin-bottom: 10px;
+  border-radius: 6px;
 }
