@@ -67,7 +67,7 @@ const name = d.name || "---";
 const money = (d.baohiem || 0).toLocaleString("vi-VN");  
 const date = d.ngaybaohiem || "---";  
 document.getElementById("baohiemText").innerHTML =  
-  `Từ ngày <strong>${date}</strong> hệ thống sẽ bảo đảm an toàn cho bạn với số tiền là <span style="color:red"> ${money} VND </span> của <strong>${name}</strong>.`;  
+  `Từ ngày <strong>${date}</strong> checkgdvut sẽ bảo đảm an toàn cho bạn với số tiền là <span style="color:red"> ${money} VND </span> của <strong>${name}</strong>.`;  
 
 // Dịch vụ  
 const dichvuList = d.dichvu || [];  
