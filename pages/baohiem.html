@@ -4,31 +4,31 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Quỹ Bảo Hiểm</title>
-  <link rel="icon" type="image/png" href="../assets/img/favicon.png" />
+  <link rel="icon" href="../assets/img/favicon.png" />
   <link rel="stylesheet" href="../assets/css/style.css" />
   <link rel="stylesheet" href="../assets/css/baohiem.css" />
 </head>
 <body>
-  <!-- Header -->
+  <!-- Header dùng chung -->
   <div id="header-placeholder"></div>
 
   <!-- Nội dung -->
   <main class="baohiem-container">
     <h2 class="baohiem-title">DANH SÁCH TRUNG GIAN BẢO HIỂM</h2>
 
-    <!-- Tìm kiếm & Lọc -->
+    <!-- Tìm kiếm + lọc -->
     <div class="search-filter">
-      <input type="text" id="search-input" placeholder="🔍 Tìm theo tên giao dịch viên...">
+      <input type="text" id="search-input" placeholder="🔍 Tìm theo tên giao dịch viên..." />
       <div id="filter-tags"></div>
     </div>
 
-    <!-- Khung lớn chứa toàn bộ GDV -->
+    <!-- Khung chứa toàn bộ GDV -->
     <div class="gdv-wrapper">
       <div id="gdv-list" class="gdv-list"></div>
     </div>
   </main>
 
-  <!-- JS -->
+  <!-- Script -->
   <script src="../assets/js/baohiem.js" type="module"></script>
   <script>
     fetch("../header.html")
