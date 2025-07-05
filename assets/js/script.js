@@ -5,28 +5,53 @@ document.addEventListener("DOMContentLoaded", function () {
   const hideBtn = document.getElementById("anModal");
 
   // Hiện modal khi tải trang
-  modal.style.display = "flex";
+  if (modal) modal.style.display = "flex";
 
   // Ẩn tạm
-  hideBtn.addEventListener("click", function () {
-    modal.style.display = "none";
-    setTimeout(() => {
-      modal.style.display = "flex";
-    }, 60000); // hiện lại sau 60s
-  });
+  if (hideBtn) {
+    hideBtn.addEventListener("click", function () {
+      modal.style.display = "none";
+      setTimeout(() => {
+        modal.style.display = "flex";
+      }, 60000); // hiện lại sau 60s
+    });
+  }
 
   // Đóng hoàn toàn
-  closeBtn1.addEventListener("click", () => modal.style.display = "none");
-  closeBtn2.addEventListener("click", () => modal.style.display = "none");
+  if (closeBtn1) closeBtn1.addEventListener("click", () => modal.style.display = "none");
+  if (closeBtn2) closeBtn2.addEventListener("click", () => modal.style.display = "none");
+
+  // Load header và gắn sự kiện menu-toggle
+  fetch("header.html")
+    .then(res => res.text())
+    .then(data => {
+      document.getElementById("header-placeholder").innerHTML = data;
+
+      // Gắn lại sự kiện menu-toggle
+      const menuToggle = document.getElementById("menu-toggle");
+      const mobileMenu = document.getElementById("mobileMenu");
+      const closeBtn = document.querySelector(".close-btn");
+
+      if (menuToggle && mobileMenu) {
+        menuToggle.addEventListener("click", () => {
+          const isVisible = mobileMenu.style.display === "block";
+          mobileMenu.style.display = isVisible ? "none" : "block";
+        });
+      }
+
+      if (closeBtn && mobileMenu) {
+        closeBtn.addEventListener("click", () => {
+          mobileMenu.style.display = "none";
+        });
+      }
+
+      // Gắn sự kiện click vào logo để về trang chủ
+      const logo = document.querySelector(".logo img");
+      if (logo) {
+        logo.style.cursor = "pointer";
+        logo.addEventListener("click", () => {
+          window.location.href = "/";
+        });
+      }
+    });
 });
-
-fetch("header.html")
-  .then(res => res.text())
-  .then(data => {
-    document.getElementById("header-placeholder").innerHTML = data;
-
-    // <-- Tải lại script.js để gắn sự kiện menu-toggle
-    const script = document.createElement("script");
-    script.src = "assets/js/script.js";
-    document.body.appendChild(script);
-  });
