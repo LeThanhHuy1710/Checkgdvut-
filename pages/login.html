@@ -2,51 +2,61 @@
 <html lang="vi">
 <head>
   <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Đăng nhập Admin</title>
+  <link rel="stylesheet" href="../assets/css/login.css" />
   <style>
-    body { font-family: Arial; background: #f2f2f2; padding: 60px; }
-    form {
-      max-width: 400px;
-      margin: auto;
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f4f4;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+    .login-box {
       background: white;
       padding: 30px;
-      border-radius: 8px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.2);
+      width: 300px;
+      text-align: center;
     }
-    input, button {
+    .login-box h2 {
+      margin-bottom: 20px;
+    }
+    .login-box input {
       width: 100%;
       padding: 10px;
-      margin-top: 10px;
+      margin: 10px 0;
+      border: 1px solid #ddd;
+      border-radius: 5px;
     }
-    button {
-      background-color: #2e7d32;
+    .login-box button {
+      width: 100%;
+      padding: 10px;
+      background: #28a745;
       color: white;
+      font-weight: bold;
       border: none;
+      border-radius: 5px;
       cursor: pointer;
+    }
+    .login-box button:hover {
+      background: #218838;
     }
   </style>
 </head>
 <body>
-  <form id="loginForm">
-    <h2>🔒 Đăng Nhập Admin</h2>
-    <input type="text" id="username" placeholder="Tên đăng nhập" required />
-    <button type="submit">Đăng nhập</button>
-  </form>
+  <div class="login-box">
+    <h2>Đăng Nhập Admin</h2>
+    <form id="loginForm">
+      <input type="text" id="username" placeholder="Tên đăng nhập" required />
+      <input type="password" id="password" placeholder="Mật khẩu" required />
+      <button type="submit">🔐 Đăng Nhập</button>
+    </form>
+  </div>
 
-  <script>
-    document.querySelector("#loginForm").addEventListener("submit", function(e) {
-      e.preventDefault();
-      const username = document.querySelector("#username").value.trim();
-
-      // Bạn có thể thay điều kiện này bằng kiểm tra tài khoản thật
-      if (username.toLowerCase() === "admin") {
-        sessionStorage.setItem("admin", username);
-        window.location.href = "admin.html";
-      } else {
-        alert("❌ Tên đăng nhập không hợp lệ!");
-      }
-    });
-  </script>
+  <script src="../assets/js/login.js"></script>
 </body>
 </html>
-
