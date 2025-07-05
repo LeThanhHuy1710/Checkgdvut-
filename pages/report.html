@@ -70,14 +70,17 @@
     </form>
   </main>
 
+  <!-- Nhúng header và script sau khi header đã tải -->
   <script>
     fetch("../header.html")
       .then(res => res.text())
       .then(data => {
         document.getElementById("header-placeholder").innerHTML = data;
 
+        // Gắn lại sự kiện JS sau khi header được đưa vào DOM
         const script = document.createElement("script");
         script.src = "../assets/js/script.js";
+        script.defer = true;
         document.body.appendChild(script);
       });
   </script>
