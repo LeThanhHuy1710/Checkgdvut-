@@ -1,5 +1,4 @@
-// assets/js/baohiem.js
-import { supabase } from "./supabase.js"; // path tới supabase.js
+import { supabase } from "./assets/js/supabase.js"; // chắc chắn supabase.js export const supabase
 
 const gdvContainer = document.getElementById("gdv-list");
 const searchInput = document.getElementById("search-input");
@@ -10,7 +9,7 @@ let selectedService = "";
 let allServices = new Set();
 
 // ===================== FETCH DỮ LIỆU =====================
-async function fetchGDVs() {
+export async function fetchGDVs() {
   const { data, error } = await supabase
     .from("gdv_list")
     .select("*")
@@ -80,8 +79,36 @@ function renderGDVList(data) {
     return;
   }
 
-  filtered.forEach((item, index) => {
+  filtered.forEach(item => {
     const avatar = item.avatar || "../assets/img/default-avatar.png";
     const name = item.ten || item.name || "Không tên";
 
-    cons
+    const div = document.createElement("div");
+    div.className = "gdv-item";
+
+    div.innerHTML = `
+      <img src="${avatar}" class="gdv-avatar" alt="${name}" />
+      <p class="gdv-name">${name}</p>
+    `;
+
+    // Click vào avatar → chuyển đến gdv-detail.html
+    div.querySelector(".gdv-avatar").addEventListener("click", () => {
+      const id = item.id;
+      if (!id) {
+        alert("❌ Không tìm thấy ID GDV!");
+        return;
+      }
+      window.location.href = `gdv-detail.html?id=${id}`;
+    });
+
+    gdvContainer.appendChild(div);
+  });
+}
+
+// ===================== EVENT SEARCH =====================
+searchInput.addEventListener("input", () => {
+  renderGDVList(allGDV);
+});
+
+// ===================== LOAD LẦN ĐẦU =====================
+fetchGDVs();
