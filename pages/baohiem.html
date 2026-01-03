@@ -4,33 +4,45 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Quỹ Bảo Hiểm</title>
+
+  <!-- Favicon -->
   <link rel="icon" href="../assets/img/favicon.png" />
+
+  <!-- CSS -->
   <link rel="stylesheet" href="../assets/css/style.css" />
   <link rel="stylesheet" href="../assets/css/baohiem.css" />
 </head>
+
 <body>
-  <!-- ✅ Header -->
+
+  <!-- ================= HEADER ================= -->
   <div id="header-placeholder"></div>
 
-  <!-- ✅ Nội dung -->
+  <!-- ================= MAIN ================= -->
   <main class="baohiem-container">
     <h2 class="baohiem-title">DANH SÁCH TRUNG GIAN BẢO HIỂM</h2>
 
-    <!-- Tìm kiếm + lọc -->
+    <!-- Search & Filter -->
     <div class="search-filter">
-      <input type="text" id="search-input" placeholder="🔍 Tìm theo tên giao dịch viên..." />
+      <input
+        type="text"
+        id="search-input"
+        placeholder="🔍 Tìm theo tên giao dịch viên..."
+        autocomplete="off"
+      />
       <div id="filter-tags"></div>
     </div>
 
-    <!-- Khung chứa toàn bộ GDV -->
+    <!-- GDV List -->
     <div class="gdv-wrapper">
       <div id="gdv-list" class="gdv-list"></div>
     </div>
   </main>
 
-  <!-- ✅ Footer -->
+  <!-- ================= FOOTER ================= -->
   <footer class="footer">
     <div class="footer-container">
+
       <div class="footer-column">
         <h4>CÔNG TY TNHH<br>AN NINH MẠNG ADMIN VIET NAM</h4>
         <p>📍 Thegiare.vn vận hành</p>
@@ -43,6 +55,7 @@
           <a href="#"><img src="../assets/img/icon-zalo.svg" alt="Zalo"></a>
         </div>
       </div>
+
       <div class="footer-column">
         <h4>Chính sách</h4>
         <ul>
@@ -52,6 +65,7 @@
           <li><a href="#">Bảo mật thông tin</a></li>
         </ul>
       </div>
+
       <div class="footer-column">
         <h4>Thông tin</h4>
         <ul>
@@ -60,6 +74,7 @@
           <li><a href="#">Cảnh báo lừa đảo</a></li>
         </ul>
       </div>
+
       <div class="footer-column">
         <h4>Tiện ích</h4>
         <ul>
@@ -68,26 +83,36 @@
           <li><a href="#">Kiểm tra Scam</a></li>
         </ul>
       </div>
+
     </div>
 
     <div class="footer-bottom">
       <img src="../assets/img/logo-footer.png" alt="Logo Footer" class="footer-logo" />
-      <p>©2024-2025 Software by Thegiare.vn. All Rights Reserved</p>
+      <p>©2024–2025 Software by Thegiare.vn. All Rights Reserved</p>
       <img src="../assets/img/dmca.png" alt="DMCA" class="dmca" />
     </div>
   </footer>
 
-  <!-- ✅ Script -->
-  <script src="../assets/js/baohiem.js" type="module"></script>
+  <!-- ================= SCRIPT ================= -->
+
+  <!-- Load baohiem logic -->
+  <script type="module" defer src="../assets/js/baohiem.js"></script>
+
+  <!-- Load header + menu script -->
   <script>
     fetch("../header.html")
       .then(res => res.text())
-      .then(data => {
-        document.getElementById("header-placeholder").innerHTML = data;
+      .then(html => {
+        const header = document.getElementById("header-placeholder");
+        if (!header) return;
+        header.innerHTML = html;
+
         const script = document.createElement("script");
         script.src = "../assets/js/script.js";
         document.body.appendChild(script);
-      });
+      })
+      .catch(err => console.error("Lỗi load header:", err));
   </script>
+
 </body>
 </html>
