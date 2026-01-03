@@ -1,15 +1,20 @@
-import { supabase } from "./assets/js/supabase.js"; // chắc chắn supabase.js export const supabase
+import { supabase } from "./supabase.js";
 
+/* ================= DOM ================= */
 const gdvContainer = document.getElementById("gdv-list");
 const searchInput = document.getElementById("search-input");
 const filterTags = document.getElementById("filter-tags");
+
+if (!gdvContainer) {
+  console.error("❌ Không tìm thấy #gdv-list");
+}
 
 let allGDV = [];
 let selectedService = "";
 let allServices = new Set();
 
-// ===================== FETCH DỮ LIỆU =====================
-export async function fetchGDVs() {
+/* ================= FETCH ================= */
+async function fetchGDVs() {
   const { data, error } = await supabase
     .from("gdv_list")
     .select("*")
@@ -17,17 +22,19 @@ export async function fetchGDVs() {
 
   if (error) {
     console.error(error);
-    gdvContainer.innerHTML = "<p>Lỗi tải dữ liệu!</p>";
+    if (gdvContainer) gdvContainer.innerHTML = "<p>Lỗi tải dữ liệu!</p>";
     return;
   }
 
-  allGDV = data.map(doc => ({ id: doc.id, ...doc }));
+  allGDV = data || [];
 
-  // Lấy danh sách dịch vụ duy nhất
+  /* lấy dịch vụ */
   allServices.clear();
   allGDV.forEach(item => {
     if (Array.isArray(item.dichvu)) {
-      item.dichvu.forEach(dv => allServices.add(dv));
+      item.dichvu.forEach(dv => {
+        if (dv) allServices.add(dv.trim());
+      });
     }
   });
 
@@ -35,80 +42,90 @@ export async function fetchGDVs() {
   renderGDVList(allGDV);
 }
 
-// ===================== RENDER FILTER TAG =====================
+/* ================= TAG FILTER ================= */
 function renderServiceTags() {
+  if (!filterTags) return;
   filterTags.innerHTML = "";
 
-  const allTag = document.createElement("span");
-  allTag.className = "tag" + (selectedService === "" ? " active" : "");
-  allTag.innerText = "Tất cả";
-  allTag.onclick = () => {
-    selectedService = "";
-    renderServiceTags();
-    renderGDVList(allGDV);
+  const createTag = (label, active, onClick) => {
+    const span = document.createElement("span");
+    span.className = "tag" + (active ? " active" : "");
+    span.textContent = label;
+    span.onclick = onClick;
+    return span;
   };
-  filterTags.appendChild(allTag);
 
-  [...allServices].sort().forEach(service => {
-    const tag = document.createElement("span");
-    tag.className = "tag" + (selectedService === service ? " active" : "");
-    tag.innerText = service;
-    tag.onclick = () => {
-      selectedService = service;
+  filterTags.appendChild(
+    createTag("Tất cả", selectedService === "", () => {
+      selectedService = "";
       renderServiceTags();
       renderGDVList(allGDV);
-    };
-    filterTags.appendChild(tag);
+    })
+  );
+
+  [...allServices].sort().forEach(service => {
+    filterTags.appendChild(
+      createTag(service, selectedService === service, () => {
+        selectedService = service;
+        renderServiceTags();
+        renderGDVList(allGDV);
+      })
+    );
   });
 }
 
-// ===================== RENDER DANH SÁCH GDV =====================
+/* ================= RENDER LIST ================= */
 function renderGDVList(data) {
-  const keyword = searchInput.value.toLowerCase();
+  if (!gdvContainer) return;
+
+  const keyword = (searchInput?.value || "").toLowerCase();
+
   const filtered = data.filter(item => {
-    const name = (item.ten || item.name || "").toLowerCase();
+    const name = (item.name || "").toLowerCase();
     const matchName = name.includes(keyword);
-    const matchService = selectedService === "" || (item.dichvu || []).includes(selectedService);
+    const matchService =
+      selectedService === "" ||
+      (Array.isArray(item.dichvu) && item.dichvu.includes(selectedService));
+
     return matchName && matchService;
   });
 
   gdvContainer.innerHTML = "";
 
   if (filtered.length === 0) {
-    gdvContainer.innerHTML = "<p>Không tìm thấy GDV nào phù hợp.</p>";
+    gdvContainer.innerHTML = "<p>Không tìm thấy GDV phù hợp.</p>";
     return;
   }
 
   filtered.forEach(item => {
     const avatar = item.avatar || "../assets/img/default-avatar.png";
-    const name = item.ten || item.name || "Không tên";
+    const name = item.name || "Không tên";
 
     const div = document.createElement("div");
     div.className = "gdv-item";
-
     div.innerHTML = `
-      <img src="${avatar}" class="gdv-avatar" alt="${name}" />
+      <img src="${avatar}" class="gdv-avatar" alt="${name}">
       <p class="gdv-name">${name}</p>
     `;
 
-    // Click vào avatar → chuyển đến gdv-detail.html
-    div.querySelector(".gdv-avatar").addEventListener("click", () => {
-      const id = item.id;
-      if (!id) {
-        alert("❌ Không tìm thấy ID GDV!");
+    div.querySelector(".gdv-avatar").onclick = () => {
+      if (!item.id) {
+        alert("❌ Không tìm thấy ID GDV");
         return;
       }
-      window.location.href = `gdv-detail.html?id=${id}`;
-    });
+      window.location.href = `gdv-detail.html?id=${item.id}`;
+    };
 
     gdvContainer.appendChild(div);
   });
 }
 
-// ===================== EVENT SEARCH =====================
-searchInput.addEventListener("input", () => {
-  renderGDVList(allGDV);
-});
+/* ================= SEARCH ================= */
+if (searchInput) {
+  searchInput.addEventListener("input", () => {
+    renderGDVList(allGDV);
+  });
+}
 
-// ===================== LOAD LẦN ĐẦU =====================
+/* ================= INIT ================= */
 fetchGDVs();
