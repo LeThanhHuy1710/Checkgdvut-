@@ -1,75 +1,34 @@
-// assets/js/admin.js
-import { supabase } from "./supabase.js"; // đường dẫn đúng với bạn
+import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm";
 
-// DOM
-const form = document.querySelector("#formAdd");
-const btnAdd = document.querySelector("#btnAdd");
+// --- Supabase config ---
+const SUPABASE_URL = "https://xeidegtzbbiuglgmkbsm.supabase.co";
+const SUPABASE_KEY = "sb_publishable_XqJzHKum27HwEEzDhxKAqQ_qdoItx4K";
+const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
+
+// --- DOM ---
+const form = document.getElementById("formAdd");
+const btnAdd = document.getElementById("btnAdd");
 const list = document.querySelector("#gdvList .list");
-const loginForm = document.querySelector("#loginForm");
-const loginSection = document.querySelector("#loginSection");
-const adminContent = document.querySelector("#adminContent");
 
-// Inputs
-const inputName = document.querySelector("#name");
-const inputAvatar = document.querySelector("#avatar");
-const inputFacebook = document.querySelector("#facebook");
-const inputFbPhu = document.querySelector("#fb_phu");
-const inputZalo = document.querySelector("#zalo");
-const inputWebsite = document.querySelector("#website");
-const inputBank = document.querySelector("#bank");
-const inputDichVu = document.querySelector("#dichvu");
-const inputTien = document.querySelector("#baohiem");
-const inputNgay = document.querySelector("#ngay");
-const inputNote = document.querySelector("#note");
+const inputName = document.getElementById("name");
+const inputAvatar = document.getElementById("avatar");
+const inputFacebook = document.getElementById("facebook");
+const inputFbPhu = document.getElementById("fb_phu");
+const inputZalo = document.getElementById("zalo");
+const inputWebsite = document.getElementById("website");
+const inputBank = document.getElementById("bank");
+const inputDichVu = document.getElementById("dichvu");
+const inputTien = document.getElementById("baohiem");
+const inputNgay = document.getElementById("ngay");
+const inputNote = document.getElementById("note");
 
-let editId = null;
+let editId = null; // ID đang sửa
 
-// ===================== ĐĂNG NHẬP ADMIN =====================
-loginForm?.addEventListener("submit", async (e) => {
-  e.preventDefault();
-  const username = document.getElementById("loginUsername").value.trim();
-  const password = document.getElementById("loginPassword").value.trim();
-
-  try {
-    const { data, error } = await supabase
-      .from("admin_users")
-      .select("*")
-      .eq("username", username)
-      .single();
-
-    if (error || !data) return alert("❌ Tên đăng nhập không tồn tại!");
-
-    const { email } = data;
-
-    // Supabase auth sign in
-    const { session, error: loginError } = await supabase.auth.signInWithPassword({ email, password });
-    if (loginError) return alert("❌ Sai thông tin đăng nhập!");
-
-    sessionStorage.setItem("admin", email);
-    alert("✅ Đăng nhập thành công!");
-    showAdminContent();
-  } catch (err) {
-    alert("❌ Lỗi đăng nhập: " + err.message);
-  }
-});
-
-function showAdminContent() {
-  loginSection.style.display = "none";
-  adminContent.style.display = "block";
-  loadGDVs();
-}
-
-// Nếu đã login
-if (sessionStorage.getItem("admin")) showAdminContent();
-
-// ===================== THÊM / SỬA GDV =====================
+// --- Thêm hoặc cập nhật GDV ---
 form.addEventListener("submit", async (e) => {
   e.preventDefault();
-  const name = inputName.value.trim();
-  if (!name) return alert("❌ Vui lòng nhập tên!");
-
   const data = {
-    name,
+    name: inputName.value.trim(),
     avatar: inputAvatar.value.trim(),
     facebook: inputFacebook.value.trim(),
     fb_phu: inputFbPhu.value.trim(),
@@ -80,29 +39,20 @@ form.addEventListener("submit", async (e) => {
     baohiem: parseInt(inputTien.value.trim()) || 0,
     ngaybaohiem: inputNgay.value,
     note: inputNote.value.trim(),
-    updated_at: new Date().toISOString()
+    created_at: new Date().toISOString(),
   };
-
-  if (!editId) data.created_at = new Date().toISOString();
 
   btnAdd.disabled = true;
   btnAdd.textContent = "⏳ Đang xử lý...";
 
   try {
     if (editId) {
-      const { error } = await supabase
-        .from("gdv_list")
-        .update(data)
-        .eq("id", editId);
-      if (error) throw error;
-      alert("✅ Cập nhật GDV thành công!");
+      await supabase.from("gdv_list").update(data).eq("id", editId);
+      alert("✅ Cập nhật thành công!");
       editId = null;
     } else {
-      const { error } = await supabase
-        .from("gdv_list")
-        .insert([data]);
-      if (error) throw error;
-      alert("✅ Thêm GDV thành công!");
+      await supabase.from("gdv_list").insert([data]);
+      alert("✅ Thêm mới thành công!");
     }
     form.reset();
     loadGDVs();
@@ -114,7 +64,7 @@ form.addEventListener("submit", async (e) => {
   }
 });
 
-// ===================== LOAD DANH SÁCH =====================
+// --- Load danh sách GDV ---
 async function loadGDVs() {
   list.innerHTML = "";
   const { data, error } = await supabase
@@ -122,16 +72,12 @@ async function loadGDVs() {
     .select("*")
     .order("created_at", { ascending: false });
 
-  if (error) {
-    console.error(error);
-    list.innerHTML = "<p>Lỗi tải danh sách GDV!</p>";
-    return;
-  }
+  if (error) return alert("❌ Lỗi tải danh sách GDV: " + error.message);
 
-  data.forEach(doc => renderGDV(doc.id, doc));
+  data.forEach(d => renderGDV(d.id, d));
 }
 
-// ===================== RENDER GDV =====================
+// --- Render từng GDV ---
 function renderGDV(id, d) {
   const div = document.createElement("div");
   div.className = "gdv-item";
@@ -148,52 +94,46 @@ function renderGDV(id, d) {
   list.appendChild(div);
 }
 
-// ===================== SỰ KIỆN XÓA / SỬA =====================
+// --- Xử lý click Edit / Delete ---
 list.addEventListener("click", async (e) => {
   const id = e.target.dataset.id;
   if (!id) return;
 
-  // Xoá
+  // Xoá GDV
   if (e.target.classList.contains("delete")) {
-    if (!confirm("❗Bạn có chắc muốn xoá GDV này?")) return;
-    const { error } = await supabase
-      .from("gdv_list")
-      .delete()
-      .eq("id", id);
-    if (error) return alert("❌ Lỗi xóa: " + error.message);
-    alert("🗑️ Đã xoá!");
-    loadGDVs();
+    if (confirm("❗Bạn có chắc muốn xoá GDV này?")) {
+      await supabase.from("gdv_list").delete().eq("id", id);
+      loadGDVs();
+    }
   }
 
-  // Sửa
+  // Sửa GDV
   if (e.target.classList.contains("edit")) {
-    const { data, error } = await supabase
-      .from("gdv_list")
-      .select("*")
-      .eq("id", id)
-      .single();
-    if (error) return alert("❌ Lỗi tải GDV: " + error.message);
+    const { data, error } = await supabase.from("gdv_list").select("*").eq("id", id).single();
+    if (error) return alert("❌ Lỗi: " + error.message);
 
-    const d = data;
-    inputName.value = d.name || "";
-    inputAvatar.value = d.avatar || "";
-    inputFacebook.value = d.facebook || "";
-    inputFbPhu.value = d.fb_phu || "";
-    inputZalo.value = d.zalo || "";
-    inputWebsite.value = d.web || "";
-    inputBank.value = (d.bank || []).join("\n");
-    inputDichVu.value = (d.dichvu || []).join(",");
-    inputTien.value = d.baohiem || "";
-    inputNgay.value = d.ngaybaohiem || "";
-    inputNote.value = d.note || "";
+    inputName.value = data.name || "";
+    inputAvatar.value = data.avatar || "";
+    inputFacebook.value = data.facebook || "";
+    inputFbPhu.value = data.fb_phu || "";
+    inputZalo.value = data.zalo || "";
+    inputWebsite.value = data.web || "";
+    inputBank.value = (data.bank || []).join("\n");
+    inputDichVu.value = (data.dichvu || []).join(",");
+    inputTien.value = data.baohiem || "";
+    inputNgay.value = data.ngaybaohiem || "";
+    inputNote.value = data.note || "";
+
     editId = id;
     btnAdd.textContent = "💾 Lưu thay đổi";
-    window.scrollTo({ top: 0, behavior: "smooth" });
   }
 });
 
-// ===================== LOGOUT =====================
-function logout() {
-  sessionStorage.removeItem("admin");
+// --- Logout ---
+window.logout = function() {
+  // xóa session nếu có login admin
   window.location.href = "login.html";
-}
+};
+
+// --- Load danh sách GDV lần đầu ---
+loadGDVs();
