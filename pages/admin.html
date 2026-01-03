@@ -5,60 +5,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Trang Quản Trị GDV</title>
   <link rel="stylesheet" href="../assets/css/admin.css" />
+  <script type="module">
+    import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/supabase.js";
 
-  <!-- Firebase SDK -->
-  <script src="https://www.gstatic.com/firebasejs/11.10.0/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/11.10.0/firebase-firestore-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/11.10.0/firebase-auth-compat.js"></script>
-</head>
-<body>
-  <header>
-    <h1>Trang Admin - Quản lý Giao Dịch Viên</h1>
-    <button onclick="logout()" style="float: right; padding: 6px 10px; background: #d9534f; color: white; border: none; border-radius: 4px;">Đăng xuất</button>
-  </header>
+    const SUPABASE_URL = "https://xeidegtzbbiuglgmkbsm.supabase.co";
+    const SUPABASE_ANON_KEY = "sb_publishable_XqJzHKum27HwEEzDhxKAqQ_qdoItx4K";
+    const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-  <main>
-    <section class="form-section">
-      <h2>➕ Thêm Giao Dịch Viên</h2>
-      <form id="formAdd">
-        <input type="text" id="name" placeholder="Tên GDV" required>
-        <input type="text" id="avatar" placeholder="Link ảnh đại diện">
-        <input type="text" id="facebook" placeholder="Link Facebook chính">
-        <input type="text" id="fb_phu" placeholder="Link Facebook phụ">
-        <input type="text" id="zalo" placeholder="Số/Zalo">
-        <input type="text" id="website" placeholder="Trang web (nếu có)">
-        <textarea id="bank" placeholder="Tài khoản ngân hàng (mỗi dòng 1 cái)"></textarea>
-        <input type="text" id="dichvu" placeholder="Các dịch vụ hỗ trợ, cách nhau bằng dấu phẩy">
-        <input type="number" id="baohiem" placeholder="Số tiền bảo hiểm (VNĐ)">
-        <input type="date" id="ngay" placeholder="Ngày tham gia">
-        <textarea id="note" placeholder="Ghi chú thêm"></textarea>
-        <button id="btnAdd" type="submit">➕ Thêm GDV</button>
-      </form>
-    </section>
-
-    <section id="gdvList">
-      <h2>📋 Danh sách Giao Dịch Viên</h2>
-      <div class="list"></div>
-    </section>
-  </main>
-
-  <script>
-    // Kiểm tra đăng nhập
-    if (!sessionStorage.getItem("admin")) {
-      window.location.href = "login.html";
-    }
-
-    // Firebase init
-    const firebaseConfig = {
-      apiKey: "AIzaSyDR34V4nSclq1kIMgbnSyMgTMeqUlzFOqo",
-      authDomain: "checkgdvut-d2bcc.firebaseapp.com",
-      projectId: "checkgdvut-d2bcc",
-    };
-
-    firebase.initializeApp(firebaseConfig);
-    const db = firebase.firestore();
-
-    // DOM
     const form = document.querySelector("#formAdd");
     const btnAdd = document.querySelector("#btnAdd");
     const list = document.querySelector("#gdvList .list");
@@ -77,6 +30,7 @@
 
     let editId = null;
 
+    // Thêm hoặc cập nhật GDV
     form.addEventListener("submit", async (e) => {
       e.preventDefault();
 
@@ -95,96 +49,14 @@
         baohiem: parseInt(inputTien.value.trim()) || 0,
         ngaybaohiem: inputNgay.value,
         note: inputNote.value.trim(),
-        updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+        updatedAt: new Date().toISOString()
       };
-
-      if (!editId) {
-        data.createdAt = firebase.firestore.FieldValue.serverTimestamp();
-      }
-
-      btnAdd.disabled = true;
-      btnAdd.textContent = "⏳ Đang xử lý...";
 
       try {
         if (editId) {
-          await db.collection("gdv_list").doc(editId).update(data);
-          alert("✅ Cập nhật thành công!");
-          editId = null;
-        } else {
-          await db.collection("gdv_list").add(data);
-          alert("✅ Thêm mới thành công!");
-        }
-
-        form.reset();
-        loadGDVs();
-      } catch (err) {
-        alert("❌ Lỗi: " + err.message);
-      } finally {
-        btnAdd.disabled = false;
-        btnAdd.textContent = "➕ Thêm GDV";
-      }
-    });
-
-    function loadGDVs() {
-      list.innerHTML = "";
-      db.collection("gdv_list").orderBy("createdAt", "desc").get().then((snap) => {
-        snap.forEach((doc) => renderGDV(doc.id, doc.data()));
-      });
-    }
-
-    function renderGDV(id, d) {
-      const div = document.createElement("div");
-      div.className = "gdv-item";
-      div.innerHTML = `
-        <strong>${d.name}</strong><br>
-        <small>Ngày: ${d.ngaybaohiem || "---"}</small><br>
-        Bảo hiểm: ${d.baohiem?.toLocaleString()} VNĐ<br>
-        Facebook: <a href="https://facebook.com/${d.facebook}" target="_blank">Link</a>
-        <div class="buttons">
-          <button class="edit" data-id="${id}">✏️ Sửa</button>
-          <button class="delete" data-id="${id}">🗑️ Xoá</button>
-        </div>
-      `;
-      list.appendChild(div);
-    }
-
-    list.addEventListener("click", async (e) => {
-      const id = e.target.dataset.id;
-      if (e.target.classList.contains("delete")) {
-        if (confirm("❗Bạn có chắc muốn xoá GDV này?")) {
-          await db.collection("gdv_list").doc(id).delete();
-          alert("🗑️ Đã xoá!");
-          loadGDVs();
-        }
-      }
-
-      if (e.target.classList.contains("edit")) {
-        const doc = await db.collection("gdv_list").doc(id).get();
-        const d = doc.data();
-        inputName.value = d.name || "";
-        inputAvatar.value = d.avatar || "";
-        inputFacebook.value = "https://facebook.com/" + (d.facebook || "");
-        inputFbPhu.value = "https://facebook.com/" + (d.fb_phu || "");
-        inputZalo.value = d.zalo || "";
-        inputWebsite.value = d.web || "";
-        inputBank.value = (d.bank || []).join("\n");
-        inputDichVu.value = (d.dichvu || []).join(",");
-        inputTien.value = d.baohiem || "";
-        inputNgay.value = d.ngaybaohiem || "";
-        inputNote.value = d.note || "";
-        editId = id;
-        btnAdd.textContent = "💾 Lưu thay đổi";
-        window.scrollTo({ top: 0, behavior: "smooth" });
-      }
-    });
-
-    function logout() {
-      sessionStorage.removeItem("admin");
-      window.location.href = "login.html";
-    }
-
-    // Tải danh sách
-    loadGDVs();
-  </script>
-</body>
-</html>
+          const { error } = await supabase
+            .from("gdv_list")
+            .update(data)
+            .eq("id", editId);
+          if (error) throw error;
+          alert("✅ Cập nhật thành công!
