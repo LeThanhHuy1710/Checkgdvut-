@@ -2,61 +2,42 @@
 <html lang="vi">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Trang Quản Trị GDV</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin GDV - Supabase</title>
   <link rel="stylesheet" href="../assets/css/admin.css" />
-  <script type="module">
-    import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/supabase.js";
+</head>
+<body>
+  <header>
+    <h1>Trang Admin - Quản lý GDV</h1>
+    <button onclick="logout()" style="float:right;">Đăng xuất</button>
+  </header>
 
-    const SUPABASE_URL = "https://xeidegtzbbiuglgmkbsm.supabase.co";
-    const SUPABASE_ANON_KEY = "sb_publishable_XqJzHKum27HwEEzDhxKAqQ_qdoItx4K";
-    const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+  <main>
+    <section class="form-section">
+      <h2>➕ Thêm Giao Dịch Viên</h2>
+      <form id="formAdd">
+        <input type="text" id="name" placeholder="Tên GDV" required>
+        <input type="text" id="avatar" placeholder="Link ảnh đại diện">
+        <input type="text" id="facebook" placeholder="Link Facebook chính">
+        <input type="text" id="fb_phu" placeholder="Link Facebook phụ">
+        <input type="text" id="zalo" placeholder="Số/Zalo">
+        <input type="text" id="website" placeholder="Website">
+        <textarea id="bank" placeholder="Tài khoản ngân hàng (mỗi dòng 1)"></textarea>
+        <input type="text" id="dichvu" placeholder="Dịch vụ, ngăn cách dấu phẩy">
+        <input type="number" id="baohiem" placeholder="Bảo hiểm (VNĐ)">
+        <input type="date" id="ngay" placeholder="Ngày tham gia">
+        <textarea id="note" placeholder="Ghi chú"></textarea>
+        <button id="btnAdd" type="submit">➕ Thêm GDV</button>
+      </form>
+    </section>
 
-    const form = document.querySelector("#formAdd");
-    const btnAdd = document.querySelector("#btnAdd");
-    const list = document.querySelector("#gdvList .list");
+    <section id="gdvList">
+      <h2>📋 Danh sách GDV</h2>
+      <div class="list"></div>
+    </section>
+  </main>
 
-    const inputName = document.querySelector("#name");
-    const inputAvatar = document.querySelector("#avatar");
-    const inputFacebook = document.querySelector("#facebook");
-    const inputFbPhu = document.querySelector("#fb_phu");
-    const inputZalo = document.querySelector("#zalo");
-    const inputWebsite = document.querySelector("#website");
-    const inputBank = document.querySelector("#bank");
-    const inputDichVu = document.querySelector("#dichvu");
-    const inputTien = document.querySelector("#baohiem");
-    const inputNgay = document.querySelector("#ngay");
-    const inputNote = document.querySelector("#note");
-
-    let editId = null;
-
-    // Thêm hoặc cập nhật GDV
-    form.addEventListener("submit", async (e) => {
-      e.preventDefault();
-
-      const name = inputName.value.trim();
-      if (!name) return alert("❌ Vui lòng nhập tên!");
-
-      const data = {
-        name,
-        avatar: inputAvatar.value.trim(),
-        facebook: inputFacebook.value.trim().replace("https://facebook.com/", ""),
-        fb_phu: inputFbPhu.value.trim().replace("https://facebook.com/", ""),
-        zalo: inputZalo.value.trim(),
-        web: inputWebsite.value.trim(),
-        bank: inputBank.value.trim().split("\n"),
-        dichvu: inputDichVu.value.trim().split(","),
-        baohiem: parseInt(inputTien.value.trim()) || 0,
-        ngaybaohiem: inputNgay.value,
-        note: inputNote.value.trim(),
-        updatedAt: new Date().toISOString()
-      };
-
-      try {
-        if (editId) {
-          const { error } = await supabase
-            .from("gdv_list")
-            .update(data)
-            .eq("id", editId);
-          if (error) throw error;
-          alert("✅ Cập nhật thành công!
+  <!-- Supabase JS -->
+  <script type="module" src="../assets/js/admin-supabase.js"></script>
+</body>
+</html>
