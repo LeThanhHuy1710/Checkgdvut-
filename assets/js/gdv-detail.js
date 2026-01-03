@@ -1,42 +1,31 @@
 // gdv-detail.js
-import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/supabase.js";
+// Firebase config
+const firebaseConfig = {
+  apiKey: "AIzaSyDR34V4nSclq1kIMgbnSyMgTMeqUlzFOqo",
+  authDomain: "checkgdvut-d2bcc.firebaseapp.com",
+  projectId: "checkgdvut-d2bcc"
+};
+firebase.initializeApp(firebaseConfig);
+const db = firebase.firestore();
 
-// -------------------------
-// 1️⃣ Khởi tạo Supabase
-// -------------------------
-const SUPABASE_URL = "https://xeidegtzbbiuglgmkbsm.supabase.co";
-const SUPABASE_ANON_KEY = "sb_publishable_XqJzHKum27HwEEzDhxKAqQ_qdoItx4K";
-const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-
-// -------------------------
-// 2️⃣ Lấy id từ URL
-// -------------------------
+// Lấy param id từ URL
 function getQueryParam(param) {
   const urlParams = new URLSearchParams(window.location.search);
   return urlParams.get(param);
 }
+
 const id = getQueryParam("id");
+
 if (!id) {
-  alert("Không tìm thấy ID!");
-}
-
-// -------------------------
-// 3️⃣ Lấy dữ liệu GDV từ Supabase
-// -------------------------
-async function loadGDV() {
-  try {
-    const { data, error } = await supabase
-      .from("gdv_list")
-      .select("*")
-      .eq("id", id)
-      .limit(1);
-
-    if (error || !data || data.length === 0) {
+  alert("Không tìm thấy ID GDV!");
+} else {
+  db.collection("gdv_list").doc(id).get().then(doc => {
+    if (!doc.exists) {
       alert("Không tìm thấy GDV.");
       return;
     }
 
-    const d = data[0];
+    const d = doc.data();
 
     // Avatar và Tên
     document.getElementById("avatar").src = d.avatar || "../assets/img/default-avatar.png";
@@ -65,7 +54,7 @@ async function loadGDV() {
     // Website
     const web = d.web || "";
     const webLink = document.getElementById("web");
-    webLink.href = web || "#";
+    webLink.href = web ? web : "#";
     webLink.textContent = web || "---";
 
     // Messenger Chat
@@ -88,7 +77,7 @@ async function loadGDV() {
     }
 
     // Bảo hiểm
-    const name = d.name || "---";
+    const nameGDV = d.name || "---";
     const money = (d.baohiem || 0).toLocaleString("vi-VN");
     const date = d.ngaybaohiem || "---";
     document.getElementById("baohiemText").innerHTML = `
@@ -99,7 +88,7 @@ async function loadGDV() {
         CHECKGDVUT bảo hiểm an toàn giao dịch
       </div>
       <div>
-        với số tiền <strong style="color: red">${money} VND</strong> của <strong>${name}</strong>.
+        với số tiền <strong style="color: red">${money} VND</strong> của <strong>${nameGDV}</strong>.
       </div>
       <img src="../assets/img/stamp-checkgdvut.png" style="width: 150px; opacity: 0.15; margin-top: 10px;" />
     `;
@@ -124,10 +113,8 @@ async function loadGDV() {
       ulBank.appendChild(li);
     });
 
-  } catch (err) {
+  }).catch(err => {
     alert("Lỗi tải dữ liệu!");
     console.error(err);
-  }
+  });
 }
-
-loadGDV();
