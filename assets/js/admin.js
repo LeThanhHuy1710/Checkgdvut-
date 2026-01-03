@@ -1,17 +1,5 @@
-// Firebase init
-const firebaseConfig = {
-  apiKey: "AIzaSyDR34V4nSclq1kIMgbnSyMgTMeqUlzFOqo",
-  authDomain: "checkgdvut-d2bcc.firebaseapp.com",
-  projectId: "checkgdvut-d2bcc",
-  storageBucket: "checkgdvut-d2bcc.appspot.com",
-  messagingSenderId: "242735289196",
-  appId: "1:242735289196:web:cf729b41af26987cb05949",
-  measurementId: "G-WLS5PJ4X2G"
-};
-
-firebase.initializeApp(firebaseConfig);
-const db = firebase.firestore();
-const auth = firebase.auth();
+// assets/js/admin.js
+import { supabase } from "./supabase.js"; // đường dẫn đúng với bạn
 
 // DOM
 const form = document.querySelector("#formAdd");
@@ -21,7 +9,7 @@ const loginForm = document.querySelector("#loginForm");
 const loginSection = document.querySelector("#loginSection");
 const adminContent = document.querySelector("#adminContent");
 
-// Input
+// Inputs
 const inputName = document.querySelector("#name");
 const inputAvatar = document.querySelector("#avatar");
 const inputFacebook = document.querySelector("#facebook");
@@ -34,44 +22,51 @@ const inputTien = document.querySelector("#baohiem");
 const inputNgay = document.querySelector("#ngay");
 const inputNote = document.querySelector("#note");
 
-let editId = null; // Theo dõi ID khi đang sửa
+let editId = null;
 
-// Đăng nhập admin bằng username
-loginForm.addEventListener("submit", async (e) => {
+// ===================== ĐĂNG NHẬP ADMIN =====================
+loginForm?.addEventListener("submit", async (e) => {
   e.preventDefault();
   const username = document.getElementById("loginUsername").value.trim();
   const password = document.getElementById("loginPassword").value.trim();
 
   try {
-    const q = db.collection("admin_users").where("username", "==", username);
-    const snap = await q.get();
-    if (snap.empty) return alert("❌ Tên đăng nhập không tồn tại!");
+    const { data, error } = await supabase
+      .from("admin_users")
+      .select("*")
+      .eq("username", username)
+      .single();
 
-    const userData = snap.docs[0].data();
-    await auth.signInWithEmailAndPassword(userData.email, password);
+    if (error || !data) return alert("❌ Tên đăng nhập không tồn tại!");
+
+    const { email } = data;
+
+    // Supabase auth sign in
+    const { session, error: loginError } = await supabase.auth.signInWithPassword({ email, password });
+    if (loginError) return alert("❌ Sai thông tin đăng nhập!");
+
+    sessionStorage.setItem("admin", email);
     alert("✅ Đăng nhập thành công!");
+    showAdminContent();
   } catch (err) {
-    alert("❌ Sai thông tin đăng nhập!");
+    alert("❌ Lỗi đăng nhập: " + err.message);
   }
 });
 
-// Theo dõi trạng thái đăng nhập
-auth.onAuthStateChanged((user) => {
-  if (user) {
-    loginSection.style.display = "none";
-    adminContent.style.display = "block";
-    loadGDVs();
-  } else {
-    loginSection.style.display = "block";
-    adminContent.style.display = "none";
-  }
-});
+function showAdminContent() {
+  loginSection.style.display = "none";
+  adminContent.style.display = "block";
+  loadGDVs();
+}
 
-// Thêm hoặc cập nhật GDV
+// Nếu đã login
+if (sessionStorage.getItem("admin")) showAdminContent();
+
+// ===================== THÊM / SỬA GDV =====================
 form.addEventListener("submit", async (e) => {
   e.preventDefault();
   const name = inputName.value.trim();
-  if (name === "") return alert("❌ Vui lòng nhập tên!");
+  if (!name) return alert("❌ Vui lòng nhập tên!");
 
   const data = {
     name,
@@ -85,21 +80,28 @@ form.addEventListener("submit", async (e) => {
     baohiem: parseInt(inputTien.value.trim()) || 0,
     ngaybaohiem: inputNgay.value,
     note: inputNote.value.trim(),
-    updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+    updated_at: new Date().toISOString()
   };
 
-  if (!editId) data.createdAt = firebase.firestore.FieldValue.serverTimestamp();
+  if (!editId) data.created_at = new Date().toISOString();
 
   btnAdd.disabled = true;
   btnAdd.textContent = "⏳ Đang xử lý...";
 
   try {
     if (editId) {
-      await db.collection("gdv_list").doc(editId).update(data);
+      const { error } = await supabase
+        .from("gdv_list")
+        .update(data)
+        .eq("id", editId);
+      if (error) throw error;
       alert("✅ Cập nhật GDV thành công!");
       editId = null;
     } else {
-      await db.collection("gdv_list").add(data);
+      const { error } = await supabase
+        .from("gdv_list")
+        .insert([data]);
+      if (error) throw error;
       alert("✅ Thêm GDV thành công!");
     }
     form.reset();
@@ -112,18 +114,24 @@ form.addEventListener("submit", async (e) => {
   }
 });
 
-// Tải danh sách
-function loadGDVs() {
+// ===================== LOAD DANH SÁCH =====================
+async function loadGDVs() {
   list.innerHTML = "";
-  db.collection("gdv_list")
-    .orderBy("createdAt", "desc")
-    .get()
-    .then((snap) => {
-      snap.forEach((doc) => renderGDV(doc.id, doc.data()));
-    });
+  const { data, error } = await supabase
+    .from("gdv_list")
+    .select("*")
+    .order("created_at", { ascending: false });
+
+  if (error) {
+    console.error(error);
+    list.innerHTML = "<p>Lỗi tải danh sách GDV!</p>";
+    return;
+  }
+
+  data.forEach(doc => renderGDV(doc.id, doc));
 }
 
-// Hiển thị từng GDV
+// ===================== RENDER GDV =====================
 function renderGDV(id, d) {
   const div = document.createElement("div");
   div.className = "gdv-item";
@@ -140,20 +148,33 @@ function renderGDV(id, d) {
   list.appendChild(div);
 }
 
-// Sự kiện click cho nút Xoá và Sửa
+// ===================== SỰ KIỆN XÓA / SỬA =====================
 list.addEventListener("click", async (e) => {
   const id = e.target.dataset.id;
+  if (!id) return;
+
+  // Xoá
   if (e.target.classList.contains("delete")) {
-    if (confirm("❗Bạn có chắc muốn xoá GDV này?")) {
-      await db.collection("gdv_list").doc(id).delete();
-      alert("🗑️ Đã xoá!");
-      loadGDVs();
-    }
+    if (!confirm("❗Bạn có chắc muốn xoá GDV này?")) return;
+    const { error } = await supabase
+      .from("gdv_list")
+      .delete()
+      .eq("id", id);
+    if (error) return alert("❌ Lỗi xóa: " + error.message);
+    alert("🗑️ Đã xoá!");
+    loadGDVs();
   }
 
+  // Sửa
   if (e.target.classList.contains("edit")) {
-    const doc = await db.collection("gdv_list").doc(id).get();
-    const d = doc.data();
+    const { data, error } = await supabase
+      .from("gdv_list")
+      .select("*")
+      .eq("id", id)
+      .single();
+    if (error) return alert("❌ Lỗi tải GDV: " + error.message);
+
+    const d = data;
     inputName.value = d.name || "";
     inputAvatar.value = d.avatar || "";
     inputFacebook.value = d.facebook || "";
@@ -170,3 +191,9 @@ list.addEventListener("click", async (e) => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   }
 });
+
+// ===================== LOGOUT =====================
+function logout() {
+  sessionStorage.removeItem("admin");
+  window.location.href = "login.html";
+}
