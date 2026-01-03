@@ -1,28 +1,42 @@
-const firebaseConfig = {
-  apiKey: "AIzaSyDR34V4nSclq1kIMgbnSyMgTMeqUlzFOqo",
-  authDomain: "checkgdvut-d2bcc.firebaseapp.com",
-  projectId: "checkgdvut-d2bcc"
-};
-firebase.initializeApp(firebaseConfig);
-const db = firebase.firestore();
+// gdv-detail.js
+import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/supabase.js";
 
+// -------------------------
+// 1️⃣ Khởi tạo Supabase
+// -------------------------
+const SUPABASE_URL = "https://xeidegtzbbiuglgmkbsm.supabase.co";
+const SUPABASE_ANON_KEY = "sb_publishable_XqJzHKum27HwEEzDhxKAqQ_qdoItx4K";
+const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+// -------------------------
+// 2️⃣ Lấy id từ URL
+// -------------------------
 function getQueryParam(param) {
   const urlParams = new URLSearchParams(window.location.search);
   return urlParams.get(param);
 }
-
 const id = getQueryParam("id");
-
 if (!id) {
   alert("Không tìm thấy ID!");
-} else {
-  db.collection("gdv_list").doc(id).get().then(doc => {
-    if (!doc.exists) {
+}
+
+// -------------------------
+// 3️⃣ Lấy dữ liệu GDV từ Supabase
+// -------------------------
+async function loadGDV() {
+  try {
+    const { data, error } = await supabase
+      .from("gdv_list")
+      .select("*")
+      .eq("id", id)
+      .limit(1);
+
+    if (error || !data || data.length === 0) {
       alert("Không tìm thấy GDV.");
       return;
     }
 
-    const d = doc.data();
+    const d = data[0];
 
     // Avatar và Tên
     document.getElementById("avatar").src = d.avatar || "../assets/img/default-avatar.png";
@@ -51,7 +65,7 @@ if (!id) {
     // Website
     const web = d.web || "";
     const webLink = document.getElementById("web");
-    webLink.href = web ? web : "#";
+    webLink.href = web || "#";
     webLink.textContent = web || "---";
 
     // Messenger Chat
@@ -110,8 +124,10 @@ if (!id) {
       ulBank.appendChild(li);
     });
 
-  }).catch(err => {
+  } catch (err) {
     alert("Lỗi tải dữ liệu!");
     console.error(err);
-  });
+  }
 }
+
+loadGDV();
